@@ -363,7 +363,8 @@ class PropertyWindow(QWidget):
             if sub=='탐험':
                 for n,v in [('던전 층',location),('최고 도달',f"{s['highest']}층"),('진행 상황',f"{s['progress']} / 3"),('현재 상황',{'base':'거점 · 입장 필요','explore':'층 완료' if e.complete() else '탐험 대기','combat':'전투 중','event':'이벤트 진행'}[s['mode']])]: self.row('현재 위치',n,v)
                 self.row('현재 위치','환경',e.environment()['name']); self.row('현재 위치','층 유형',e.floor_type_name())
-                status(); self.act('탐험 행동','탐험 진행','실행','explore',s['mode']=='explore'); self.act('탐험 행동','다음 층 이동','이동','next',s['mode']=='explore' and e.complete()); self.act('탐험 행동','거점 귀환','귀환','return',s['mode']=='explore')
+                for name,value in [('레벨',p['level']),('HP',hp),('MP',mp),('경험치',xp),('돈',gold)]: self.row('캐릭터 상태',name,value)
+                self.act('탐험 행동','탐험 진행','실행','explore',s['mode']=='explore'); self.act('탐험 행동','다음 층 이동','이동','next',s['mode']=='explore' and e.complete()); self.act('탐험 행동','거점 귀환','귀환','return',s['mode']=='explore')
                 if base: self.link('탐험 행동','던전 입장 준비','거점으로 이동','거점','휴식')
                 for n,v in [('최근 결과',s['last']),('획득 골드',f"+{s['last_gold']} G"),('획득 경험치',f"+{s['last_exp']}")]: self.row('탐험 기록',n,v)
             elif sub=='전투':
