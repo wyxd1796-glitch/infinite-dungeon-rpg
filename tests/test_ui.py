@@ -94,4 +94,12 @@ class UITests(unittest.TestCase):
         w.engine=GameEngine(ROOT/'content',old.s); before=copy.deepcopy(w.engine.s)
         w.navigate('던전','전투'); app.processEvents(); self.assertEqual(before,w.engine.s)
 
+    def test_event_result_stays_visible_until_continue(self):
+        w=self.w; w.engine.s.update(mode='event',event=copy.deepcopy(w.engine.content['events'][0])); w.navigate('던전','이벤트')
+        w.run('event',index=1); app.processEvents(); self.assertEqual(w.screen_key,'던전/이벤트')
+        self.assertNotIn('이벤트 선택',w.groups); self.assertIn('다음 진행',w.groups)
+        result=w.groups['이벤트 결과'].child(3); self.assertTrue(result.isFirstColumnSpanned()); self.assertIn('지나갔습니다',result.text(0))
+        turn=w.engine.s['turn']; w.run('continue_event'); app.processEvents()
+        self.assertEqual(w.screen_key,'던전/탐험'); self.assertEqual(turn,w.engine.s['turn'])
+
 if __name__=='__main__': unittest.main()

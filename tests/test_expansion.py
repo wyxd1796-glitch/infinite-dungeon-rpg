@@ -242,6 +242,27 @@ class ExpansionTests(unittest.TestCase):
     def test_unowned_starter_items_not_added_on_load(self):
         e=self.e; e.s['items']={}; clone=GameEngine(ROOT/'content',e.s); self.assertEqual(clone.s['items'],{})
 
+    def test_event_receipt_blocks_progress_and_survives_save(self):
+        e=self.e; e.s.update(mode='event',event=copy.deepcopy(e.content['events'][0])); e.execute('event',index=1)
+        self.assertIn('지나갔습니다',e.s['event_result']['text']); old=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for action in ('event','explore','return','buy'):
+            with self.assertRaises(RuleError): e.execute(action)
+            self.assertEqual(old,e.s); self.assertEqual(rng,e.rng.getstate())
+        store=SaveManager(ROOT/'artifacts/tests/event_result'); store.save(1,e.s)
+        restored=GameEngine(ROOT/'content',store.load(1)); self.assertEqual(restored.s['event_result'],e.s['event_result'])
+        turn=restored.s['turn']; gold=restored.p['gold']; rng=restored.rng.getstate()
+        restored.execute('continue_event'); self.assertIsNone(restored.s['event_result'])
+        self.assertEqual((turn,gold,rng),(restored.s['turn'],restored.p['gold'],restored.rng.getstate()))
+        with self.assertRaises(RuleError): restored.execute('continue_event')
+
+    def test_event_reward_battle_and_death_wait_for_confirmation(self):
+        for effect,mode in [({'type':'grant_gold','value':35},'explore'),({'type':'start_combat'},'combat'),({'type':'hurt','value':1000},'base')]:
+            e=GameEngine(ROOT/'content',seed=1); event=copy.deepcopy(e.content['events'][0]); event['options'][0]['outcomes']=[dict(weight=1,effects=[effect])]
+            e.s.update(mode='event',event=event); e.execute('event',index=0)
+            self.assertEqual(e.s['mode'],mode); self.assertTrue(e.s['event_result']['text'])
+            if mode=='explore': self.assertIn('35 G를 얻었습니다',e.s['event_result']['text'])
+            before=copy.deepcopy(e.s); e.execute('continue_event'); before['event_result']=None; self.assertEqual(before,e.s)
+
     def test_old_battle_keeps_old_evasion_cap_until_completion(self):
         old=LegacyEngine(ROOT/'content',seed=7); old.execute('buy',key='base.equipment.0'); key=old.s['bag'][0]
         old.s['inventory'][key]['rolled_stats']={'evasion':.7}; old.execute('equip',key=key)

@@ -17,6 +17,29 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
         for key,value in dict(pending_loot=[],elite_misses=0,exploration_bonuses={},shop_stock=[],legacy_pending=False,floor_type='FLR005' if self.s['floor']%10==0 else 'FLR001').items(): self.s.setdefault(key,value)
         if state is None: self.s['items']={cid('CON001'):3,cid('CON005'):1,cid('MAT016'):0}
         if not self.s['shop_stock']: self.refresh_shop()
+        self.s.setdefault('event_result',None)
+
+    def log(self,text):
+        super().log(text)
+        if getattr(self,'_event_messages',None) is not None: self._event_messages.append(text)
+
+    def resolve_event(self,**args):
+        event=copy.deepcopy(self.s['event']); self._event_messages=[]
+        try:
+            LegacyEngine._execute(self,'event',**args)
+            index=args.get('index',0); option=event['options'][index]
+            messages=self._event_messages[1:]
+            sentences=[]
+            for message in messages:
+                if message.startswith('골드 +'): message=message[4:]+' G를 얻었습니다.'
+                elif message.startswith('경험치 +'): message='경험치 '+message[5:]+'를 얻었습니다.'
+                elif message.startswith('HP -'): message=message[4:]+'의 피해를 입었습니다.'
+                elif message.startswith(('HP +','MP +')): message=message[:2]+'가 '+message[4:]+' 회복되었습니다.'
+                sentences.append(message)
+            if not sentences: sentences=['별다른 일 없이 그곳을 지나갔습니다.']
+            if option.get('cost'): sentences.insert(0,f"비용으로 {option['cost']} G를 지불했습니다.")
+            self.s['event_result']=dict(title=event['title'],description=event['description'],choice=option['label'],text='\n'.join(sentences))
+        finally: self._event_messages=None
 
     def environment(self): return self.content['environments'][((self.s['floor']-1)%100)//10]
     def floor_type_name(self): return self.content.by_id[cid(self.s['floor_type'])]['name']
@@ -70,6 +93,12 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
         else: self.log('500턴 안전 한도 · 자동 전투 중단')
 
     def _execute(self,action,**args):
+        if action=='continue_event':
+            self.require(bool(self.s.get('event_result')),'확인할 이벤트 결과가 없습니다.')
+            self.s['event_result']=None
+            return
+        self.require(not self.s.get('event_result') or action in ('setting','skill_auto'),'이벤트 결과를 확인한 뒤 계속하기를 눌러 주세요.')
+        if action=='event': return self.resolve_event(**args)
         quantity=args.get('quantity',1)
         self.require(isinstance(quantity,int) and 1<=quantity<=999,'수량은 1~999입니다.')
         if action=='use' and self.s['mode']=='explore':

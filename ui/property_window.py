@@ -164,6 +164,7 @@ class PropertyWindow(QWidget):
         main=self.settings.value('main','던전')
         if main not in SCREENS: main='던전'
         self.main_selector.setCurrentText(main); self.main_changed(main)
+        if self.engine.s.get('event_result'): self.navigate('던전','이벤트')
         self.set_pin(self.pinned)
         if self.start_notice: QTimer.singleShot(0,lambda:QMessageBox.warning(self,'저장 안내',self.start_notice))
         if self.engine.content.errors: QTimer.singleShot(0,lambda:QMessageBox.warning(self,'콘텐츠 안내','\n'.join(self.engine.content.errors)))
@@ -263,7 +264,7 @@ class PropertyWindow(QWidget):
         def change(value): self.selected[key]=value; QTimer.singleShot(0,self.refresh)
         spin.valueChanged.connect(change); return spin.value()
     def act(self,group,name,label,command,enabled=True,**kwargs):
-        return self.row(group,name,label,('command',command,kwargs),enabled)
+        return self.row(group,name,label,('command',command,kwargs),enabled and (not self.engine.s.get('event_result') or command=='continue_event'))
     def link(self,group,name,label,main,sub): self.row(group,name,label,('navigate',main,sub))
     def refresh(self): self.capture_view(); self.render()
     def full_text(self,pos):
@@ -287,10 +288,13 @@ class PropertyWindow(QWidget):
             previous=self.engine.s['mode']; self.engine.execute(command,**kwargs)
             if self.engine.s['settings']['autosave'] and not self.prevent_autosave: self.store.save(self.slot,self.engine.s)
             current=self.engine.s['mode']
-            if current!=previous or command in ('enter','next'):
+            if self.engine.s.get('event_result'):
+                self.navigate('던전','이벤트')
+            elif current!=previous or command in ('enter','next','continue_event'):
                 destination={'base':('거점','휴식'),'explore':('던전','탐험'),'combat':('던전','전투'),'event':('던전','이벤트')}[current]
                 self.navigate(*destination)
             self.apply_style(); self.refresh()
+            if command=='event': QTimer.singleShot(0,lambda:self.tree.scrollToItem(self.groups['이벤트 결과']) if '이벤트 결과' in self.groups else None)
         except (RuleError,ValueError,KeyError,OSError) as exc: QMessageBox.warning(self,'실행 안내',str(exc))
         finally:
             # Keep the click lock through a double-click sequence.
@@ -304,6 +308,7 @@ class PropertyWindow(QWidget):
             elif action=='load':
                 if not self.confirm('현재 진행을 선택한 슬롯의 저장 상태로 바꾸시겠습니까?'): return
                 state=self.store.load(target); self.engine=GameEngine(self.root/'content',state); self.slot=target; self.prevent_autosave=False
+                if self.engine.s.get('event_result'): self.navigate('던전','이벤트')
                 if self.store.notice: QMessageBox.information(self,'복구 안내',self.store.notice)
             elif action=='new':
                 if not self.confirm(f'{target}번 슬롯에서 새 게임을 시작하시겠습니까? 기존 진행은 백업됩니다.'): return
@@ -373,10 +378,15 @@ class PropertyWindow(QWidget):
                 self.act('소비 행동','물약 사용','사용','use',combat and s['items'].get(key,0)>0,key=key); self.act('자동 행동','현재 전투 자동','실행','auto',combat)
                 self.row('전투 기록','최근 피해',s['last_damage']); self.row('전투 기록','최근 반격',s['last_counter']); self.link('전투 기록','전체 기록','기록 보기','기록','전투 통계')
             else:
-                ev=s['event']; self.row('이벤트 정보','이벤트명',ev['title'] if ev else '없음'); self.description('이벤트 정보','상황 설명',ev['description'] if ev else '진행 중인 이벤트 없음')
-                if ev:
+                result=s.get('event_result'); ev=result or s['event']
+                self.row('이벤트 정보','이벤트명',ev['title'] if ev else '없음'); self.description('이벤트 정보','상황 설명',ev['description'] if ev else '진행 중인 이벤트 없음')
+                if result:
+                    self.description('이벤트 결과','선택한 행동',result['choice'])
+                    self.description('이벤트 결과','선택 결과',result['text'])
+                    self.act('다음 진행','결과 확인','계속하기','continue_event')
+                elif ev:
                     for i,opt in enumerate(ev['options']): self.act('이벤트 선택',f"선택지 {i+1}: {opt['label']}",'선택하기','event',p['gold']>=opt.get('cost',0) and all(e.condition(c) for c in opt.get('conditions',[])),index=i)
-                self.row('이벤트 결과','결과',s['last']); self.row('이벤트 결과','획득 아이템',s['last_item'])
+                else: self.row('이벤트 결과','결과','진행 중인 이벤트 없음')
         elif main=='장비':
             if sub=='착용 장비':
                 for slot in SLOTS:
@@ -491,6 +501,7 @@ class PropertyWindow(QWidget):
                     except (ValueError,KeyError,OSError): pass
                 for n,v in [('캐릭터',summary['player']['name'] if summary else '빈 슬롯 / 읽기 불가'),('캐릭터 레벨',summary['player']['level'] if summary else '-'),('최고 도달',summary['highest'] if summary else '-'),('저장 시각',summary['saved_at'] if summary else '-'),('현재 진행 슬롯',self.slot)]: self.row('저장 정보',n,v)
                 for n,label,action in [('수동 저장','저장하기','save'),('불러오기','불러오기','load'),('새 게임','새로 시작','new'),('슬롯 삭제','삭제하기','delete')]: self.row('저장 행동',n,label,('save',action),action not in ('load','delete') or self.store.path(target).exists())
+        if s.get('event_result') and (main,sub)!=('던전','이벤트'): self.link('진행 안내','선택 결과 확인','결과 보기','던전','이벤트')
         view=self.view_state.get(self.screen_key,{})
         if s['settings']['remember_categories']:
             for name,item in self.groups.items(): item.setExpanded(name not in view.get('collapsed',[]))

@@ -69,6 +69,7 @@ def run():
     # base power, invest earned points, recover at hub, and retreat on danger.
     e=GameEngine(ROOT/'content',seed=20261016); commands=0
     for _ in range(3000):
+        if e.s.get('event_result'): e.execute('continue_event')
         mode=e.s['mode']
         if mode=='base':
             for key in e.s['bag'][:]:

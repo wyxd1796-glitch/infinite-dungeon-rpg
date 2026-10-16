@@ -42,6 +42,8 @@ class SaveManager:
         ids=list(state['equipped'].values())+state['bag']+state['storage']
         if len(ids)!=len(set(ids)) or any(i not in state['inventory'] for i in ids): raise ValueError('장비 참조 오류')
         if state['save_schema_version']==2:
+            result=state.get('event_result')
+            if result is not None and (not isinstance(result,dict) or any(not isinstance(result.get(k),str) for k in ('title','description','choice','text'))): raise ValueError('이벤트 결과 데이터 오류')
             pending=state.get('pending_loot')
             if not isinstance(pending,list): raise ValueError('획득 대기 목록 누락')
             pending_ids=[]
