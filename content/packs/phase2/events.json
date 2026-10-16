@@ -1,0 +1,1078 @@
+[
+  {
+    "id": "phase2.event.EVT001",
+    "source_id": "EVT001",
+    "phase2": true,
+    "title": "낡은 상자",
+    "description": "먼지에 덮인 상자 안에서 동전 소리가 난다. 안쪽 장치는 여전히 움직인다.",
+    "category": "보물 발견",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "동전만 챙긴다",
+        "description": "비용 없음 / 성공 100% / 골드 8×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 8,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "깊숙이 뒤진다",
+        "description": "비용 없음 / 성공 70%: 장비 1개 / 실패: 최대 HP 10% 피해",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 0.1,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT002",
+    "source_id": "EVT002",
+    "phase2": true,
+    "title": "숨겨진 금고",
+    "description": "벽 뒤의 금고는 유료 해제 장치와 불안정한 손잡이를 갖추고 있다.",
+    "category": "보물 발견",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "해제 장치를 사용한다",
+        "description": "비용 5×현재 층 G / 성공 100% / 장비 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 5
+      },
+      {
+        "label": "손잡이를 강제로 돌린다",
+        "description": "비용 없음 / 성공 50%: 골드 15×현재 층 / 실패: 최대 HP 15% 피해",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 50,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 15,
+                "floor_scaled": true
+              }
+            ]
+          },
+          {
+            "weight": 50,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 0.15,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT006",
+    "source_id": "EVT006",
+    "phase2": true,
+    "title": "가시 함정",
+    "description": "바닥에서 가시가 솟는다. 유료 우회로를 열거나 가시 사이에서 기록을 회수할 수 있다.",
+    "category": "함정",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "우회로를 연다",
+        "description": "비용 3×현재 층 G / 성공 100% / 피해 없음",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ],
+        "gold_per_floor": 3
+      },
+      {
+        "label": "가시 사이의 기록을 회수한다",
+        "description": "비용 없음 / 최대 HP 8% 피해 후 생존 시 경험치 15×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 0.08,
+                "fraction": true
+              },
+              {
+                "type": "grant_exp",
+                "value": 15,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT007",
+    "source_id": "EVT007",
+    "phase2": true,
+    "title": "독가스",
+    "description": "녹색 안개 속에서 실험 기록과 흩어진 동전이 보인다.",
+    "category": "함정",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "해독 물약으로 기록을 회수한다",
+        "description": "해독 물약 1개 소비 / 성공 100% / 경험치 20×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 20,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ],
+        "cost_item": "CON013"
+      },
+      {
+        "label": "동전만 빠르게 줍는다",
+        "description": "비용 없음 / 최대 HP 12% 피해 후 생존 시 골드 10×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 0.12,
+                "fraction": true
+              },
+              {
+                "type": "grant_gold",
+                "value": 10,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT011",
+    "source_id": "EVT011",
+    "phase2": true,
+    "title": "회복의 샘",
+    "description": "맑은 샘물이 두 갈래로 흐른다. 생명과 마력 중 하나를 회복할 수 있다.",
+    "category": "회복",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "생명의 물을 마신다",
+        "description": "무료 / 성공 100% / 최대 HP 25% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_hp",
+                "value": 0.25,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "마력의 물을 마신다",
+        "description": "무료 / 성공 100% / 최대 MP 25% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_mp",
+                "value": 0.25,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT012",
+    "source_id": "EVT012",
+    "phase2": true,
+    "title": "안전한 야영지",
+    "description": "바람을 막아 주는 야영지다. 남겨진 보급품은 대가를 지불하면 사용할 수 있다.",
+    "category": "회복",
+    "min_floor": 1,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "잠시 쉰다",
+        "description": "무료 / 성공 100% / 최대 HP 10% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_hp",
+                "value": 0.1,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "보급품으로 재정비한다",
+        "description": "비용 4×현재 층 G / 성공 100% / 최대 HP·MP 각각 30% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_hp",
+                "value": 0.3,
+                "fraction": true
+              },
+              {
+                "type": "heal_mp",
+                "value": 0.3,
+                "fraction": true
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 4
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT016",
+    "source_id": "EVT016",
+    "phase2": true,
+    "title": "떠돌이 상인",
+    "description": "떠돌이 상인이 봉인된 장비 꾸러미를 내민다. 내용물은 구매 후에 알 수 있다.",
+    "category": "상인",
+    "min_floor": 5,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "장비 꾸러미를 산다",
+        "description": "비용 5×현재 층 G / 성공 100% / 장비 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 5
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT019",
+    "source_id": "EVT019",
+    "phase2": true,
+    "title": "약초상",
+    "description": "약초상이 거점에서 해금된 가장 강한 회복 물약을 할인 판매한다.",
+    "category": "상인",
+    "min_floor": 5,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "HP 물약을 산다",
+        "description": "해금된 HP 물약 1개 / 현재 상점가의 80%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ],
+        "shop_potion": "hp"
+      },
+      {
+        "label": "MP 물약을 산다",
+        "description": "해금된 MP 물약 1개 / 현재 상점가의 80%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ],
+        "shop_potion": "mp"
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT021",
+    "source_id": "EVT021",
+    "phase2": true,
+    "title": "고대 제단",
+    "description": "돌 제단의 문양이 다음 전리품에 행운을 약속한다.",
+    "category": "제단·신전",
+    "min_floor": 10,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "골드를 바친다",
+        "description": "비용 5×현재 층 G / 다음 장비 희귀 이상 확률 +5%p / 중복 누적 없음",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "exploration_bonus",
+                "value": 5,
+                "bonus": "rarity_pp"
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 5
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT022",
+    "source_id": "EVT022",
+    "phase2": true,
+    "title": "피의 제단",
+    "description": "붉은 제단이 생명력을 대가로 전투의 기억을 전하려 한다.",
+    "category": "제단·신전",
+    "min_floor": 10,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "피를 바친다",
+        "description": "최대 HP 15% 비용 / 사망하는 경우 선택 불가 / 경험치 25×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 25,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ],
+        "hp_cost": 0.15
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT026",
+    "source_id": "EVT026",
+    "phase2": true,
+    "title": "갈림길",
+    "description": "밝은 통로에는 휴식처가, 좁은 길에는 보물의 흔적이 있다.",
+    "category": "선택형 모험",
+    "min_floor": 10,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "밝은 통로에서 쉰다",
+        "description": "무료 / 최대 HP 10% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_hp",
+                "value": 0.1,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "보물 흔적을 살핀다",
+        "description": "무료 / 다음 탐험 보물 확률 +10%p / 중복 누적 없음",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "exploration_bonus",
+                "value": 10,
+                "bonus": "treasure_pp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT027",
+    "source_id": "EVT027",
+    "phase2": true,
+    "title": "수상한 문",
+    "description": "문 너머에서 강한 적의 발소리가 들린다. 문에 새겨진 기록만 조사할 수도 있다.",
+    "category": "선택형 모험",
+    "min_floor": 10,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "문을 연다",
+        "description": "무료 / 정예전 시작 / 승리 시 기존 전투 보상",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "phase2_combat",
+                "value": 0,
+                "encounter": "elite"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "기록을 조사한다",
+        "description": "비용 4×현재 층 G / 경험치 10×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 10,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 4
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT031",
+    "source_id": "EVT031",
+    "phase2": true,
+    "title": "부상자",
+    "description": "부상당한 모험가가 도움을 청한다. 보답으로 경험과 강화 재료를 나누겠다고 한다.",
+    "category": "NPC 조우",
+    "min_floor": 5,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "작은 HP 물약을 건넨다",
+        "description": "CON001 1개 소비 / 경험치 20×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 20,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ],
+        "cost_item": "CON001"
+      },
+      {
+        "label": "치료비를 지원한다",
+        "description": "비용 3×현재 층 G / MAT016 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "catalogue_item",
+                "value": 1,
+                "catalogue_item": "MAT016"
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 3
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT032",
+    "source_id": "EVT032",
+    "phase2": true,
+    "title": "길 잃은 상인",
+    "description": "길 잃은 상인이 여비가 떨어졌다며 남은 장비를 내놓는다.",
+    "category": "NPC 조우",
+    "min_floor": 5,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "여비를 지원한다",
+        "description": "비용 5×현재 층 G / 장비 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "gold_per_floor": 5
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT036",
+    "source_id": "EVT036",
+    "phase2": true,
+    "title": "몬스터 매복",
+    "description": "그림자 뒤에 몬스터가 숨어 있다. 미끼를 던지거나 직접 맞설 수 있다.",
+    "category": "전투 이벤트",
+    "min_floor": 15,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "맞서 싸운다",
+        "description": "무료 / 일반전 시작 / 승리 시 기존 전투 보상",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "phase2_combat",
+                "value": 0,
+                "encounter": "normal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "미끼로 시선을 돌린다",
+        "description": "비용 4×현재 층 G / 전투 없이 통과",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ],
+        "gold_per_floor": 4
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT037",
+    "source_id": "EVT037",
+    "phase2": true,
+    "title": "정예 출현",
+    "description": "강력한 정예가 통로 끝에서 기다린다. 도전할지는 당신의 선택이다.",
+    "category": "전투 이벤트",
+    "min_floor": 15,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "정예에게 도전한다",
+        "description": "무료 / 정예전 시작 / 승리 시 기존 전투 보상",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "phase2_combat",
+                "value": 0,
+                "encounter": "elite"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT041",
+    "source_id": "EVT041",
+    "phase2": true,
+    "title": "고대 비석",
+    "description": "고대 비석에는 전투의 기록과 마력 회복의 문양이 함께 남아 있다.",
+    "category": "특수 보상",
+    "min_floor": 15,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "전투 기록을 읽는다",
+        "description": "무료 / 경험치 15×현재 층",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 15,
+                "floor_scaled": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "문양을 따라 명상한다",
+        "description": "무료 / 최대 MP 20% 회복",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_mp",
+                "value": 0.2,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT042",
+    "source_id": "EVT042",
+    "phase2": true,
+    "title": "신비한 수정",
+    "description": "신비한 수정이 두 가지 물건으로 변하려 한다. 한 가지만 골라야 한다.",
+    "category": "특수 보상",
+    "min_floor": 15,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "마력 물약을 고른다",
+        "description": "무료 / CON005 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "catalogue_item",
+                "value": 1,
+                "catalogue_item": "CON005"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "강화 재료를 고른다",
+        "description": "무료 / MAT016 1개",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "catalogue_item",
+                "value": 1,
+                "catalogue_item": "MAT016"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT046",
+    "source_id": "EVT046",
+    "phase2": true,
+    "title": "저주받은 계약",
+    "description": "정체불명의 계약서가 장비를 약속하지만, 실패하면 생명력을 빼앗는다.",
+    "category": "도박·위험 선택",
+    "min_floor": 20,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "계약을 맺는다",
+        "description": "비용 없음 / 성공 65%: 장비 1개 / 실패: 최대 HP 20% 피해",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 65,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "weight": 35,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 0.2,
+                "fraction": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phase2.event.EVT047",
+    "source_id": "EVT047",
+    "phase2": true,
+    "title": "운명의 주사위",
+    "description": "돌 탁자 위의 주사위가 반짝인다. 판돈은 되돌려 주지 않는다.",
+    "category": "도박·위험 선택",
+    "min_floor": 20,
+    "weight": 1,
+    "cooldown_encounters": 3,
+    "options": [
+      {
+        "label": "주사위를 굴린다",
+        "description": "비용 5×현재 층 G / 성공 50%: 골드 15×현재 층 / 실패: 보상 없음",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 50,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 15,
+                "floor_scaled": true
+              }
+            ]
+          },
+          {
+            "weight": 50,
+            "effects": []
+          }
+        ],
+        "gold_per_floor": 5
+      },
+      {
+        "label": "지나간다",
+        "description": "비용 없음 / 보상·피해 없음 / 성공 100%",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  }
+]

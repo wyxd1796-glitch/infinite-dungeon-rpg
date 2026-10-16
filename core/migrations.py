@@ -19,3 +19,10 @@ def migrate_v1_to_v2(original):
         state['items'][key]=keep
         if quantity>keep: state['pending_loot'].append(dict(pending_id=str(uuid.uuid4()),kind='item',item_id=key,quantity=quantity-keep))
     return state
+
+
+def migrate_v2_to_v3(original):
+    state=copy.deepcopy(original)
+    if state['save_schema_version']!=2: return state
+    state.update(save_schema_version=3,game_version='1.2.0',skill_cooldowns={},skill_buffs={},skill_usage={},phase2_legacy_combat=state['mode']=='combat')
+    return state

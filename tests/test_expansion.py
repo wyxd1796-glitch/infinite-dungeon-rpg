@@ -31,7 +31,7 @@ class ExpansionTests(unittest.TestCase):
         self.assertEqual(sum(e.content.catalogue_counts.values()),260)
         self.assertEqual(e.content.catalogue_counts,dict(monsters=40,bosses=10,prefixes=20,equipment=90,options=30,consumables=20,materials=20,environments=10,floor_types=5,effects=15))
         self.assertEqual(hashlib.sha256((ROOT/'content/source/catalogue_v4.json').read_bytes()).hexdigest(),e.content.catalogue['source_sha256'])
-        self.assertEqual([len(e.content[t]) for t in ('skills','events','achievements')],[5,10,7])
+        self.assertEqual([len(e.content[t]) for t in ('skills','events','achievements')],[13,30,7])
         self.assertEqual(len({r['id'] for r in e.content.by_id.values() if r.get('catalogue')}),260)
 
     def test_all_depth_pools_and_cycle(self):

@@ -18,7 +18,7 @@ class SaveManager:
 
     @staticmethod
     def validate(state):
-        if state.get('save_schema_version') not in (1,2): raise ValueError('지원하지 않는 저장 버전')
+        if state.get('save_schema_version') not in (1,2,3): raise ValueError('지원하지 않는 저장 버전')
         for key in ('player','inventory','equipped','bag','storage','items','stats','settings','skills','mode','floor','highest','progress'):
             if key not in state: raise ValueError(f'저장 필드 누락: {key}')
         if state['mode'] not in ('base','explore','combat','event'): raise ValueError('잘못된 진행 상태')
@@ -41,7 +41,7 @@ class SaveManager:
         if state['player']['hp'] < 0 or state['player']['gold'] < 0: raise ValueError('잘못된 자원')
         ids=list(state['equipped'].values())+state['bag']+state['storage']
         if len(ids)!=len(set(ids)) or any(i not in state['inventory'] for i in ids): raise ValueError('장비 참조 오류')
-        if state['save_schema_version']==2:
+        if state['save_schema_version']>=2:
             result=state.get('event_result')
             if result is not None and (not isinstance(result,dict) or any(not isinstance(result.get(k),str) for k in ('title','description','choice','text'))): raise ValueError('이벤트 결과 데이터 오류')
             pending=state.get('pending_loot')
@@ -70,6 +70,22 @@ class SaveManager:
                 if status.get('effect_number') is not None and status['effect_number'] not in range(1,16): raise ValueError('미지원 저장 상태효과')
             for item in list(state['inventory'].values())+[r['equipment'] for r in pending if r['kind']=='equipment']:
                 if any(not isinstance(v,(int,float)) or not math.isfinite(v) for v in item['rolled_stats'].values()): raise ValueError('장비 수치 오류')
+        if state['save_schema_version']==3:
+            for key in ('skill_cooldowns','skill_buffs','skill_usage'):
+                if not isinstance(state.get(key),dict): raise ValueError('스킬 상태 누락: '+key)
+            if any(type(v) is not int or v<0 for v in state['skill_cooldowns'].values()): raise ValueError('스킬 대기시간 오류')
+            if any(k not in state['skills'] for k in state['skill_cooldowns']): raise ValueError('스킬 대기시간 참조 오류')
+            if any(type(v) is not int or v<0 for v in state['skill_usage'].values()): raise ValueError('스킬 사용 기록 오류')
+            if any(type(v) is not int or not 0<=v<=5 for v in state['skills'].values()): raise ValueError('스킬 레벨 오류')
+            if type(state.get('phase2_legacy_combat')) is not bool: raise ValueError('이전 전투 상태 오류')
+            for key,buff in state['skill_buffs'].items():
+                if key not in state['skills']: raise ValueError('스킬 효과 참조 오류')
+                if not isinstance(buff,dict) or buff.get('kind') not in ('attack','reduction') or type(buff.get('remaining')) is not int or buff['remaining']<1: raise ValueError('스킬 지속시간 오류')
+                if type(buff.get('applied_at')) is not int or not isinstance(buff.get('name'),str) or not isinstance(buff.get('value'),(int,float)) or not math.isfinite(buff['value']) or not 0<=buff['value']<1: raise ValueError('스킬 효과 오류')
+            if not isinstance(state.get('skill_auto'),dict): raise ValueError('자동 스킬 설정 누락')
+            for config in state['skill_auto'].values():
+                if not isinstance(config,dict) or type(config.get('enabled')) is not bool or type(config.get('priority')) is not int or not 1<=config['priority']<=9: raise ValueError('자동 스킬 설정 오류')
+            if state.get('event_result') is not None and 'resolved' in state['event_result'] and state['event_result']['resolved'] is not True: raise ValueError('미확정 이벤트 결과')
 
     def save(self, slot, state):
         self.validate(state)
@@ -111,7 +127,16 @@ class SaveManager:
             if not backup.exists(): shutil.copy2(path,backup)
             migrated=migrate_v1_to_v2(state); self.validate(migrated)
             self.notice+=' 저장 버전 1을 2로 이전했습니다. 변경 전 백업을 보존했습니다.'
-            return migrated
+            state=migrated
+        if state['save_schema_version']==2:
+            from .migrations import migrate_v2_to_v3
+            backup=path.with_suffix(path.suffix+'.pre-v3.bak')
+            if backup.exists() and backup.read_bytes()!=path.read_bytes():
+                digest=hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+                backup=path.with_suffix(path.suffix+f'.pre-v3-{digest}.bak')
+            if not backup.exists(): shutil.copy2(path,backup)
+            state=migrate_v2_to_v3(state); self.validate(state)
+            self.notice+=' 저장 버전을 3으로 이전했습니다. 변경 전 백업을 보존했습니다.'
         return state
 
     def delete(self,slot):

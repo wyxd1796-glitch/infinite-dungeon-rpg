@@ -1,0 +1,13 @@
+{
+  "pack_id": "phase2",
+  "version": "1.2.0",
+  "schema_version": 1,
+  "dependencies": [
+    "base"
+  ],
+  "enabled": true,
+  "content_files": [
+    "skills.json",
+    "events.json"
+  ]
+}

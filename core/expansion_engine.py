@@ -77,6 +77,10 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
                 else: self.gain_gold(20+5*self.s['floor']); self.log(f"보물 · 골드 +{self.s['last_gold']}")
             else: self.effects([dict(type='heal_hp',value=.25,fraction=True)])
 
+    def auto_skill_allowed(self,skill):
+        silenced=any(st.get('effect_number')==6 for st in self.s['statuses'])
+        return not silenced and self.s['skills'].get(skill['id'],0)>0 and self.p['mp']>=skill['mp'] and not (skill['effects'][0]['type']=='heal_hp' and self.p['hp']/self.derived()['hp']>.7)
+
     def auto_battle(self):
         self.require(self.s['mode']=='combat','현재 전투가 없습니다.')
         for _ in range(self.content.balance['auto_turn_limit']):
@@ -85,9 +89,8 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
             if settings['stop_danger'] and fraction<=settings['danger']: self.log('위험 HP · 자동 전투 중단'); break
             potion=self.automatic_potion()
             if settings['auto_potion'] and fraction<=settings['potion_threshold'] and potion: self.battle('potion',potion); continue
-            silenced=any(st.get('effect_number')==6 for st in self.s['statuses'])
-            skills=sorted([r for r in self.content['skills'] if r['kind']=='active'],key=lambda r:self.s['skill_auto'][r['id']]['priority'])
-            usable=[r for r in skills if not silenced and self.s['skills'].get(r['id'],0)>0 and self.p['mp']>=r['mp'] and self.s['skill_auto'][r['id']]['enabled'] and not (r['effects'][0]['type']=='heal_hp' and fraction>.7)]
+            skills=sorted([r for r in self.content['skills'] if r['kind']=='active'],key=lambda r:(self.s['skill_auto'][r['id']]['priority'],r['id']))
+            usable=[r for r in skills if self.s['skill_auto'][r['id']]['enabled'] and self.auto_skill_allowed(r)]
             if settings['auto_skill'] and usable: self.battle('skill',usable[0]['id'])
             else: self.battle('attack')
         else: self.log('500턴 안전 한도 · 자동 전투 중단')

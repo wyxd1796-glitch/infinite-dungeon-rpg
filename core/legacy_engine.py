@@ -32,7 +32,7 @@ class GameEngine:
             player=dict(name='무명의 전사',level=1,exp=0,hp=b['initial']['hp'],mp=b['initial']['mp'],gold=b['initial']['gold'],points=0,skill_points=0,attributes=dict(b['stats'])),
             mode='base',floor=1,highest=1,progress=0,boss_done=False,boss_first=[],enemy=None,event=None,turn=0,combat_turn=0,
             inventory={},bag=[],equipped={},storage=[],storage_capacity=50,items={'base.item.hp':b['initial_potions'],'base.item.mp':b['initial_mp_potions'],'base.item.stone':0},
-            skills={r['id']:b['active_start_level' if r['kind']=='active' else 'passive_start_level'] for r in self.content['skills']},skill_auto={r['id']:{'enabled':True,'priority':min(3,i+1)} for i,r in enumerate(self.content['skills']) if r['kind']=='active'},
+            skills={r['id']:r.get('initial_level',b['active_start_level' if r['kind']=='active' else 'passive_start_level']) for r in self.content['skills']},skill_auto={r['id']:{'enabled':r.get('auto_enabled',True),'priority':min(3,i+1)} for i,r in enumerate(self.content['skills']) if r['kind']=='active'},
             stats={k:0 for k in ('battles','wins','deaths','escapes','normal','elite','boss','damage','max_damage','explorations','returns','gold','equipment','legendary','play_seconds')},
             claimed=[],statuses=[],event_seen={},logs=['거점에서 준비한 뒤 던전에 입장하세요.'],combat_logs=[],last='모험 준비',last_damage='없음',last_counter='없음',last_gold=0,last_exp=0,last_item='없음',last_growth='없음',last_enhance='없음',
             started_at=datetime.now().astimezone().isoformat(timespec='seconds'),

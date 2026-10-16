@@ -373,8 +373,10 @@ class PropertyWindow(QWidget):
                 if enemy:
                     self.description('적 정보','행동 설명',' → '.join({'attack':'공격','defend':'방어','special':'특수공격'}.get(a,a) for a in enemy.get('pattern',[]))+f" · 다음 순서 {enemy.get('pattern_index',0)%max(1,len(enemy.get('pattern',[])))+1}"+'\n'+str(e.content.by_id.get('catalogue.v3.'+str(enemy.get('effect_id','')),{}).get('effect','특수공격 피해 150%')) )
                 for n,label,cmd in [('일반 공격','공격','attack'),('강공격','공격','heavy'),('방어','방어','defend'),('도주','도주','flee')]: self.act('기본 행동',n,label,cmd,combat and not (cmd=='flee' and enemy.get('kind')=='boss'))
-                key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],r['name']) for r in e.content['skills'] if r['kind']=='active'])
-                self.act('스킬 행동','스킬 사용','사용','skill',combat and p['mp']>=e.content.by_id[key]['mp'] and not any(st.get('effect_number')==6 for st in s['statuses']),key=key)
+                key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],e.skill_label(r)) for r in e.content['skills'] if r['kind']=='active'])
+                reason=e.skill_reason(key); self.row('스킬 행동','사용 조건',reason or '사용 가능')
+                self.description('스킬 행동','효과 설명',e.skill_description(key))
+                self.act('스킬 행동','스킬 사용','사용','skill',not reason,key=key)
                 key=self.choice('소비 행동','선택 물약','potion',[(r['id'],r['name']) for r in e.available_items('소비품') if s['items'].get(r['id'],0)>0 and 'combat' in r.get('contexts',['combat'])])
                 self.act('소비 행동','물약 사용','사용','use',combat and s['items'].get(key,0)>0,key=key); self.act('자동 행동','현재 전투 자동','실행','auto',combat)
                 self.row('전투 기록','최근 피해',s['last_damage']); self.row('전투 기록','최근 반격',s['last_counter']); self.link('전투 기록','전체 기록','기록 보기','기록','전투 통계')
@@ -386,7 +388,10 @@ class PropertyWindow(QWidget):
                     self.description('이벤트 결과','선택 결과',result['text'])
                     self.act('다음 진행','결과 확인','계속하기','continue_event')
                 elif ev:
-                    for i,opt in enumerate(ev['options']): self.act('이벤트 선택',f"선택지 {i+1}: {opt['label']}",'선택하기','event',p['gold']>=opt.get('cost',0) and all(e.condition(c) for c in opt.get('conditions',[])),index=i)
+                    for i,opt in enumerate(ev['options']):
+                        reason=e.event_option_reason(opt)
+                        self.description('이벤트 선택',f'선택지 {i+1} 안내',e.event_option_description(opt)+(f'\n선택 불가: {reason}' if reason else ''))
+                        self.act('이벤트 선택',f"선택지 {i+1}: {opt['label']}",'선택하기','event',not reason,index=i)
                 else: self.row('이벤트 결과','결과','진행 중인 이벤트 없음')
         elif main=='장비':
             if sub=='착용 장비':
@@ -425,16 +430,24 @@ class PropertyWindow(QWidget):
                 else: self.row('아이템 정보','검색 결과','없음')
             self.pending(free)
         elif main=='스킬':
-            active=sub=='액티브'; skills=[r for r in e.content['skills'] if r['kind']==('active' if active else 'passive')]; key=self.choice('스킬 선택','스킬','skill_'+sub,[(r['id'],r['name']) for r in skills]); skill=e.content.by_id[key]; level=s['skills'].get(key,0); effect=skill['effects'][0]
-            self.row('스킬 정보','레벨',f'{level} / 5')
+            active=sub=='액티브'; skills=[r for r in e.content['skills'] if r['kind']==('active' if active else 'passive')]; key=self.choice('스킬 선택','스킬','skill_'+sub,[(r['id'],e.skill_label(r)) for r in skills]); skill=e.content.by_id[key]; level=s['skills'].get(key,0); effect=skill['effects'][0]
+            self.row('스킬 정보','레벨',f"{level} / {skill['max_level']}"); self.row('스킬 정보','해금 레벨',skill.get('unlock_level',1))
+            self.description('스킬 정보','효과 설명',e.skill_description(key))
             if active:
-                self.row('스킬 정보','유형','공격' if effect['type']=='damage' else '회복'); self.row('스킬 정보','소모 MP',skill['mp']); self.row('스킬 정보','피해 배율' if effect['type']=='damage' else '회복 비율',f"{effect['value']+effect.get('growth',0)*(level-1):.0%}"+(' ×2' if effect.get('hits')==2 else '')); self.row('스킬 정보','사용 가능','가능' if combat and p['mp']>=skill['mp'] else '전투 또는 MP 필요')
-            else: self.row('패시브 정보','현재 효과',f"{STAT_NAMES[effect['stat']]} +{effect['value']*level:.0%}")
-            self.row('스킬 성장','보유 포인트',p['skill_points']); self.row('스킬 성장','다음 레벨 효과','최대 레벨' if level>=5 else f"+{effect.get('growth',effect['value']):.0%}"); self.act('스킬 성장','스킬 강화','강화하기','upgrade_skill',free and p['skill_points']>0 and level<5,key=key)
+                self.row('스킬 정보','소모 MP',skill['mp']); self.row('스킬 정보','재사용 대기',f"{s['skill_cooldowns'].get(key,0)} / {skill.get('cooldown_turns',0)}행동")
+                self.row('스킬 정보','사용 가능',e.skill_reason(key) or '가능')
+            else:
+                value=(effect['value']+effect.get('growth',0)*(level-1) if level else 0) if skill.get('phase2') else effect['value']*level
+                self.row('패시브 정보','현재 효과',f"{STAT_NAMES[effect['stat']]} +{value:.0%}")
+            reason=e.skill_reason(key,learning=True)
+            self.row('스킬 성장','보유 포인트',p['skill_points']); self.row('스킬 성장','학습·강화 조건',reason or '1 P 소비')
+            self.act('스킬 성장','스킬 강화','학습하기' if not level else '강화하기','upgrade_skill',not reason,key=key)
+            self.description('스킬 성장','재분배 안내','거점에서 무료 재분배. 투자한 포인트만 환급하며 초기 지급 스킬은 1레벨을 유지합니다. 현재 HP·MP는 회복되지 않습니다.')
+            self.act('스킬 성장','전체 스킬 재분배','무료 재분배','reset_skills',base and not s.get('event_result'))
             if active:
                 cfg=s['skill_auto'].get(key,{'enabled':True,'priority':1})
                 self.selected['auto_'+key]=cfg['enabled']; self.selected['priority_'+key]=cfg['priority']
-                self.choice('전투 설정','자동 사용','auto_'+key,[(True,'켜짐'),(False,'꺼짐')],cfg['enabled'],lambda v:self.change_skill_auto(key,'enabled',v)); self.choice('전투 설정','우선순위','priority_'+key,[(i,str(i)) for i in range(1,4)],cfg['priority'],lambda v:self.change_skill_auto(key,'priority',v))
+                self.choice('전투 설정','자동 사용','auto_'+key,[(True,'켜짐'),(False,'꺼짐')],cfg['enabled'],lambda v:self.change_skill_auto(key,'enabled',v)); self.choice('전투 설정','우선순위','priority_'+key,[(i,str(i)) for i in range(1,10)],cfg['priority'],lambda v:self.change_skill_auto(key,'priority',v))
         elif main=='거점':
             if sub=='휴식':
                 self.row('거점 정보','현재 위치',location); self.row('거점 정보','보유 골드',gold); status()
@@ -494,7 +507,7 @@ class PropertyWindow(QWidget):
                 for group,name,key,options in specs:
                     self.selected['setting_'+key]=s['settings'][key]
                     self.choice(group,name,'setting_'+key,options,s['settings'][key],lambda v,k=key:self.change_setting(k,v))
-                self.row('시스템','게임 버전','1.1.0'); self.row('시스템','콘텐츠 팩',', '.join(r['id'] for r in e.content.packs))
+                self.row('시스템','게임 버전',s['game_version']); self.row('시스템','콘텐츠 팩',', '.join(r['id'] for r in e.content.packs))
             else:
                 target=self.choice('저장 정보','저장 슬롯','save_slot',[(i,str(i)) for i in (1,2,3)],self.slot); summary=None
                 if self.store.path(target).exists():

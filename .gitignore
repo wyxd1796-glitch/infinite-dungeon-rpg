@@ -1,8 +1,11 @@
 __pycache__/
+desktop.ini
 saves/
 tmp/
 *.pyc
 .venv/
+startup.log
+startup-*.log
 *.pdf
 artifacts/*
 !artifacts/expansion_simulation.json
@@ -12,3 +15,11 @@ artifacts/*
 !artifacts/phase1_combat.png
 !artifacts/phase1_pending.png
 !artifacts/phase1_verification.md
+!artifacts/phase2_baseline.json
+!artifacts/phase2_expansion_simulation.json
+!artifacts/phase2_build_simulation.json
+!artifacts/phase2_skill_normal.png
+!artifacts/phase2_skill_minimum.png
+!artifacts/phase2_event_normal.png
+!artifacts/phase2_event_minimum.png
+!artifacts/phase2_event_bottom_minimum.png

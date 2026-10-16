@@ -10,7 +10,7 @@ from core.save_manager import SaveManager
 
 ROOT=Path(__file__).resolve().parents[1]
 
-def run():
+def run(output=None):
     e=GameEngine(ROOT/'content',seed=20261016); e.s['floor']=100
     gear_counts=collections.Counter(); rarities=collections.Counter(); option_counts=collections.Counter()
     for _ in range(100000):
@@ -99,7 +99,7 @@ def run():
                 turn=e.s['turn']; e.execute('auto')
                 if e.s['mode']=='combat' and turn==e.s['turn']: e.execute('attack')
         elif mode=='event':
-            options=e.s['event']['options']; index=next(i for i,o in enumerate(options) if e.p['gold']>=o.get('cost',0) and all(e.condition(c) for c in o.get('conditions',[])))
+            options=e.s['event']['options']; index=next(i for i,o in enumerate(options) if not e.event_option_reason(o))
             e.execute('event',index=index)
         elif e.p['hp']<e.derived()['hp']*.6 or e.bag_used()>=28 or e.p['points']:
             e.execute('return')
@@ -108,7 +108,7 @@ def run():
         commands+=1; SaveManager.validate(e.s); assert e.p['gold']>=0 and e.bag_used()<=30
         assert all(n<=e.content.by_id[k].get('stack_limit',999) for k,n in e.s['items'].items())
     report=dict(seed=20261016,catalogue_counts=e.content.catalogue_counts,gear_draws=100000,monster_draws=100000,gear_templates_seen=len(gear_counts),option_types_seen=len(option_counts),monster_types_seen=len(monster_counts),rarity_expected_pct=expected,rarity_observed=rarities,encounter_fixture='level=floor//2, earned points 60% STR/40% VIT, unlocked gear per slot +3, 20 CON004 and 10 CON008, auto danger stop off',encounters=encounters,developed_fixture=developed,progression=dict(decisions=commands,highest=e.s['highest'],level=e.p['level'],gold=e.p['gold'],stats=e.s['stats'],pending=len(e.s['pending_loot'])))
-    output=ROOT/'artifacts/expansion_simulation.json'; output.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+    output=Path(output) if output else ROOT/'artifacts/expansion_simulation.json'; output.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__': run()

@@ -1,0 +1,571 @@
+{
+  "seed": 20261016,
+  "fixture": "Same seeds and gear per build; level=max(30,floor//2), earned skill points=level//5, STR/VIT=60/40, gear +3, 20 CON004/10 CON008; auto danger stop disabled only in encounter fixtures.",
+  "builds": {
+    "attack": {
+      "progression": {
+        "decisions": 3000,
+        "highest": 40,
+        "level": 35,
+        "battles": 865,
+        "wins": 728,
+        "win_rate": 0.8416184971098266,
+        "mean_finished_combat_turns": 2.9363425925925926,
+        "potions_used": 278,
+        "deaths": 134,
+        "death_floors": {
+          "10": 3,
+          "30": 17,
+          "29": 1,
+          "40": 113
+        },
+        "skills": {
+          "base.skill.strike": 1,
+          "base.skill.heal": 1,
+          "base.skill.slash": 1,
+          "base.skill.weapon": 1,
+          "base.skill.wall": 1,
+          "phase2.skill.SKL003": 4,
+          "phase2.skill.SKL004": 3,
+          "phase2.skill.SKL006": 0,
+          "phase2.skill.SKL009": 0,
+          "phase2.skill.SKL013": 0,
+          "phase2.skill.SKL016": 0,
+          "phase2.skill.SKL048": 0,
+          "phase2.skill.SKL049": 0
+        },
+        "skill_uses": {
+          "base.skill.slash": 244,
+          "phase2.skill.SKL003": 835,
+          "base.skill.strike": 41,
+          "base.skill.heal": 29,
+          "phase2.skill.SKL004": 150
+        },
+        "skill_usage_share": {
+          "base.skill.slash": 0.1878367975365666,
+          "phase2.skill.SKL003": 0.642802155504234,
+          "base.skill.strike": 0.03156274056966898,
+          "base.skill.heal": 0.022324865280985373,
+          "phase2.skill.SKL004": 0.11547344110854503
+        },
+        "skill_uses_per_player_combat_action": 0.5120220733149389
+      },
+      "encounters": [
+        {
+          "floor": 10,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 2.94,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 95,
+            "base.skill.slash": 50
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.6551724137931034,
+            "base.skill.slash": 0.3448275862068966
+          },
+          "skill_uses_per_player_combat_action": 0.9863945578231292
+        },
+        {
+          "floor": 30,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 5.3,
+          "potions_used": 3,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 126,
+            "base.skill.slash": 89,
+            "base.skill.strike": 16,
+            "phase2.skill.SKL004": 11,
+            "base.skill.heal": 3
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.5142857142857142,
+            "base.skill.slash": 0.363265306122449,
+            "base.skill.strike": 0.0653061224489796,
+            "phase2.skill.SKL004": 0.044897959183673466,
+            "base.skill.heal": 0.012244897959183673
+          },
+          "skill_uses_per_player_combat_action": 0.9245283018867925
+        },
+        {
+          "floor": 50,
+          "trials": 50,
+          "win_rate": 0.88,
+          "mean_combat_turns": 11.38,
+          "potions_used": 179,
+          "deaths": 6,
+          "death_floors": {
+            "50": 6
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 236,
+            "base.skill.slash": 54,
+            "base.skill.heal": 29,
+            "phase2.skill.SKL004": 8,
+            "base.skill.strike": 10
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.7002967359050445,
+            "base.skill.slash": 0.16023738872403562,
+            "base.skill.heal": 0.08605341246290801,
+            "phase2.skill.SKL004": 0.02373887240356083,
+            "base.skill.strike": 0.02967359050445104
+          },
+          "skill_uses_per_player_combat_action": 0.5922671353251318
+        },
+        {
+          "floor": 100,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 8.22,
+          "potions_used": 193,
+          "deaths": 50,
+          "death_floors": {
+            "100": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 159,
+            "base.skill.slash": 13,
+            "base.skill.heal": 46
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.7293577981651376,
+            "base.skill.slash": 0.05963302752293578,
+            "base.skill.heal": 0.21100917431192662
+          },
+          "skill_uses_per_player_combat_action": 0.5304136253041363
+        },
+        {
+          "floor": 101,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 1.12,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 51,
+            "base.skill.slash": 2,
+            "phase2.skill.SKL004": 3
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.9107142857142857,
+            "base.skill.slash": 0.03571428571428571,
+            "phase2.skill.SKL004": 0.05357142857142857
+          },
+          "skill_uses_per_player_combat_action": 1.0
+        },
+        {
+          "floor": 200,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 4.18,
+          "potions_used": 109,
+          "deaths": 50,
+          "death_floors": {
+            "200": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL003": 78,
+            "base.skill.heal": 18,
+            "base.skill.slash": 4
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL003": 0.78,
+            "base.skill.heal": 0.18,
+            "base.skill.slash": 0.04
+          },
+          "skill_uses_per_player_combat_action": 0.4784688995215311
+        }
+      ]
+    },
+    "defense": {
+      "progression": {
+        "decisions": 3000,
+        "highest": 40,
+        "level": 34,
+        "battles": 830,
+        "wins": 714,
+        "win_rate": 0.8602409638554217,
+        "mean_finished_combat_turns": 4.731325301204819,
+        "potions_used": 366,
+        "deaths": 109,
+        "death_floors": {
+          "10": 4,
+          "30": 50,
+          "29": 1,
+          "40": 54
+        },
+        "skills": {
+          "base.skill.strike": 1,
+          "base.skill.heal": 1,
+          "base.skill.slash": 1,
+          "base.skill.weapon": 1,
+          "base.skill.wall": 1,
+          "phase2.skill.SKL003": 0,
+          "phase2.skill.SKL004": 0,
+          "phase2.skill.SKL006": 3,
+          "phase2.skill.SKL009": 3,
+          "phase2.skill.SKL013": 0,
+          "phase2.skill.SKL016": 0,
+          "phase2.skill.SKL048": 0,
+          "phase2.skill.SKL049": 0
+        },
+        "skill_uses": {
+          "base.skill.slash": 594,
+          "base.skill.strike": 102,
+          "phase2.skill.SKL006": 464,
+          "phase2.skill.SKL009": 396,
+          "base.skill.heal": 10
+        },
+        "skill_usage_share": {
+          "base.skill.slash": 0.3793103448275862,
+          "base.skill.strike": 0.06513409961685823,
+          "phase2.skill.SKL006": 0.2962962962962963,
+          "phase2.skill.SKL009": 0.25287356321839083,
+          "base.skill.heal": 0.006385696040868455
+        },
+        "skill_uses_per_player_combat_action": 0.39877769289533993
+      },
+      "encounters": [
+        {
+          "floor": 10,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 5.6,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 53,
+            "phase2.skill.SKL009": 50,
+            "base.skill.slash": 59,
+            "base.skill.strike": 1
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.32515337423312884,
+            "phase2.skill.SKL009": 0.3067484662576687,
+            "base.skill.slash": 0.3619631901840491,
+            "base.skill.strike": 0.006134969325153374
+          },
+          "skill_uses_per_player_combat_action": 0.5821428571428572
+        },
+        {
+          "floor": 30,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 9.72,
+          "potions_used": 2,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 78,
+            "phase2.skill.SKL009": 63,
+            "base.skill.slash": 122,
+            "base.skill.strike": 5
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.291044776119403,
+            "phase2.skill.SKL009": 0.23507462686567165,
+            "base.skill.slash": 0.4552238805970149,
+            "base.skill.strike": 0.018656716417910446
+          },
+          "skill_uses_per_player_combat_action": 0.551440329218107
+        },
+        {
+          "floor": 50,
+          "trials": 50,
+          "win_rate": 0.68,
+          "mean_combat_turns": 23.04,
+          "potions_used": 329,
+          "deaths": 16,
+          "death_floors": {
+            "50": 16
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 124,
+            "phase2.skill.SKL009": 111,
+            "base.skill.slash": 77,
+            "base.skill.heal": 53,
+            "base.skill.strike": 11
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.32978723404255317,
+            "phase2.skill.SKL009": 0.29521276595744683,
+            "base.skill.slash": 0.2047872340425532,
+            "base.skill.heal": 0.14095744680851063,
+            "base.skill.strike": 0.02925531914893617
+          },
+          "skill_uses_per_player_combat_action": 0.3263888888888889
+        },
+        {
+          "floor": 100,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 24.52,
+          "potions_used": 618,
+          "deaths": 50,
+          "death_floors": {
+            "100": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 231,
+            "phase2.skill.SKL009": 186,
+            "base.skill.heal": 88,
+            "base.skill.slash": 39,
+            "base.skill.strike": 6
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.42,
+            "phase2.skill.SKL009": 0.3381818181818182,
+            "base.skill.heal": 0.16,
+            "base.skill.slash": 0.07090909090909091,
+            "base.skill.strike": 0.01090909090909091
+          },
+          "skill_uses_per_player_combat_action": 0.44861337683523655
+        },
+        {
+          "floor": 101,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 3.56,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 52,
+            "phase2.skill.SKL009": 49,
+            "base.skill.slash": 76,
+            "base.skill.heal": 1
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.29213483146067415,
+            "phase2.skill.SKL009": 0.2752808988764045,
+            "base.skill.slash": 0.42696629213483145,
+            "base.skill.heal": 0.0056179775280898875
+          },
+          "skill_uses_per_player_combat_action": 1.0
+        },
+        {
+          "floor": 200,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 5.36,
+          "potions_used": 91,
+          "deaths": 50,
+          "death_floors": {
+            "200": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "phase2.skill.SKL006": 60,
+            "phase2.skill.SKL009": 56,
+            "base.skill.heal": 37,
+            "base.skill.slash": 24
+          },
+          "skill_usage_share": {
+            "phase2.skill.SKL006": 0.3389830508474576,
+            "phase2.skill.SKL009": 0.3163841807909605,
+            "base.skill.heal": 0.20903954802259886,
+            "base.skill.slash": 0.13559322033898305
+          },
+          "skill_uses_per_player_combat_action": 0.6604477611940298
+        }
+      ]
+    },
+    "recovery": {
+      "progression": {
+        "decisions": 3000,
+        "highest": 40,
+        "level": 35,
+        "battles": 851,
+        "wins": 705,
+        "win_rate": 0.8284371327849589,
+        "mean_finished_combat_turns": 2.7823529411764705,
+        "potions_used": 212,
+        "deaths": 144,
+        "death_floors": {
+          "10": 4,
+          "30": 8,
+          "29": 1,
+          "40": 131
+        },
+        "skills": {
+          "base.skill.strike": 1,
+          "base.skill.heal": 1,
+          "base.skill.slash": 1,
+          "base.skill.weapon": 1,
+          "base.skill.wall": 1,
+          "phase2.skill.SKL003": 0,
+          "phase2.skill.SKL004": 0,
+          "phase2.skill.SKL006": 0,
+          "phase2.skill.SKL009": 0,
+          "phase2.skill.SKL013": 4,
+          "phase2.skill.SKL016": 0,
+          "phase2.skill.SKL048": 0,
+          "phase2.skill.SKL049": 3
+        },
+        "skill_uses": {
+          "base.skill.slash": 989,
+          "base.skill.strike": 88,
+          "base.skill.heal": 59,
+          "phase2.skill.SKL013": 5
+        },
+        "skill_usage_share": {
+          "base.skill.slash": 0.866783523225241,
+          "base.skill.strike": 0.07712532865907099,
+          "base.skill.heal": 0.051709027169149865,
+          "phase2.skill.SKL013": 0.0043821209465381246
+        },
+        "skill_uses_per_player_combat_action": 0.48143459915611814
+      },
+      "encounters": [
+        {
+          "floor": 10,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 2.98,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 120,
+            "base.skill.strike": 29
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 0.8053691275167785,
+            "base.skill.strike": 0.19463087248322147
+          },
+          "skill_uses_per_player_combat_action": 1.0
+        },
+        {
+          "floor": 30,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 6.46,
+          "potions_used": 4,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 216,
+            "base.skill.strike": 8,
+            "phase2.skill.SKL013": 8,
+            "base.skill.heal": 12
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 0.8852459016393442,
+            "base.skill.strike": 0.03278688524590164,
+            "phase2.skill.SKL013": 0.03278688524590164,
+            "base.skill.heal": 0.04918032786885246
+          },
+          "skill_uses_per_player_combat_action": 0.7554179566563467
+        },
+        {
+          "floor": 50,
+          "trials": 50,
+          "win_rate": 0.8,
+          "mean_combat_turns": 17.6,
+          "potions_used": 277,
+          "deaths": 10,
+          "death_floors": {
+            "50": 10
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 210,
+            "base.skill.heal": 142,
+            "base.skill.strike": 22
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 0.5614973262032086,
+            "base.skill.heal": 0.37967914438502676,
+            "base.skill.strike": 0.058823529411764705
+          },
+          "skill_uses_per_player_combat_action": 0.425
+        },
+        {
+          "floor": 100,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 20.9,
+          "potions_used": 601,
+          "deaths": 50,
+          "death_floors": {
+            "100": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 146,
+            "base.skill.heal": 251,
+            "base.skill.strike": 6,
+            "phase2.skill.SKL013": 6
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 0.3569682151589242,
+            "base.skill.heal": 0.6136919315403423,
+            "base.skill.strike": 0.014669926650366748,
+            "phase2.skill.SKL013": 0.014669926650366748
+          },
+          "skill_uses_per_player_combat_action": 0.39138755980861245
+        },
+        {
+          "floor": 101,
+          "trials": 50,
+          "win_rate": 1.0,
+          "mean_combat_turns": 1.5,
+          "potions_used": 0,
+          "deaths": 0,
+          "death_floors": {},
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 75
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 1.0
+          },
+          "skill_uses_per_player_combat_action": 1.0
+        },
+        {
+          "floor": 200,
+          "trials": 50,
+          "win_rate": 0.0,
+          "mean_combat_turns": 3.72,
+          "potions_used": 100,
+          "deaths": 50,
+          "death_floors": {
+            "200": 50
+          },
+          "stalled": 0,
+          "skill_uses": {
+            "base.skill.slash": 69,
+            "base.skill.heal": 17
+          },
+          "skill_usage_share": {
+            "base.skill.slash": 0.8023255813953488,
+            "base.skill.heal": 0.19767441860465115
+          },
+          "skill_uses_per_player_combat_action": 0.46236559139784944
+        }
+      ]
+    }
+  }
+}

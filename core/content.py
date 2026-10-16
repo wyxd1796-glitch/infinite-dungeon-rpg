@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
+from .phase2_content import PHASE2_EFFECTS, validate_phase2, has_phase2_effect
 
 EFFECTS = {'damage','heal_hp','heal_mp','modify_stat','grant_item','grant_gold','grant_exp','equipment','hurt','add_status','start_combat','nothing'}
+EFFECTS |= PHASE2_EFFECTS
 CONDITIONS = {'min_floor','max_floor','gold_at_least','hp_percent','has_item','boss_defeated','has_tag'}
 REQUIRED = {
     'monsters': {'id','name','hp','atk','defense','evasion','accuracy','weight','abilities'},
@@ -60,6 +62,13 @@ class Content:
                 if kind=='monsters' and (row['hp']<=0 or not 0<=row['evasion']<=1 or not 0<=row['accuracy']<=1): raise ValueError('잘못된 몬스터 능력치')
                 if kind=='equipment' and row['slot'] not in ('무기','투구','갑옷','장갑','신발','반지','목걸이'): raise ValueError('미지원 장비 슬롯')
                 if kind=='skills' and row['kind'] not in ('active','passive'): raise ValueError('미지원 스킬 종류')
+                if has_phase2_effect(row) and not row.get('phase2'): raise ValueError('2차 효과는 검증된 2차 정의에서만 사용할 수 있습니다.')
+                if row.get('phase2'):
+                    if kind not in ('skills','events'): raise ValueError('2차 콘텐츠 종류 오류')
+                    if not hasattr(self,'_phase2_source'):
+                        self._phase2_source=json.loads((self.root/'source/catalogue_v4.json').read_text(encoding='utf-8'))['base_catalogue_v3']['content']
+                        self._phase2_selection=json.loads((self.root/'catalogue/selection.json').read_text(encoding='utf-8'))
+                    validate_phase2(row,kind,self._phase2_source,self._phase2_selection)
                 ids[key] = row
             candidate[Path(name).stem] = rows
         for rows in candidate.values():

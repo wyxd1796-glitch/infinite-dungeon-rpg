@@ -42,7 +42,10 @@ class CombatMixin:
         d.update(atk=15+2*(attributes['str']-10)+gear['atk'],defense=5+.5*(attributes['vit']-10)+gear['defense'],hp=100+10*(attributes['vit']-10)+gear['hp'],mp=30+5*(attributes['int']-5)+gear['mp'],crit=.002*attributes['luk']+gear['crit'],evasion=.002*attributes['dex']+gear['evasion'])
         for skill in self.content['skills']:
             if skill['kind']=='passive':
-                for effect in skill['effects']: d[effect['stat']]*=1+effect['value']*self.s['skills'].get(skill['id'],0)
+                for effect in skill['effects']:
+                    level=self.s['skills'].get(skill['id'],0)
+                    bonus=(effect['value']+effect.get('growth',0)*(level-1) if level else 0) if skill.get('phase2') else effect['value']*level
+                    d[effect['stat']]*=1+bonus
         return self.apply_modifiers(d,self.s['statuses'])
 
     def enemy_stats(self):
@@ -107,16 +110,17 @@ class CombatMixin:
         if self.s['enemy'] and self.s['enemy']['hp']<=0: self.victory(); return True
         return False
 
-    def direct_hit(self,source,mult=1,accuracy=.95,action='attack',secondary=False):
+    def direct_hit(self,source,mult=1,accuracy=.95,action='attack',secondary=False,penetration=0):
         target='enemy' if source=='player' else 'player'; attacker=self.actor(source); defender=self.actor(target)
         if not attacker or not defender or attacker['hp']<=0 or defender['hp']<=0: return 0
         a=self.stats_for(source); b=self.stats_for(target)
         if self.rng.random()>=max(.05,accuracy-b['evasion']):
             message='공격 빗나감' if source=='player' else '적 공격 회피'; self.log(message); self.s['last_damage' if source=='player' else 'last_counter']=message; return 0
         bonus=a.get('heavy_damage' if action=='heavy' else 'normal_damage',0) if action in ('attack','heavy') else 0
-        amount=max(1,math.floor(a['atk']*mult*(1+bonus)*self.rng.uniform(.9,1.1)-.6*b['defense']*(1-a.get('penetration',0))))
+        amount=max(1,math.floor(a['atk']*mult*(1+bonus)*self.rng.uniform(.9,1.1)-.6*b['defense']*(1-min(1,a.get('penetration',0)+penetration))))
         critical=self.rng.random()<max(0,a['crit']-b.get('crit_resist',0))
         amount=math.floor(amount*(1.5+a.get('crit_damage',0) if critical else 1)*(1+a.get('extra_damage',0))*(1-b.get('reduction',0)))
+        amount=math.floor(amount*(1-b.get('skill_reduction',0)))
         if defender.get('guard'): amount=math.floor(amount*.5)
         if target=='player' and self.s['exploration_bonuses'].get('protection'):
             amount=math.floor(amount*.7); self.s['exploration_bonuses'].pop('protection')

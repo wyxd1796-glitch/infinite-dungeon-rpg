@@ -1,0 +1,203 @@
+[
+  {
+    "id": "phase2.skill.SKL003",
+    "source_id": "SKL003",
+    "name": "관통 공격",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "always",
+    "unlock_level": 5,
+    "mp": 11,
+    "max_level": 5,
+    "cooldown_turns": 1,
+    "effects": [
+      {
+        "type": "tactical_damage",
+        "value": 1.5,
+        "growth": 0.1,
+        "penetration": 0.4,
+        "target": "enemy"
+      }
+    ],
+    "description": "공격력 150% 피해, 방어력 40% 무시. 레벨당 피해 +10%p. 재사용: 이후 1행동."
+  },
+  {
+    "id": "phase2.skill.SKL004",
+    "source_id": "SKL004",
+    "name": "처형",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "execute",
+    "unlock_level": 5,
+    "mp": 14,
+    "max_level": 5,
+    "cooldown_turns": 2,
+    "effects": [
+      {
+        "type": "tactical_damage",
+        "value": 1.6,
+        "growth": 0.1,
+        "execute_threshold": 0.3,
+        "execute_multiplier": 1.5,
+        "target": "enemy"
+      }
+    ],
+    "description": "공격력 160% 피해. 공격 직전 적 HP 30% 이하면 배율 ×1.5. 레벨당 기본 배율 +10%p. 재사용: 이후 2행동."
+  },
+  {
+    "id": "phase2.skill.SKL006",
+    "source_id": "SKL006",
+    "name": "철벽 방어",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "unbuffed",
+    "unlock_level": 10,
+    "mp": 10,
+    "max_level": 5,
+    "cooldown_turns": 3,
+    "effects": [
+      {
+        "type": "skill_buff",
+        "value": 0.2,
+        "growth": 0.03,
+        "buff": "reduction",
+        "duration": 2,
+        "target": "player",
+        "skill_id": "phase2.skill.SKL006"
+      }
+    ],
+    "description": "적 행동 2회 동안 직접 피해 20% 감소. 기존 감소 뒤 별도 적용. 레벨당 +3%p. 재사용: 이후 3행동."
+  },
+  {
+    "id": "phase2.skill.SKL009",
+    "source_id": "SKL009",
+    "name": "보호막",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "unshielded",
+    "unlock_level": 10,
+    "mp": 14,
+    "max_level": 5,
+    "cooldown_turns": 3,
+    "effects": [
+      {
+        "type": "skill_shield",
+        "value": 0.2,
+        "growth": 0.03,
+        "target": "player"
+      }
+    ],
+    "description": "최대 HP 20% 보호막. 기존 보호막과 큰 값만 적용. 레벨당 +3%p. 전투 종료 시 해제. 재사용: 이후 3행동."
+  },
+  {
+    "id": "phase2.skill.SKL013",
+    "source_id": "SKL013",
+    "name": "응급 치료",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "emergency",
+    "unlock_level": 15,
+    "mp": 16,
+    "max_level": 5,
+    "cooldown_turns": 3,
+    "effects": [
+      {
+        "type": "heal_hp",
+        "value": 0.15,
+        "growth": 0.03,
+        "fraction": true,
+        "target": "player"
+      },
+      {
+        "type": "cleanse",
+        "value": 0,
+        "target": "player"
+      }
+    ],
+    "description": "최대 HP 15% 회복 및 중독·화상·출혈 제거. 레벨당 회복 +3%p. 재사용: 이후 3행동."
+  },
+  {
+    "id": "phase2.skill.SKL016",
+    "source_id": "SKL016",
+    "name": "전투의 함성",
+    "phase2": true,
+    "kind": "active",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "unbuffed",
+    "unlock_level": 20,
+    "mp": 12,
+    "max_level": 5,
+    "cooldown_turns": 4,
+    "effects": [
+      {
+        "type": "skill_buff",
+        "value": 0.15,
+        "growth": 0.03,
+        "buff": "attack",
+        "duration": 3,
+        "target": "player",
+        "skill_id": "phase2.skill.SKL016"
+      }
+    ],
+    "description": "이후 자신의 행동 3회 동안 공격력 +15%. 레벨당 +3%p. 중첩 없이 갱신. 재사용: 이후 4행동."
+  },
+  {
+    "id": "phase2.skill.SKL048",
+    "source_id": "SKL048",
+    "name": "생명의 그릇",
+    "phase2": true,
+    "kind": "passive",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "always",
+    "unlock_level": 20,
+    "mp": 0,
+    "max_level": 5,
+    "cooldown_turns": 0,
+    "effects": [
+      {
+        "type": "modify_stat",
+        "value": 0.04,
+        "growth": 0.02,
+        "stat": "hp",
+        "target": "player"
+      }
+    ],
+    "description": "최대 HP +4%, 레벨당 +2%p. 현재 HP는 회복하지 않습니다."
+  },
+  {
+    "id": "phase2.skill.SKL049",
+    "source_id": "SKL049",
+    "name": "마력의 그릇",
+    "phase2": true,
+    "kind": "passive",
+    "initial_level": 0,
+    "auto_enabled": false,
+    "auto_condition": "always",
+    "unlock_level": 24,
+    "mp": 0,
+    "max_level": 5,
+    "cooldown_turns": 0,
+    "effects": [
+      {
+        "type": "modify_stat",
+        "value": 0.05,
+        "growth": 0.02,
+        "stat": "mp",
+        "target": "player"
+      }
+    ],
+    "description": "최대 MP +5%, 레벨당 +2%p. 현재 MP는 회복하지 않습니다."
+  }
+]

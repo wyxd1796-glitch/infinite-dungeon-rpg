@@ -102,4 +102,33 @@ class UITests(unittest.TestCase):
         turn=w.engine.s['turn']; w.run('continue_event'); app.processEvents()
         self.assertEqual(w.screen_key,'던전/탐험'); self.assertEqual(turn,w.engine.s['turn'])
 
+    def test_phase2_skills_and_choices_at_both_sizes(self):
+        w=self.w; e=w.engine
+        for width,height in ((268,861),(250,400)):
+            w.resize(width,height)
+            w.selected['skill_액티브']='phase2.skill.SKL006'; w.navigate('스킬','액티브')
+            app.processEvents(); app.processEvents()
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+            self.assertTrue(any('레벨 10' in w.groups['스킬 성장'].child(i).text(1) for i in range(w.groups['스킬 성장'].childCount())))
+            e.s.update(mode='event',event=copy.deepcopy(e.content.by_id['phase2.event.EVT022'])); e.p['hp']=1
+            before=copy.deepcopy(e.s); rng=e.rng.getstate(); w.navigate('던전','이벤트'); app.processEvents(); app.processEvents()
+            group=w.groups['이벤트 선택']; wrapped=[group.child(i) for i in range(group.childCount()) if group.child(i).data(0,WRAPPED_ROLE)]
+            self.assertTrue(any('사망' in item.text(0) for item in wrapped)); self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+            for item in wrapped:
+                rect=w.tree.visualItemRect(item)
+                needed=QFontMetrics(w.tree.font()).boundingRect(QRect(0,0,rect.width()-10,100000),Qt.TextWordWrap,item.text(0)).height()+12
+                self.assertGreaterEqual(rect.height(),needed)
+            self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+            e.s.update(mode='base',event=None); e.p['hp']=100
+
+    def test_phase2_skill_use_button_and_priority(self):
+        w=self.w; e=w.engine; e.p.update(level=20,skill_points=1)
+        e.execute('upgrade_skill',key='phase2.skill.SKL003'); e.execute('enter'); e.start_combat()
+        e.s['skill_cooldowns']['phase2.skill.SKL003']=1; w.selected['battle_skill']='phase2.skill.SKL003'
+        w.navigate('던전','전투'); app.processEvents()
+        self.assertTrue(any('재사용 대기 1행동' in w.groups['스킬 행동'].child(i).text(1) for i in range(w.groups['스킬 행동'].childCount())))
+        w.selected['skill_액티브']='phase2.skill.SKL003'; w.navigate('스킬','액티브'); app.processEvents()
+        group=w.groups['전투 설정']; combo=w.tree.itemWidget(group.child(1),1)
+        self.assertEqual(combo.count(),9)
+
 if __name__=='__main__': unittest.main()
