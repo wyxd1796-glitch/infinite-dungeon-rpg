@@ -375,7 +375,7 @@ class PropertyWindow(QWidget):
                 for n,label,cmd in [('일반 공격','공격','attack'),('강공격','공격','heavy'),('방어','방어','defend'),('도주','도주','flee')]: self.act('기본 행동',n,label,cmd,combat and not (cmd=='flee' and enemy.get('kind')=='boss'))
                 key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],r['name']) for r in e.content['skills'] if r['kind']=='active'])
                 self.act('스킬 행동','스킬 사용','사용','skill',combat and p['mp']>=e.content.by_id[key]['mp'] and not any(st.get('effect_number')==6 for st in s['statuses']),key=key)
-                key=self.choice('소비 행동','선택 물약','potion',[(r['id'],r['name']) for r in e.available_items('소비품') if 'combat' in r.get('contexts',['combat'])])
+                key=self.choice('소비 행동','선택 물약','potion',[(r['id'],r['name']) for r in e.available_items('소비품') if s['items'].get(r['id'],0)>0 and 'combat' in r.get('contexts',['combat'])])
                 self.act('소비 행동','물약 사용','사용','use',combat and s['items'].get(key,0)>0,key=key); self.act('자동 행동','현재 전투 자동','실행','auto',combat)
                 self.row('전투 기록','최근 피해',s['last_damage']); self.row('전투 기록','최근 반격',s['last_counter']); self.link('전투 기록','전체 기록','기록 보기','기록','전투 통계')
             else:
@@ -413,7 +413,7 @@ class PropertyWindow(QWidget):
                     self.row('관리','판매 가격',f'{e.sell_price(item)} G')
                 self.act('관리','장착','장착하기','equip',free and bool(iid),key=iid); self.act('관리','판매','판매하기','sell',base and bool(iid),key=iid); self.act('관리','버리기','버리기','discard',free and bool(iid),key=iid)
             else:
-                items=e.available_items(sub); self.row('보유 정보',sub+' 종류',sum(s['items'].get(r['id'],0)>0 for r in items))
+                items=[r for r in e.available_items(sub) if sub!='소비품' or s['items'].get(r['id'],0)>0]; self.row('보유 정보',sub+' 종류',sum(s['items'].get(r['id'],0)>0 for r in items))
                 kind=self.choice('아이템 선택','종류 필터','bag_type_'+sub,[(v,v) for v in ['전체']+sorted({r.get('subtype','기존') for r in items})])
                 query=self.search('아이템 선택','bag_search_'+sub); items=[r for r in items if (kind=='전체' or r.get('subtype','기존')==kind) and query in r['name'].casefold()]
                 key=self.choice('아이템 선택',sub,'bag_'+sub,[(r['id'],r['name']) for r in items])
