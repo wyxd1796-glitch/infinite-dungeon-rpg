@@ -1,0 +1,170 @@
+{
+  "seed": 20261016,
+  "catalogue_counts": {
+    "monsters": 40,
+    "bosses": 10,
+    "prefixes": 20,
+    "equipment": 90,
+    "options": 30,
+    "consumables": 20,
+    "materials": 20,
+    "environments": 10,
+    "floor_types": 5,
+    "effects": 15
+  },
+  "gear_draws": 100000,
+  "monster_draws": 100000,
+  "gear_templates_seen": 90,
+  "option_types_seen": 30,
+  "monster_types_seen": 40,
+  "rarity_expected_pct": {
+    "일반": 59.858823529411765,
+    "고급": 24.941176470588236,
+    "희귀": 10.133333333333333,
+    "영웅": 4.053333333333334,
+    "전설": 1.0133333333333334
+  },
+  "rarity_observed": {
+    "일반": 59822,
+    "고급": 24882,
+    "희귀": 10240,
+    "전설": 1057,
+    "영웅": 3999
+  },
+  "encounter_fixture": "level=floor//2, earned points 60% STR/40% VIT, unlocked gear per slot +3, 20 CON004 and 10 CON008, auto danger stop off",
+  "encounters": [
+    {
+      "floor": 1,
+      "trials": 100,
+      "wins": 100,
+      "deaths": 0,
+      "stalled": 0,
+      "turns": 157,
+      "potion_cost": 0,
+      "earned_gold": 1316,
+      "equipment": 16,
+      "net_gold": 1316,
+      "rest_cost": 535
+    },
+    {
+      "floor": 10,
+      "trials": 100,
+      "wins": 99,
+      "deaths": 1,
+      "stalled": 0,
+      "turns": 786,
+      "potion_cost": 13360,
+      "earned_gold": 39617,
+      "equipment": 99,
+      "net_gold": 25257,
+      "rest_cost": 3900
+    },
+    {
+      "floor": 30,
+      "trials": 100,
+      "wins": 100,
+      "deaths": 0,
+      "stalled": 0,
+      "turns": 780,
+      "potion_cost": 9280,
+      "earned_gold": 106085,
+      "equipment": 100,
+      "net_gold": 96805,
+      "rest_cost": 12000
+    },
+    {
+      "floor": 50,
+      "trials": 100,
+      "wins": 78,
+      "deaths": 22,
+      "stalled": 0,
+      "turns": 1143,
+      "potion_cost": 34240,
+      "earned_gold": 139996,
+      "equipment": 78,
+      "net_gold": 83756,
+      "rest_cost": 19375
+    },
+    {
+      "floor": 100,
+      "trials": 100,
+      "wins": 0,
+      "deaths": 100,
+      "stalled": 0,
+      "turns": 708,
+      "potion_cost": 28640,
+      "earned_gold": 0,
+      "equipment": 0,
+      "net_gold": -128640,
+      "rest_cost": 39850
+    },
+    {
+      "floor": 101,
+      "trials": 100,
+      "wins": 100,
+      "deaths": 0,
+      "stalled": 0,
+      "turns": 136,
+      "potion_cost": 0,
+      "earned_gold": 31630,
+      "equipment": 24,
+      "net_gold": 31630,
+      "rest_cost": 20400
+    },
+    {
+      "floor": 200,
+      "trials": 100,
+      "wins": 0,
+      "deaths": 100,
+      "stalled": 0,
+      "turns": 378,
+      "potion_cost": 15280,
+      "earned_gold": 0,
+      "equipment": 0,
+      "net_gold": -115280,
+      "rest_cost": 77600
+    }
+  ],
+  "developed_fixture": [
+    {
+      "floor": 100,
+      "trials": 20,
+      "wins": 20,
+      "level": 100,
+      "enhance": 15,
+      "attribute_split": "50% STR / 50% VIT"
+    },
+    {
+      "floor": 200,
+      "trials": 20,
+      "wins": 0,
+      "level": 200,
+      "enhance": 15,
+      "attribute_split": "50% STR / 50% VIT"
+    }
+  ],
+  "progression": {
+    "decisions": 3000,
+    "highest": 40,
+    "level": 34,
+    "gold": 5060,
+    "stats": {
+      "battles": 860,
+      "wins": 726,
+      "deaths": 128,
+      "escapes": 6,
+      "normal": 631,
+      "elite": 61,
+      "boss": 34,
+      "damage": 411337,
+      "max_damage": 804,
+      "explorations": 1222,
+      "returns": 83,
+      "gold": 135013,
+      "equipment": 221,
+      "legendary": 1,
+      "play_seconds": 0
+    },
+    "pending": 0
+  }
+}

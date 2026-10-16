@@ -1,0 +1,104 @@
+[
+  {
+    "id": "base.monster.slime",
+    "name": "슬라임",
+    "hp": 50,
+    "atk": 8,
+    "defense": 2,
+    "evasion": 0,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.goblin",
+    "name": "고블린",
+    "hp": 40,
+    "atk": 9,
+    "defense": 2,
+    "evasion": 0.08,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.skeleton",
+    "name": "해골 병사",
+    "hp": 45,
+    "atk": 9,
+    "defense": 6,
+    "evasion": 0,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.wolf",
+    "name": "늑대",
+    "hp": 42,
+    "atk": 12,
+    "defense": 2,
+    "evasion": 0.03,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.bat",
+    "name": "박쥐",
+    "hp": 30,
+    "atk": 7,
+    "defense": 1,
+    "evasion": 0.15,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.orc",
+    "name": "오크",
+    "hp": 70,
+    "atk": 10,
+    "defense": 3,
+    "evasion": 0,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  },
+  {
+    "id": "base.monster.ghost",
+    "name": "망령",
+    "hp": 40,
+    "atk": 9,
+    "defense": 2,
+    "evasion": 0.05,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": [
+      {
+        "type": "drain_mp",
+        "chance": 0.2,
+        "value": 4
+      }
+    ]
+  },
+  {
+    "id": "base.monster.golem",
+    "name": "골렘",
+    "hp": 65,
+    "atk": 8,
+    "defense": 9,
+    "evasion": 0,
+    "accuracy": 0.95,
+    "min_floor": 1,
+    "weight": 1,
+    "abilities": []
+  }
+]

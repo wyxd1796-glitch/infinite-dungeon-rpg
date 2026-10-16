@@ -1,0 +1,13 @@
+__pycache__/
+saves/
+tmp/
+*.pyc
+.venv/
+*.pdf
+artifacts/*
+!artifacts/expansion_simulation.json
+!artifacts/phase1_preview.py
+!artifacts/phase1_shop.png
+!artifacts/phase1_shop_minimum.png
+!artifacts/phase1_combat.png
+!artifacts/phase1_pending.png

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "base.item.hp",
+    "name": "HP 물약",
+    "category": "소비품",
+    "price": 30,
+    "sell_price": 15,
+    "effects": [
+      {
+        "type": "heal_hp",
+        "value": 50
+      }
+    ]
+  },
+  {
+    "id": "base.item.mp",
+    "name": "MP 물약",
+    "category": "소비품",
+    "price": 40,
+    "sell_price": 20,
+    "effects": [
+      {
+        "type": "heal_mp",
+        "value": 30
+      }
+    ]
+  },
+  {
+    "id": "base.item.stone",
+    "name": "강화석",
+    "category": "재료",
+    "price": 40,
+    "sell_price": 20,
+    "effects": []
+  }
+]

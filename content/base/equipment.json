@@ -1,0 +1,95 @@
+[
+  {
+    "id": "base.equipment.0",
+    "name": "장검",
+    "slot": "무기",
+    "stats": {
+      "atk": [
+        3,
+        1.5
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.1",
+    "name": "투구",
+    "slot": "투구",
+    "stats": {
+      "hp": [
+        5,
+        2
+      ],
+      "defense": [
+        1,
+        0.5
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.2",
+    "name": "갑옷",
+    "slot": "갑옷",
+    "stats": {
+      "defense": [
+        2,
+        1
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.3",
+    "name": "장갑",
+    "slot": "장갑",
+    "stats": {
+      "atk": [
+        1,
+        0.5
+      ],
+      "crit": [
+        0.005,
+        0.001
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.4",
+    "name": "장화",
+    "slot": "신발",
+    "stats": {
+      "evasion": [
+        0.01,
+        0.001
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.5",
+    "name": "반지",
+    "slot": "반지",
+    "stats": {
+      "luk": [
+        1,
+        0.2
+      ],
+      "crit": [
+        0.005,
+        0.001
+      ]
+    }
+  },
+  {
+    "id": "base.equipment.6",
+    "name": "목걸이",
+    "slot": "목걸이",
+    "stats": {
+      "hp": [
+        5,
+        3
+      ],
+      "mp": [
+        2,
+        1
+      ]
+    }
+  }
+]

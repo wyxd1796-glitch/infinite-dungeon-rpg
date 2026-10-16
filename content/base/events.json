@@ -1,0 +1,459 @@
+[
+  {
+    "id": "base.event.chest",
+    "title": "버려진 상자",
+    "description": "먼지 속에서 오래된 상자를 발견했다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "상자를 연다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 35
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 12
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.altar",
+    "title": "수상한 제단",
+    "description": "희미한 빛이 제물을 요구한다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "기도한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 10
+              },
+              {
+                "type": "add_status",
+                "value": 0.2,
+                "stat": "atk",
+                "turns": 5
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 15
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "떠난다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.merchant",
+    "title": "길 잃은 상인",
+    "description": "상인이 물약과 장비를 내민다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "HP 물약 구매",
+        "cost": 25,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_item",
+                "value": 1,
+                "item_id": "base.item.hp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "장비 구매",
+        "cost": 70,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "떠난다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.well",
+    "title": "오래된 우물",
+    "description": "수상한 물이 흐른다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "물을 마신다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "heal_hp",
+                "value": 35
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "add_status",
+                "value": 3,
+                "stat": "poison",
+                "turns": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "우물을 조사한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_item",
+                "value": 1,
+                "item_id": "base.item.hp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "지나간다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.passage",
+    "title": "붕괴한 통로",
+    "description": "돌무더기가 길을 막고 있다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "우회한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      },
+      {
+        "label": "돌파한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 35
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "hurt",
+                "value": 15
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.treasure",
+    "title": "숨겨진 보물",
+    "description": "바위 틈에 보물이 빛난다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "골드를 챙긴다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 50
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "장비를 챙긴다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.stone",
+    "title": "고대 비석",
+    "description": "고대의 지식이 새겨져 있다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "해독한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 45
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "명상한다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": [
+              {
+                "type": "heal_mp",
+                "value": 20
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.door",
+    "title": "수상한 문",
+    "description": "문 너머에서 소리가 들린다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "문을 연다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "grant_gold",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "start_combat",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "떠난다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.adventurer",
+    "title": "부상당한 모험가",
+    "description": "모험가가 치료비를 부탁한다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "돕는다",
+        "cost": 20,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "equipment",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "grant_exp",
+                "value": 20
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "떠난다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base.event.statue",
+    "title": "저주받은 조각상",
+    "description": "낯선 힘이 감돌고 있다.",
+    "min_floor": 1,
+    "weight": 1,
+    "options": [
+      {
+        "label": "손을 댄다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 70,
+            "effects": [
+              {
+                "type": "add_status",
+                "value": 0.25,
+                "stat": "atk",
+                "turns": 5
+              }
+            ]
+          },
+          {
+            "weight": 30,
+            "effects": [
+              {
+                "type": "add_status",
+                "value": -0.2,
+                "stat": "atk",
+                "turns": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "떠난다",
+        "cost": 0,
+        "outcomes": [
+          {
+            "weight": 100,
+            "effects": []
+          }
+        ]
+      }
+    ]
+  }
+]

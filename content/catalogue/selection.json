@@ -1,0 +1,8 @@
+{
+  "version": "phase1-1.0.0",
+  "source_sha256": "01034289e9549a23416d085480c667ef84097d772b4a7a293a0e8559f33ed7eb",
+  "counts": {"monsters":40,"bosses":10,"prefixes":20,"equipment":90,"options":30,"consumables":20,"materials":20,"environments":10,"floor_types":5,"effects":15},
+  "cycle_floors": 100,
+  "boss_monsters": ["MON006","MON016","MON011","MON010","MON023","MON033","MON015","MON026","MON039","MON040"],
+  "defaults": {"monster_accuracy":0.95,"monster_evasion":0.0,"special_damage":1.5,"boss_phase2_multiplier":1.25,"lucky_charm_pp":5,"material_upgrade_units":{"MAT016":1,"MAT017":2,"MAT018":3},"shield_per_battle":true,"monster_critical_chance":0.05}
+}

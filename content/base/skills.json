@@ -1,0 +1,75 @@
+[
+  {
+    "id": "base.skill.strike",
+    "name": "강타",
+    "kind": "active",
+    "mp": 8,
+    "max_level": 5,
+    "effects": [
+      {
+        "type": "damage",
+        "value": 1.8,
+        "growth": 0.1,
+        "hits": 1
+      }
+    ]
+  },
+  {
+    "id": "base.skill.heal",
+    "name": "회복",
+    "kind": "active",
+    "mp": 12,
+    "max_level": 5,
+    "effects": [
+      {
+        "type": "heal_hp",
+        "value": 0.25,
+        "growth": 0.05,
+        "fraction": true
+      }
+    ]
+  },
+  {
+    "id": "base.skill.slash",
+    "name": "연속 베기",
+    "kind": "active",
+    "mp": 15,
+    "max_level": 5,
+    "effects": [
+      {
+        "type": "damage",
+        "value": 0.8,
+        "growth": 0.05,
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "base.skill.weapon",
+    "name": "무기 숙련",
+    "kind": "passive",
+    "mp": 0,
+    "max_level": 5,
+    "effects": [
+      {
+        "type": "modify_stat",
+        "stat": "atk",
+        "value": 0.03
+      }
+    ]
+  },
+  {
+    "id": "base.skill.wall",
+    "name": "철벽",
+    "kind": "passive",
+    "mp": 0,
+    "max_level": 5,
+    "effects": [
+      {
+        "type": "modify_stat",
+        "stat": "defense",
+        "value": 0.03
+      }
+    ]
+  }
+]

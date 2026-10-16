@@ -1,0 +1,49 @@
+[
+  {
+    "id": "base.prefix.feral",
+    "name": "흉포한",
+    "stats": {
+      "atk": 1.2
+    },
+    "exp": 1
+  },
+  {
+    "id": "base.prefix.solid",
+    "name": "견고한",
+    "stats": {
+      "defense": 1.3
+    },
+    "exp": 1
+  },
+  {
+    "id": "base.prefix.giant",
+    "name": "거대한",
+    "stats": {
+      "hp": 1.4
+    },
+    "exp": 1
+  },
+  {
+    "id": "base.prefix.agile",
+    "name": "민첩한",
+    "stats": {
+      "evasion": 0.1
+    },
+    "exp": 1
+  },
+  {
+    "id": "base.prefix.blessed",
+    "name": "축복받은",
+    "stats": {},
+    "exp": 1.3
+  },
+  {
+    "id": "base.prefix.cursed",
+    "name": "저주받은",
+    "stats": {
+      "atk": 1.25,
+      "defense": 0.8
+    },
+    "exp": 1
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "base.achievement.0",
+    "name": "첫걸음",
+    "metric": "highest",
+    "target": 10,
+    "reward": {
+      "gold": 500
+    }
+  },
+  {
+    "id": "base.achievement.1",
+    "name": "숙련 탐험가",
+    "metric": "highest",
+    "target": 50,
+    "reward": {
+      "gold": 2000
+    }
+  },
+  {
+    "id": "base.achievement.2",
+    "name": "심연의 도전자",
+    "metric": "highest",
+    "target": 100,
+    "reward": {
+      "gold": 5000
+    }
+  },
+  {
+    "id": "base.achievement.3",
+    "name": "학살자",
+    "metric": "wins",
+    "target": 1000,
+    "reward": {
+      "gold": 5000
+    }
+  },
+  {
+    "id": "base.achievement.4",
+    "name": "수집가",
+    "metric": "legendary",
+    "target": 10,
+    "reward": {
+      "gold": 3000
+    }
+  },
+  {
+    "id": "base.achievement.5",
+    "name": "불굴의 의지",
+    "metric": "deaths",
+    "target": 100,
+    "reward": {
+      "gold": 1000
+    }
+  },
+  {
+    "id": "base.achievement.6",
+    "name": "전설의 모험가",
+    "metric": "highest",
+    "target": 500,
+    "reward": {
+      "gold": 20000
+    }
+  }
+]

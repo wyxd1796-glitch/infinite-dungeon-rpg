@@ -1,0 +1,90 @@
+[
+  {
+    "id": "base.boss.0",
+    "name": "슬라임 군주",
+    "monster_id": "base.monster.slime",
+    "ability": {
+      "type": "heal",
+      "chance": 1,
+      "value": 0.08,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.1",
+    "name": "고블린 왕",
+    "monster_id": "base.monster.goblin",
+    "ability": {
+      "type": "heavy",
+      "chance": 1,
+      "value": 1.5,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.2",
+    "name": "해골 장군",
+    "monster_id": "base.monster.skeleton",
+    "ability": {
+      "type": "poison",
+      "chance": 1,
+      "value": 3,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.3",
+    "name": "핏빛 늑대",
+    "monster_id": "base.monster.wolf",
+    "ability": {
+      "type": "heavy",
+      "chance": 1,
+      "value": 1.6,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.4",
+    "name": "밤의 날개",
+    "monster_id": "base.monster.bat",
+    "ability": {
+      "type": "drain_mp",
+      "chance": 1,
+      "value": 6,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.5",
+    "name": "오크 족장",
+    "monster_id": "base.monster.orc",
+    "ability": {
+      "type": "heavy",
+      "chance": 1,
+      "value": 1.5,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.6",
+    "name": "심연의 망령",
+    "monster_id": "base.monster.ghost",
+    "ability": {
+      "type": "drain_mp",
+      "chance": 1,
+      "value": 8,
+      "interval": 3
+    }
+  },
+  {
+    "id": "base.boss.7",
+    "name": "고대 수호자",
+    "monster_id": "base.monster.golem",
+    "ability": {
+      "type": "heal",
+      "chance": 1,
+      "value": 0.1,
+      "interval": 3
+    }
+  }
+]

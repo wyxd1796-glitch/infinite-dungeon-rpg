@@ -1,0 +1,53 @@
+{
+  "initial": {
+    "hp": 100,
+    "mp": 30,
+    "atk": 15,
+    "defense": 5,
+    "gold": 200
+  },
+  "stats": {
+    "str": 10,
+    "dex": 5,
+    "vit": 10,
+    "int": 5,
+    "luk": 5
+  },
+  "encounters": {
+    "normal": 60,
+    "event": 20,
+    "chest": 10,
+    "rest": 5,
+    "elite": 5
+  },
+  "rarities": {
+    "일반": 60,
+    "고급": 25,
+    "희귀": 10,
+    "영웅": 4,
+    "전설": 1
+  },
+  "luck_weight": 0.01,
+  "enhance_gold": 20,
+  "rest_hp": 5,
+  "rest_mp": 3,
+  "storage_cost": 1000,
+  "death_hp_fraction": 0.3,
+  "initial_potions": 3,
+  "boss_stones": 3,
+  "initial_mp_potions": 1,
+  "critical_cap": 0.75,
+  "evasion_cap": 0.75,
+  "chest_equipment_chance": 0.5,
+  "chest_gold_base": 20,
+  "chest_gold_per_floor": 5,
+  "shop_equipment_base": 70,
+  "shop_equipment_per_floor": 10,
+  "equipment_sell_per_level": 10,
+  "equipment_sell_per_enhance": 5,
+  "enhance_stone_group": 3,
+  "auto_turn_limit": 500,
+  "full_bag_equipment": "sell",
+  "active_start_level": 1,
+  "passive_start_level": 1
+}

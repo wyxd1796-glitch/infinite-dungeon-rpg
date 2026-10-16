@@ -1,0 +1,51 @@
+[
+  {
+    "id": "base.affix.str",
+    "stat": "str",
+    "name": "힘",
+    "base": 1,
+    "per_level": 0.2
+  },
+  {
+    "id": "base.affix.dex",
+    "stat": "dex",
+    "name": "민첩",
+    "base": 1,
+    "per_level": 0.2
+  },
+  {
+    "id": "base.affix.vit",
+    "stat": "vit",
+    "name": "체력",
+    "base": 1,
+    "per_level": 0.2
+  },
+  {
+    "id": "base.affix.int",
+    "stat": "int",
+    "name": "지능",
+    "base": 1,
+    "per_level": 0.2
+  },
+  {
+    "id": "base.affix.luk",
+    "stat": "luk",
+    "name": "행운",
+    "base": 1,
+    "per_level": 0.2
+  },
+  {
+    "id": "base.affix.crit",
+    "stat": "crit",
+    "name": "치명타율",
+    "base": 0.005,
+    "per_level": 0.001
+  },
+  {
+    "id": "base.affix.evasion",
+    "stat": "evasion",
+    "name": "회피율",
+    "base": 0.005,
+    "per_level": 0.001
+  }
+]

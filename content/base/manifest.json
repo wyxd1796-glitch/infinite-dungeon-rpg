@@ -1,0 +1,18 @@
+{
+  "pack_id": "base",
+  "version": "1.0.0",
+  "schema_version": 1,
+  "dependencies": [],
+  "enabled": true,
+  "content_files": [
+    "achievements.json",
+    "affixes.json",
+    "bosses.json",
+    "equipment.json",
+    "events.json",
+    "items.json",
+    "monsters.json",
+    "prefixes.json",
+    "skills.json"
+  ]
+}
