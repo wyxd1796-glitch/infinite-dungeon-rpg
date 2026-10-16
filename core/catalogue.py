@@ -84,4 +84,3 @@ def activate(content):
     content.tables['items']=normalized['consumables']+normalized['materials']+legacy_items
     content.catalogue=selection; content.catalogue_counts={k:len(v) for k,v in chosen.items()}
     content.packs.append({'id':'catalogue.phase1','version':selection['version']})
-    content.balance['evasion_cap']=.45

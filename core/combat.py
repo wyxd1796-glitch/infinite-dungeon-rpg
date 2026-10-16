@@ -30,7 +30,7 @@ class CombatMixin:
         return d
 
     def derived(self):
-        if getattr(self,'_legacy_running',False): return LegacyEngine.derived(self)
+        if getattr(self,'_legacy_running',False) or (self.s.get('legacy_pending') and self.s['mode']=='combat'): return LegacyEngine.derived(self)
         attributes=dict(self.p['attributes']); gear={k:0 for k in OPTION_STATS}
         for iid in self.s['equipped'].values():
             item=self.s['inventory'][iid]

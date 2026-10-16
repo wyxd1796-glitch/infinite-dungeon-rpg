@@ -242,4 +242,12 @@ class ExpansionTests(unittest.TestCase):
     def test_unowned_starter_items_not_added_on_load(self):
         e=self.e; e.s['items']={}; clone=GameEngine(ROOT/'content',e.s); self.assertEqual(clone.s['items'],{})
 
+    def test_old_battle_keeps_old_evasion_cap_until_completion(self):
+        old=LegacyEngine(ROOT/'content',seed=7); old.execute('buy',key='base.equipment.0'); key=old.s['bag'][0]
+        old.s['inventory'][key]['rolled_stats']={'evasion':.7}; old.execute('equip',key=key)
+        old.execute('enter'); old.start_combat(); old.execute('defend'); new=GameEngine(ROOT/'content',old.s)
+        self.assertEqual(old.derived()['evasion'],new.derived()['evasion'])
+        old.execute('defend'); new.execute('defend'); self.assertEqual(old.p['hp'],new.p['hp'])
+        new.s.update(mode='explore',enemy=None,legacy_pending=False); self.assertEqual(new.derived()['evasion'],.45)
+
 if __name__=='__main__': unittest.main()

@@ -11,3 +11,4 @@ artifacts/*
 !artifacts/phase1_shop_minimum.png
 !artifacts/phase1_combat.png
 !artifacts/phase1_pending.png
+!artifacts/phase1_verification.md
