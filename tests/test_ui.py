@@ -12,6 +12,19 @@ ROOT=Path(__file__).resolve().parents[1]
 app=QApplication.instance() or QApplication([])
 
 class UITests(unittest.TestCase):
+    def test_environment_guidance_wrapped_read_only(self):
+        w=self.w; e=w.engine; e.s.update(floor=231,mode='explore',floor_type='FLR004')
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for size in ((268,861),(250,400)):
+            w.resize(*size); w.navigate('던전','탐험'); w.render()
+            for _ in range(4): app.processEvents()
+            group=w.groups['현재 위치']
+            row=next(group.child(i) for i in range(group.childCount()) if '주 종족:' in group.child(i).text(0))
+            self.assertIn('×1.27',row.text(0)); self.assertIn('경험치 제외',row.text(0))
+            self.assertGreater(w.tree.visualItemRect(row).height(),25)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+        self.assertEqual(before,e.s); self.assertEqual(rng,e.rng.getstate())
+
     def test_boss_phase_guidance_wrapped_and_read_only(self):
         w=self.w; e=w.engine; e.s['floor']=130; e.start_combat('boss')
         before=copy.deepcopy(e.s); rng=e.rng.getstate()

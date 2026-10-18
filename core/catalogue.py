@@ -61,6 +61,8 @@ def activate(content):
     for key in selection['boss_monsters'].values():
         if key not in selection['active_ids']['monsters']: raise ValueError('보스 원형 연결 누락')
     regions=Regions(json.loads((root/'catalogue/regions.json').read_text(encoding='utf-8')),chosen)
+    from .environments import validate_environments
+    validate_environments(chosen['environments'],chosen['floor_types'],set(selection['active_ids']['effects']))
     from .monster_roles import validate_monsters
     roles=json.loads((root/'catalogue/monster_roles.json').read_text(encoding='utf-8'))
     validate_monsters(roles,chosen['monsters'],set(selection['active_ids']['effects']),set(selection['active_ids']['materials']))

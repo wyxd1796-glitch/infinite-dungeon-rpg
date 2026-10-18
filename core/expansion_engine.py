@@ -49,7 +49,8 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
         return self.content.by_id[cid(self.content.regions.at(self.s['floor'])['environment_id'])]
     def floor_type_name(self): return self.content.by_id[cid(self.s['floor_type'])]['name']
     def roll_floor(self):
-        self.s['floor_type']='FLR005' if self.s['floor']%10==0 else self.rng.choices(['FLR001','FLR002','FLR003','FLR004'],weights=[75,10,10,5])[0]
+        from .environments import FLOOR_WEIGHTS
+        self.s['floor_type']='FLR005' if self.s['floor']%10==0 else self.rng.choices(list(FLOOR_WEIGHTS),weights=list(FLOOR_WEIGHTS.values()))[0]
 
     def return_to_base(self):
         self.require(self.s['mode']=='explore','전투 밖 던전에서만 귀환할 수 있습니다.')

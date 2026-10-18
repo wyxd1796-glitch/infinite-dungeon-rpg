@@ -363,6 +363,8 @@ class PropertyWindow(QWidget):
             if sub=='탐험':
                 for n,v in [('던전 층',location),('최고 도달',f"{s['highest']}층"),('진행 상황',f"{s['progress']} / 3"),('현재 상황',{'base':'거점 · 입장 필요','explore':'층 완료' if e.complete() else '탐험 대기','combat':'전투 중','event':'이벤트 진행'}[s['mode']])]: self.row('현재 위치',n,v)
                 self.row('현재 위치','환경',e.environment()['name']); self.row('현재 위치','층 유형',e.floor_type_name())
+                from core.environments import guidance as environment_guidance
+                self.description('현재 위치','환경 안내',environment_guidance(e))
                 if s['floor']>100:
                     next_floor=((s['floor']-1)//10+1)*10
                     boss=e.content.by_id['catalogue.v3.'+e.content.regions.boss_id(next_floor)]

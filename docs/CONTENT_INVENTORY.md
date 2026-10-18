@@ -1109,46 +1109,46 @@
 
 | 원본 ID | 이름 | 현재 상태·연결 ID | 예정 단계 | 필수 연결·검수 | 최종 판정/증빙 |
 |---|---|---|---|---|---|
-| ENV001 | 버려진 지하실 | 실행 연결: catalogue.v3.ENV001 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV002 | 고블린 소굴 | 실행 연결: catalogue.v3.ENV002 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV003 | 지하 묘지 | 실행 연결: catalogue.v3.ENV003 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV004 | 맹독 늪지 | 실행 연결: catalogue.v3.ENV004 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV005 | 얼어붙은 동굴 | 실행 연결: catalogue.v3.ENV005 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV006 | 불타는 심연 | 실행 연결: catalogue.v3.ENV006 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV007 | 고대 신전 | 실행 연결: catalogue.v3.ENV007 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV008 | 잊힌 성채 | 실행 연결: catalogue.v3.ENV008 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV009 | 공허의 균열 | 실행 연결: catalogue.v3.ENV009 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV010 | 심연의 왕좌 | 실행 연결: catalogue.v3.ENV010 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV011 | 깊은 수인 분지 | 실행 연결: catalogue.v3.ENV011 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV012 | 늑대 달의 숲 | 실행 연결: catalogue.v3.ENV012 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV013 | 검은 예배당 | 실행 연결: catalogue.v3.ENV013 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV014 | 낙인의 회랑 | 실행 연결: catalogue.v3.ENV014 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV015 | 용의 무덤 | 실행 연결: catalogue.v3.ENV015 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV016 | 비룡 둥지 | 실행 연결: catalogue.v3.ENV016 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV017 | 증기 공장 | 실행 연결: catalogue.v3.ENV017 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV018 | 시계태엽 성 | 실행 연결: catalogue.v3.ENV018 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV019 | 가라앉은 수로 | 실행 연결: catalogue.v3.ENV019 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV020 | 해구의 제단 | 실행 연결: catalogue.v3.ENV020 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV021 | 포자 동굴 | 실행 연결: catalogue.v3.ENV021 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV022 | 균사 정원 | 실행 연결: catalogue.v3.ENV022 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV023 | 유리 사막 | 실행 연결: catalogue.v3.ENV023 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV024 | 태양의 유적 | 실행 연결: catalogue.v3.ENV024 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV025 | 수정 광맥 | 실행 연결: catalogue.v3.ENV025 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV026 | 마석 제련소 | 실행 연결: catalogue.v3.ENV026 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV027 | 별빛 관측소 | 실행 연결: catalogue.v3.ENV027 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV028 | 월식의 탑 | 실행 연결: catalogue.v3.ENV028 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV029 | 혼돈의 실험실 | 실행 연결: catalogue.v3.ENV029 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| ENV030 | 영혼 왕실 회랑 | 실행 연결: catalogue.v3.ENV030 | 3 | 지역·가중치·보정·표시 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
+| ENV001 | 버려진 지하실 | 실행 연결: catalogue.v3.ENV001 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV002 | 고블린 소굴 | 실행 연결: catalogue.v3.ENV002 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV003 | 지하 묘지 | 실행 연결: catalogue.v3.ENV003 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV004 | 맹독 늪지 | 실행 연결: catalogue.v3.ENV004 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV005 | 얼어붙은 동굴 | 실행 연결: catalogue.v3.ENV005 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV006 | 불타는 심연 | 실행 연결: catalogue.v3.ENV006 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV007 | 고대 신전 | 실행 연결: catalogue.v3.ENV007 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV008 | 잊힌 성채 | 실행 연결: catalogue.v3.ENV008 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV009 | 공허의 균열 | 실행 연결: catalogue.v3.ENV009 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV010 | 심연의 왕좌 | 실행 연결: catalogue.v3.ENV010 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV011 | 깊은 수인 분지 | 실행 연결: catalogue.v3.ENV011 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV012 | 늑대 달의 숲 | 실행 연결: catalogue.v3.ENV012 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV013 | 검은 예배당 | 실행 연결: catalogue.v3.ENV013 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV014 | 낙인의 회랑 | 실행 연결: catalogue.v3.ENV014 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV015 | 용의 무덤 | 실행 연결: catalogue.v3.ENV015 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV016 | 비룡 둥지 | 실행 연결: catalogue.v3.ENV016 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV017 | 증기 공장 | 실행 연결: catalogue.v3.ENV017 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV018 | 시계태엽 성 | 실행 연결: catalogue.v3.ENV018 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV019 | 가라앉은 수로 | 실행 연결: catalogue.v3.ENV019 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV020 | 해구의 제단 | 실행 연결: catalogue.v3.ENV020 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV021 | 포자 동굴 | 실행 연결: catalogue.v3.ENV021 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV022 | 균사 정원 | 실행 연결: catalogue.v3.ENV022 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV023 | 유리 사막 | 실행 연결: catalogue.v3.ENV023 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV024 | 태양의 유적 | 실행 연결: catalogue.v3.ENV024 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV025 | 수정 광맥 | 실행 연결: catalogue.v3.ENV025 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV026 | 마석 제련소 | 실행 연결: catalogue.v3.ENV026 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV027 | 별빛 관측소 | 실행 연결: catalogue.v3.ENV027 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV028 | 월식의 탑 | 실행 연결: catalogue.v3.ENV028 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV029 | 혼돈의 실험실 | 실행 연결: catalogue.v3.ENV029 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| ENV030 | 영혼 왕실 회랑 | 실행 연결: catalogue.v3.ENV030 | 3 | 지역·가중치·보정·표시 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
 
 ## 층 유형 — 5개
 
 | 원본 ID | 이름 | 현재 상태·연결 ID | 예정 단계 | 필수 연결·검수 | 최종 판정/증빙 |
 |---|---|---|---|---|---|
-| FLR001 | 일반 층 | 1차 연결: catalogue.v3.FLR001 | 3 | 출현 확률·전투/보상 보정 | 미판정 |
-| FLR002 | 정예 층 | 1차 연결: catalogue.v3.FLR002 | 3 | 출현 확률·전투/보상 보정 | 미판정 |
-| FLR003 | 보물 층 | 1차 연결: catalogue.v3.FLR003 | 3 | 출현 확률·전투/보상 보정 | 미판정 |
-| FLR004 | 위험 층 | 1차 연결: catalogue.v3.FLR004 | 3 | 출현 확률·전투/보상 보정 | 미판정 |
-| FLR005 | 보스 층 | 1차 연결: catalogue.v3.FLR005 | 3 | 출현 확률·전투/보상 보정 | 미판정 |
+| FLR001 | 일반 층 | 1차 연결: catalogue.v3.FLR001 | 3 | 출현 확률·전투/보상 보정 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| FLR002 | 정예 층 | 1차 연결: catalogue.v3.FLR002 | 3 | 출현 확률·전투/보상 보정 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| FLR003 | 보물 층 | 1차 연결: catalogue.v3.FLR003 | 3 | 출현 확률·전투/보상 보정 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| FLR004 | 위험 층 | 1차 연결: catalogue.v3.FLR004 | 3 | 출현 확률·전투/보상 보정 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
+| FLR005 | 보스 층 | 1차 연결: catalogue.v3.FLR005 | 3 | 출현 확률·전투/보상 보정 | [03-13 전수 검수](ENVIRONMENT_AUDIT.md) |
 
 ## 스킬 — 70개
 
