@@ -22,7 +22,7 @@ class Phase2Mixin:
         if any(st.get('effect_number')==6 for st in self.s['statuses']): return '침묵 상태'
         cooldown=self.s.get('skill_cooldowns',{}).get(key,0)
         if cooldown: return f'재사용 대기 {cooldown}행동'
-        if self.p['mp']<skill['mp']: return 'MP 부족'
+        if self.p['mp']<self.skill_mp_cost(skill): return 'MP 부족'
         return ''
 
     def skill_label(self,skill):
@@ -66,6 +66,7 @@ class Phase2Mixin:
     def clear_skill_combat(self):
         self.s.update(skill_cooldowns={},skill_buffs={},phase2_legacy_combat=False)
         self.p['shield']=0
+        self.s['statuses']=[st for st in self.s['statuses'] if st.get('effect_number') not in range(16,41)]
 
     def start_combat(self,kind='normal'):
         self.clear_skill_combat()
@@ -81,8 +82,9 @@ class Phase2Mixin:
         if action=='skill':
             reason=self.skill_reason(key); self.require(not reason,reason)
         before=self.s['turn']; cooldowns=dict(self.s['skill_cooldowns'])
-        blocked=any(st.get('effect_number') in (4,5) for st in self.s['statuses'])
+        blocked=self.action_blocked('player')
         result=super().battle(action,key)
+        if type(result) is bool: blocked=not result
         if self.s['mode']!='combat': self.clear_skill_combat()
         elif self.s['turn']>before:
             self.s['skill_cooldowns']={k:v-1 for k,v in cooldowns.items() if v>1}

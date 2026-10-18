@@ -28,29 +28,29 @@ class ExpansionTests(unittest.TestCase):
 
     def test_exact_catalogue_and_original(self):
         e=self.e
-        self.assertEqual(sum(e.content.catalogue_counts.values()),260)
-        self.assertEqual(e.content.catalogue_counts,dict(monsters=40,bosses=10,prefixes=20,equipment=90,options=30,consumables=20,materials=20,environments=10,floor_types=5,effects=15))
+        self.assertEqual(sum(e.content.catalogue_counts.values()),735)
+        self.assertEqual(e.content.catalogue_counts,dict(monsters=150,bosses=40,prefixes=20,equipment=330,options=30,consumables=30,materials=60,environments=30,floor_types=5,effects=40))
         self.assertEqual(hashlib.sha256((ROOT/'content/source/catalogue_v4.json').read_bytes()).hexdigest(),e.content.catalogue['source_sha256'])
         self.assertEqual([len(e.content[t]) for t in ('skills','events','achievements')],[13,30,7])
-        self.assertEqual(len({r['id'] for r in e.content.by_id.values() if r.get('catalogue')}),260)
+        self.assertEqual(len({r['id'] for r in e.content.by_id.values() if r.get('catalogue')}),735)
 
     def test_all_depth_pools_and_cycle(self):
         e=self.e
         for floor in (1,10,30,50,100,101,200):
             e.s['floor']=floor; e.s['floor_type']='FLR001'
             for _ in range(50):
-                e.start_combat(); monster=e.content.by_id[e.s['enemy']['id']]; zone=(floor-1)%100+1
+                e.start_combat(); monster=e.content.by_id[e.s['enemy']['id']]; zone=(floor-1)%400+1
                 self.assertLessEqual(monster['min_floor'],zone); self.assertGreaterEqual(monster['max_floor'],zone)
                 self.assertEqual(e.s['enemy']['level'],floor)
                 gear=e.generate_equipment(); self.assertLessEqual(e.content.by_id[gear['base_id']]['min_floor'],floor)
-        e.s['floor']=1; env=e.environment()['id']; e.s['floor']=101; self.assertEqual(e.environment()['id'],env)
+        e.s.update(floor=1,mode='explore',enemy=None); env=e.environment()['id']; e.s['floor']=301; self.assertEqual(e.environment()['id'],env)
 
     def test_boss_order_and_absolute_scaling(self):
         e=self.e
         for i in range(1,11):
             e.s['floor']=i*10; e.start_combat('boss'); first=copy.deepcopy(e.s['enemy'])
             self.assertEqual(first['boss_id'],cid(f'BOS{i:03}'))
-            e.s['floor']+=100; e.start_combat('boss')
+            e.s['floor']+=400; e.start_combat('boss')
             self.assertEqual(first['boss_id'],e.s['enemy']['boss_id']); self.assertGreater(e.s['enemy']['hp'],first['hp'])
 
     def test_prefix_category_exclusion(self):

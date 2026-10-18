@@ -26,6 +26,7 @@ class AutoPolicyMixin:
                 if effect['type'] != 'heal_hp': continue
                 heal = effect['value'] + effect.get('growth', 0) * (level - 1)
                 value += math.floor(heal * self.derived()['hp'] if effect.get('fraction') else heal)
+            value=self.healing_amount('player',value)
             return min(max(0, self.derived()['hp'] - self.p['hp']), value)
         heals = [r for r in usable if healing(r)]
         potions = [r for r in self.available_items('소비품')
@@ -55,7 +56,7 @@ class AutoPolicyMixin:
         reserved = False
         for skill in usable:
             attacks = any(x['type'] in ('damage', 'tactical_damage') for x in skill['effects'])
-            if attacks and self.p['mp'] - skill['mp'] < settings['mp_reserve']:
+            if attacks and self.p['mp'] - self.skill_mp_cost(skill) < settings['mp_reserve']:
                 reserved = True
                 continue
             return choice('skill', skill['id'], '자동 스킬 우선순위')

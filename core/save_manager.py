@@ -5,6 +5,7 @@ import hashlib
 import math
 from pathlib import Path
 from datetime import datetime
+from .phase3_effects import EFFECTS, validate_status
 
 class SaveManager:
     def __init__(self, directory):
@@ -18,6 +19,10 @@ class SaveManager:
 
     @staticmethod
     def validate(state):
+        if type(state.get('battle_rules_version',1)) is not int or state.get('battle_rules_version',1) not in (1,2,3): raise ValueError('미지원 전투 규칙 버전')
+        if state.get('battle_rules_version')==3:
+            flags=state.get('effect_combat_state')
+            if not isinstance(flags,dict) or set(flags)!={'player','enemy'} or any(not isinstance(v,dict) or type(v.get('survive_used')) is not bool for v in flags.values()): raise ValueError('전투 생존 기록 오류')
         if state.get('save_schema_version') not in (1,2,3): raise ValueError('지원하지 않는 저장 버전')
         for key in ('player','inventory','equipped','bag','storage','items','stats','settings','skills','mode','floor','highest','progress'):
             if key not in state: raise ValueError(f'저장 필드 누락: {key}')
@@ -63,12 +68,30 @@ class SaveManager:
             statuses=list(state.get('statuses',[])); enemy=state.get('enemy')
             if enemy and enemy.get('catalogue'):
                 if not isinstance(enemy.get('pattern_index'),int) or enemy['pattern_index']<0: raise ValueError('전투 패턴 진행 오류')
-                if not enemy.get('pattern') or set(enemy['pattern'])-{'attack','defend','special'}: raise ValueError('미지원 저장 전투 패턴')
+                allowed={'attack','defend','special'}
+                if enemy.get('depth_rules_version') is not None:
+                    from .high_floors import MECHANICS
+                    if type(enemy['depth_rules_version']) is not int or enemy['depth_rules_version']!=1: raise ValueError('미지원 고층 전투 버전')
+                    allowed|={'heavy','heal','debuff'}
+                    env=enemy.get('environment_snapshot')
+                    if not isinstance(env,dict) or not isinstance(env.get('name'),str) or not isinstance(env.get('id'),str): raise ValueError('환경 스냅샷 누락')
+                    if env['id'] not in {f'catalogue.v3.ENV{i:03}' for i in range(1,31)} or not isinstance(env.get('primary_family'),str): raise ValueError('환경 스냅샷 참조 오류')
+                    for key in ('risk_modifier_pct','reward_modifier_pct'):
+                        if type(env.get(key)) not in (int,float) or not math.isfinite(env[key]) or env[key]<0: raise ValueError('환경 스냅샷 수치 오류')
+                    if type(enemy.get('reward_factor')) not in (int,float) or not math.isfinite(enemy['reward_factor']) or enemy['reward_factor']<=0: raise ValueError('보상 배율 오류')
+                    if enemy.get('mechanic'):
+                        if enemy['mechanic'] not in MECHANICS: raise ValueError('미지원 저장 보스 기믹')
+                        for key in ('summon_turns','healing_suppression'):
+                            if type(enemy.get(key)) is not int or not 0<=enemy[key]<=2: raise ValueError('보스 기믹 기간 오류')
+                        if type(enemy.get('suppression_at')) is not int or not 0<=enemy['suppression_at']<=state.get('turn',0): raise ValueError('보스 기믹 시점 오류')
+                if not enemy.get('pattern') or set(enemy['pattern'])-allowed: raise ValueError('미지원 저장 전투 패턴')
                 statuses+=enemy.get('statuses',[])
             for status in statuses:
                 if not isinstance(status.get('turns'),int) or status['turns']<1: raise ValueError('상태 지속시간 오류')
-                if status.get('effect_number') is not None and status['effect_number'] not in range(1,16): raise ValueError('미지원 저장 상태효과')
+                if status.get('effect_number') is not None and status['effect_number'] not in range(1,41): raise ValueError('미지원 저장 상태효과')
+                if status.get('effect_number') in EFFECTS: validate_status(status,state)
             for item in list(state['inventory'].values())+[r['equipment'] for r in pending if r['kind']=='equipment']:
+                if 'generation_rules_version' in item and (type(item['generation_rules_version']) is not int or item['generation_rules_version']!=1): raise ValueError('미지원 장비 생성 버전')
                 if any(not isinstance(v,(int,float)) or not math.isfinite(v) for v in item['rolled_stats'].values()): raise ValueError('장비 수치 오류')
         if state['save_schema_version']==3:
             settings=state['settings']

@@ -18,6 +18,7 @@ artifacts/*
 !artifacts/phase2_baseline.json
 !artifacts/auto_policy_simulation.json
 !artifacts/long_term_summary.json
+!artifacts/phase3_audit.json
 !artifacts/long_term_samples.zip
 !artifacts/phase2_expansion_simulation.json
 !artifacts/phase2_build_simulation.json
@@ -26,3 +27,11 @@ artifacts/*
 !artifacts/phase2_event_normal.png
 !artifacts/phase2_event_minimum.png
 !artifacts/phase2_event_bottom_minimum.png
+
+!artifacts/phase3_effects_268x861.png
+!artifacts/phase3_effects_250x400.png
+!artifacts/phase3_advanced_flags.png
+!artifacts/high_floors_simulation.json
+!artifacts/high_floors_initial_simulation.json
+!artifacts/high_floor_268x861.png
+!artifacts/high_floor_250x400.png

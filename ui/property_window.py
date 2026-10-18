@@ -348,7 +348,7 @@ class PropertyWindow(QWidget):
         if main=='캐릭터':
             if sub=='정보':
                 for n,v in [('이름',p['name']),('직업','전사'),('레벨',p['level']),('경험치',xp),('소지 골드',gold)]: self.row('일반',n,v)
-                status('상태'); self.row('상태','현재 위치',location); self.row('상태','상태이상',e.status_label())
+                status('상태'); self.row('상태','현재 위치',location); self.description('상태','상태이상',e.status_label())
                 self.row('성장 요약','남은 능력치',f"{p['points']} P"); self.row('성장 요약','남은 스킬 포인트',f"{p['skill_points']} P"); self.link('성장 요약','능력치 분배','상세 보기','캐릭터','성장')
             elif sub=='능력치':
                 for k in p['attributes']: self.row('기본 능력치',STAT_NAMES[k],p['attributes'][k])
@@ -363,19 +363,31 @@ class PropertyWindow(QWidget):
             if sub=='탐험':
                 for n,v in [('던전 층',location),('최고 도달',f"{s['highest']}층"),('진행 상황',f"{s['progress']} / 3"),('현재 상황',{'base':'거점 · 입장 필요','explore':'층 완료' if e.complete() else '탐험 대기','combat':'전투 중','event':'이벤트 진행'}[s['mode']])]: self.row('현재 위치',n,v)
                 self.row('현재 위치','환경',e.environment()['name']); self.row('현재 위치','층 유형',e.floor_type_name())
+                if s['floor']>100:
+                    next_floor=((s['floor']-1)//10+1)*10
+                    boss=e.content.by_id['catalogue.v3.'+e.content.regions.boss_id(next_floor)]
+                    self.description('현재 위치','고층 안내',f"몬스터 원형 {e.content.regions.zone(s['floor'])}층 · 환경 {((s['floor']-1)%300)+1}층\n다음 보스 {next_floor}층 · {boss['name']}")
                 for name,value in [('레벨',p['level']),('HP',hp),('MP',mp),('경험치',xp),('돈',gold)]: self.row('캐릭터 상태',name,value)
                 self.act('탐험 행동','탐험 진행','실행','explore',s['mode']=='explore'); self.act('탐험 행동','다음 층 이동','이동','next',s['mode']=='explore' and e.complete()); self.act('탐험 행동','거점 귀환','귀환','return',s['mode']=='explore')
                 if base: self.link('탐험 행동','던전 입장 준비','거점으로 이동','거점','휴식')
                 for n,v in [('최근 결과',s['last']),('획득 골드',f"+{s['last_gold']} G"),('획득 경험치',f"+{s['last_exp']}")]: self.row('탐험 기록',n,v)
             elif sub=='전투':
                 enemy=s['enemy'] or {}; self.row('전투 상태','진행 상태','전투 중' if combat else '전투 없음'); self.row('전투 상태','턴 수',s['combat_turn']); status('플레이어')
-                for n,v in [('이름',enemy.get('name','없음')),('레벨',enemy.get('level','-')),('HP',f"{enemy.get('hp',0)} / {enemy.get('max_hp',0)}"),('상태이상',e.status_label('enemy'))]: self.row('적 정보',n,v)
+                self.description('플레이어','상태이상',e.status_label())
+                for n,v in [('이름',enemy.get('name','없음')),('레벨',enemy.get('level','-')),('HP',f"{enemy.get('hp',0)} / {enemy.get('max_hp',0)}")]: self.row('적 정보',n,v)
+                self.description('적 정보','상태이상',e.status_label('enemy'))
                 if enemy:
-                    self.description('적 정보','행동 설명',' → '.join({'attack':'공격','defend':'방어','special':'특수공격'}.get(a,a) for a in enemy.get('pattern',[]))+f" · 다음 순서 {enemy.get('pattern_index',0)%max(1,len(enemy.get('pattern',[])))+1}"+'\n'+str(e.content.by_id.get('catalogue.v3.'+str(enemy.get('effect_id','')),{}).get('effect','특수공격 피해 150%')) )
+                    effect=e.content.by_id.get('catalogue.v3.'+str(enemy.get('effect_id','')), {})
+                    self.description('적 정보','행동 설명',' → '.join({'attack':'공격','defend':'방어','special':'특수공격','heavy':'강공격','heal':'회복','debuff':'상태효과'}.get(a,a) for a in enemy.get('pattern',[]))+f" · 다음 순서 {enemy.get('pattern_index',0)%max(1,len(enemy.get('pattern',[])))+1}"+'\n'+str(effect.get('description',effect.get('effect','특수공격 피해 150%'))))
+                    if enemy.get('mechanic'):
+                        from core.high_floors import MECHANIC_DESCRIPTIONS
+                        self.description('적 정보','보스 기믹',enemy['mechanic']+' · '+MECHANIC_DESCRIPTIONS[enemy['mechanic']]+f" · 소환 지원 {enemy.get('summon_turns',0)}회 / 회복 억제 {enemy.get('healing_suppression',0)}행동")
                 for n,label,cmd in [('일반 공격','공격','attack'),('강공격','공격','heavy'),('방어','방어','defend'),('도주','도주','flee')]: self.act('기본 행동',n,label,cmd,combat and not (cmd=='flee' and enemy.get('kind')=='boss'))
                 key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],e.skill_label(r)) for r in e.content['skills'] if r['kind']=='active' and s['skills'].get(r['id'],0)>0])
                 reason=e.skill_reason(key) if key else '배운 액티브 스킬 없음'; self.row('스킬 행동','사용 조건',reason or '사용 가능')
-                if key: self.description('스킬 행동','효과 설명',e.skill_description(key))
+                if key:
+                    self.row('스킬 행동','소모 MP',e.skill_mp_cost(key))
+                    self.description('스킬 행동','효과 설명',e.skill_description(key))
                 self.act('스킬 행동','스킬 사용','사용','skill',not reason,key=key)
                 key=self.choice('소비 행동','선택 물약','potion',[(r['id'],r['name']) for r in e.available_items('소비품') if s['items'].get(r['id'],0)>0 and 'combat' in r.get('contexts',['combat'])])
                 self.act('소비 행동','물약 사용','사용','use',combat and s['items'].get(key,0)>0,key=key); self.act('자동 행동','현재 전투 자동','실행','auto',combat)
@@ -442,7 +454,7 @@ class PropertyWindow(QWidget):
                 self.row('스킬 정보','레벨',f"{level} / {skill['max_level']}"); self.row('스킬 정보','해금 레벨',skill.get('unlock_level',1))
                 self.description('스킬 정보','효과 설명',e.skill_description(key))
                 if active:
-                    self.row('스킬 정보','소모 MP',skill['mp']); self.row('스킬 정보','재사용 대기',f"{s['skill_cooldowns'].get(key,0)} / {skill.get('cooldown_turns',0)}행동")
+                    self.row('스킬 정보','소모 MP',e.skill_mp_cost(skill)); self.row('스킬 정보','재사용 대기',f"{s['skill_cooldowns'].get(key,0)} / {skill.get('cooldown_turns',0)}행동")
                     self.row('스킬 정보','사용 가능',e.skill_reason(key) or '가능')
                 else:
                     value=(effect['value']+effect.get('growth',0)*(level-1) if level else 0) if skill.get('phase2') else effect['value']*level

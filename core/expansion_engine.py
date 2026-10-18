@@ -41,7 +41,12 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
             self.s['event_result']=dict(title=event['title'],description=event['description'],choice=option['label'],text='\n'.join(sentences))
         finally: self._event_messages=None
 
-    def environment(self): return self.content['environments'][((self.s['floor']-1)%100)//10]
+    def environment(self):
+        enemy=self.s.get('enemy')
+        if self.s['mode']=='combat' and enemy:
+            if enemy.get('environment_snapshot'): return enemy['environment_snapshot']
+            return self.content.by_id[cid(f"ENV{((self.s['floor']-1)%100)//10+1:03}")]
+        return self.content.by_id[cid(self.content.regions.at(self.s['floor'])['environment_id'])]
     def floor_type_name(self): return self.content.by_id[cid(self.s['floor_type'])]['name']
     def roll_floor(self):
         self.s['floor_type']='FLR005' if self.s['floor']%10==0 else self.rng.choices(['FLR001','FLR002','FLR003','FLR004'],weights=[75,10,10,5])[0]
@@ -107,7 +112,7 @@ class GameEngine(LootMixin,CombatMixin,LegacyEngine):
         if action=='use' and self.s['mode']=='explore':
             item=self.validate_consumable(args.get('key'))
             if item.get('consumes_turn',False):
-                self.s['turn']+=1; self.tick_start('player'); self.consume(args.get('key')); self.tick_end('player')
+                self.s['turn']+=1; self.actor_phase('player','turn_start'); self.consume(args.get('key')); self.actor_phase('player','turn_end')
                 if self.p['hp']<=0: self.death()
             else: self.consume(args.get('key'))
             return

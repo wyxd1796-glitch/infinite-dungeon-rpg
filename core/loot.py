@@ -10,6 +10,8 @@ class LootMixin:
         if not base.get('catalogue'): return LegacyEngine.equipment_base_stats(base,level)
         stat=base['stat']; value=base['base_bonus']
         if stat=='atk': value+=math.floor(3+1.5*level)
+        if int(base['source_id'][2:])>90 and stat in self.content.high_floors.definition['gear_growth']:
+            value+=math.floor(self.content.high_floors.definition['gear_growth'][stat]*level)
         if stat in PERCENT_STATS: value/=100
         return {stat:value}
 
@@ -36,6 +38,10 @@ class LootMixin:
             base=self.content.by_id[base_id]
         else:
             candidates=[r for r in self.content['equipment'] if r.get('min_floor',1)<=self.s['floor']]
+            old_battle=self.s['mode']=='combat' and self.s.get('enemy') and not self.s['enemy'].get('depth_rules_version')
+            if self.s['floor']>100:
+                if old_battle: candidates=[r for r in candidates if int(r['source_id'][2:])<=90]
+                else: candidates=[r for r in candidates if r['min_floor']>=max(101,min(400,self.s['floor'])-60)]
             self.require(bool(candidates),'출현 가능한 장비가 없습니다.')
             base=self.content.by_id[base_id] if base_id else self.rng.choice(candidates)
         level=max(1,self.s['floor']+self.rng.randint(-2,2))
@@ -48,7 +54,9 @@ class LootMixin:
             scale=(level//10)*option['per_10_levels']; lo=option['min_value']+scale; hi=option['max_value']+scale
             value=self.rng.randint(math.ceil(lo),math.floor(hi)) if option['unit']=='점' else round(self.rng.uniform(lo,hi)/100,4)
             affixes.append(dict(id=option['id'],stat=option['stat'],name=option['name'],value=value))
-        return dict(instance_id=str(uuid.UUID(int=self.rng.getrandbits(128))),base_id=base['id'],name=base['name'],slot=base['slot'],level=level,rarity=rarity,enhance=0,rolled_stats=self.equipment_base_stats(base,level),affixes=affixes,origin_floor=self.s['floor'],catalogue=bool(base.get('catalogue')),sell_base=base.get('sell_price',1))
+        item=dict(instance_id=str(uuid.UUID(int=self.rng.getrandbits(128))),base_id=base['id'],name=base['name'],slot=base['slot'],level=level,rarity=rarity,enhance=0,rolled_stats=self.equipment_base_stats(base,level),affixes=affixes,origin_floor=self.s['floor'],catalogue=bool(base.get('catalogue')),sell_base=base.get('sell_price',1))
+        if base.get('catalogue') and int(base['source_id'][2:])>90: item['generation_rules_version']=1
+        return item
 
     def queue_reward(self,reward):
         reward=copy.deepcopy(reward); reward['pending_id']=str(uuid.UUID(int=self.rng.getrandbits(128)))
@@ -94,7 +102,7 @@ class LootMixin:
 
     def refresh_shop(self):
         # Stable list for a visit, refreshed only at a genuine return/initial migration.
-        self.s['shop_stock']=[r['id'] for r in self.content['items'] if r.get('catalogue') and (r['category']=='소비품' or r.get('source_id')=='MAT016')]
+        self.s['shop_stock']=[r['id'] for r in self.content['items'] if r.get('catalogue') and r.get('min_floor',1)<=self.s['highest'] and (r['category']=='소비품' or r.get('source_id')=='MAT016')]
         self.s['shop_stock'] += [r['id'] for r in self.content['equipment'] if r['min_floor']<=self.s['highest']]
 
     def buy(self,key,quantity):
@@ -156,6 +164,6 @@ class LootMixin:
         candidates=[]
         for item in self.available_items('소비품'):
             if self.s['items'].get(item['id'],0)<=0 or 'combat' not in item.get('contexts',['combat']): continue
-            heals=[x['value'] for x in item['effects'] if x['type']=='heal_hp']
+            heals=[x['value']*self.derived()['hp'] if x.get('fraction') else x['value'] for x in item['effects'] if x['type']=='heal_hp']
             if heals: candidates.append((min(heals),item['id']))
         return min(candidates)[1] if candidates else None

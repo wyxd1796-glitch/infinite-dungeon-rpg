@@ -1,9 +1,9 @@
 import copy
 import unittest
 from pathlib import Path
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication,QAbstractItemView
 from PySide6.QtCore import Qt,QPoint,QRect
-from PySide6.QtGui import QFontMetrics
+from PySide6.QtGui import QFontMetrics,QFontDatabase
 from PySide6.QtTest import QTest
 from ui.property_window import PropertyWindow,SCREENS,WRAPPED_ROLE
 from core.game_engine import GameEngine
@@ -12,6 +12,67 @@ ROOT=Path(__file__).resolve().parents[1]
 app=QApplication.instance() or QApplication([])
 
 class UITests(unittest.TestCase):
+    def test_high_floor_route_and_mechanics_fit_narrow_windows(self):
+        QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
+        w=self.w; e=w.engine; e.s.update(floor=160,highest=160,mode='explore')
+        e.start_combat('boss'); before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for width,height in ((268,861),(250,400)):
+            w.resize(width,height); w.navigate('던전','전투')
+            for _ in range(4): app.processEvents()
+            group=w.groups['적 정보']; rows=[group.child(i) for i in range(group.childCount())]
+            row=next(r for r in rows if r.data(0,WRAPPED_ROLE) and '회복 억제' in r.text(0))
+            self.assertIn('50%',row.text(0)); self.assertGreater(w.tree.visualItemRect(row).height(),25)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+            w.tree.scrollToItem(row,QAbstractItemView.ScrollHint.PositionAtTop)
+            for _ in range(3): app.processEvents()
+            w.grab().save(str(ROOT/f'artifacts/high_floor_{width}x{height}.png'))
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+        e.s.update(floor=401,mode='explore',enemy=None); w.navigate('던전','탐험')
+        for _ in range(4): app.processEvents()
+        self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+
+    def test_phase3_effective_mp_cost_display(self):
+        w=self.w; e=w.engine; e.execute('enter'); e.start_combat()
+        e.apply_status(26,'player','enemy',1)
+        w.selected['battle_skill']='base.skill.strike'; w.navigate('던전','전투'); app.processEvents()
+        group=w.groups['스킬 행동']
+        costs=[group.child(i).text(1) for i in range(group.childCount()) if group.child(i).text(0)=='소모 MP']
+        self.assertEqual(costs,[str(e.skill_mp_cost('base.skill.strike'))])
+
+    def test_advanced_status_flags_wrapped(self):
+        QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
+        w=self.w; e=w.engine; e.execute('enter'); e.start_combat()
+        for number in (37,39): e.apply_status(number,'player','player',1)
+        e.damage_hp('player',10000,'direct')
+        w.resize(250,400); w.navigate('던전','전투')
+        for _ in range(4): app.processEvents()
+        text=e.status_label(); self.assertIn('[발동 완료]',text); self.assertIn('[사용 완료]',text)
+        group=w.groups['플레이어']; row=next(group.child(i) for i in range(group.childCount()) if group.child(i).data(0,WRAPPED_ROLE))
+        self.assertEqual(row.text(0),text); self.assertGreater(w.tree.visualItemRect(row).height(),25)
+        self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+        w.grab().save(str(ROOT/'artifacts/phase3_advanced_flags.png'))
+
+    def test_phase3_status_descriptions_fit_narrow_windows(self):
+        QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
+        w=self.w; e=w.engine; e.execute('enter'); e.start_combat()
+        for number in range(16,26):
+            e.apply_status(number,'player','enemy',1)
+            e.apply_status(number,'enemy','player',1)
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for width,height in ((268,861),(250,400)):
+            w.resize(width,height); w.navigate('던전','전투')
+            for _ in range(4): app.processEvents()
+            for group in ('플레이어','적 정보'):
+                rows=[w.groups[group].child(i) for i in range(w.groups[group].childCount()) if w.groups[group].child(i).data(0,WRAPPED_ROLE)]
+                status=next(row for row in rows if '감전' in row.text(0))
+                self.assertIn('행동 25% 취소',status.text(0))
+                rect=w.tree.visualItemRect(status)
+                expected=QFontMetrics(w.tree.font()).boundingRect(QRect(0,0,rect.width()-10,100000),Qt.TextWordWrap,status.text(0)).height()+12
+                self.assertGreaterEqual(rect.height(),expected)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+            w.grab().save(str(ROOT/f'artifacts/phase3_effects_{width}x{height}.png'))
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+
     def setUp(self):
         settings=ROOT/'artifacts/tests/ui.ini'
         if settings.exists(): settings.unlink()

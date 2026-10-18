@@ -36,7 +36,7 @@ def validate_phase2(row,kind,source,selection):
             if not opt.get('description'): raise ValueError('선택지 설명 누락')
         if not any(not o.get('cost') and not o.get('gold_per_floor') and not o.get('hp_cost') and not o.get('cost_item') and not o.get('shop_potion') and all(not x['effects'] for x in o['outcomes']) for o in row['options']): raise ValueError('무료 지나가기 누락')
 
-    items={r['id'] for group in ('consumables','materials') for r in source[group] if int(r['id'][3:])<=selection['counts'][group]}
+    items={key for group in ('consumables','materials') for key in selection['active_ids'][group]}
     def walk(obj):
         if isinstance(obj,list):
             for value in obj: walk(value)
