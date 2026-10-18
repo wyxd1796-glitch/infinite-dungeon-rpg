@@ -80,6 +80,8 @@ def activate(content):
                 if raw['attack_pattern'] not in patterns: raise ValueError('미지원 몬스터 패턴')
                 row.update(hp=raw['base_hp'],atk=raw['base_atk'],defense=raw['base_def'],accuracy=selection['defaults']['monster_accuracy'],evasion=selection['defaults']['monster_evasion'],abilities=[],pattern=patterns[raw['attack_pattern']])
             elif group=='bosses':
+                from .bosses import validate_boss
+                validate_boss(raw,set(selection['active_ids']['effects']),selection['defaults']['boss_phase2_multiplier'])
                 if not raw['pattern'] or any(token not in PATTERNS for token in raw['pattern']): raise ValueError('미지원 보스 패턴')
                 if int(raw['id'][3:])>10:
                     mechanic=high['boss_mechanics'].get(raw['id'])

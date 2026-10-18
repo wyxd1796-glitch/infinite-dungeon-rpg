@@ -377,6 +377,9 @@ class PropertyWindow(QWidget):
                 for n,v in [('이름',enemy.get('name','없음')),('레벨',enemy.get('level','-')),('HP',f"{enemy.get('hp',0)} / {enemy.get('max_hp',0)}")]: self.row('적 정보',n,v)
                 self.description('적 정보','상태이상',e.status_label('enemy'))
                 if enemy:
+                    if enemy.get('boss_id'):
+                        from core.bosses import guidance
+                        self.description('적 정보','보스 단계·대응',guidance(enemy))
                     if enemy.get('prefix_ids'):
                         from core.prefixes import description as prefix_description
                         prefixes=[e.content.by_id[key] for key in enemy['prefix_ids'] if key in e.content.by_id]

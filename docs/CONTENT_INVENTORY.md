@@ -244,46 +244,46 @@
 
 | 원본 ID | 이름 | 현재 상태·연결 ID | 예정 단계 | 필수 연결·검수 | 최종 판정/증빙 |
 |---|---|---|---|---|---|
-| BOS001 | 고블린 왕 | 실행 연결: catalogue.v3.BOS001 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS002 | 거대 거미 여왕 | 실행 연결: catalogue.v3.BOS002 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS003 | 해골 군주 | 실행 연결: catalogue.v3.BOS003 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS004 | 트롤 족장 | 실행 연결: catalogue.v3.BOS004 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS005 | 얼음의 수호자 | 실행 연결: catalogue.v3.BOS005 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS006 | 지옥의 기사 | 실행 연결: catalogue.v3.BOS006 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS007 | 타락한 대사제 | 실행 연결: catalogue.v3.BOS007 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS008 | 고대 골렘 | 실행 연결: catalogue.v3.BOS008 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS009 | 심연의 감시자 | 실행 연결: catalogue.v3.BOS009 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS010 | 심연의 군주 | 실행 연결: catalogue.v3.BOS010 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS011 | 야수왕 바르칸 | 실행 연결: catalogue.v3.BOS011 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS012 | 피의 고위사제 | 실행 연결: catalogue.v3.BOS012 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS013 | 황혼의 용왕자 | 실행 연결: catalogue.v3.BOS013 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS014 | 강철 군단장 | 실행 연결: catalogue.v3.BOS014 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS015 | 심해의 대왕오징어 | 실행 연결: catalogue.v3.BOS015 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS016 | 포자 군주 | 실행 연결: catalogue.v3.BOS016 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS017 | 사막의 망령왕 | 실행 연결: catalogue.v3.BOS017 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS018 | 수정 핵심체 | 실행 연결: catalogue.v3.BOS018 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS019 | 성좌의 집행관 | 실행 연결: catalogue.v3.BOS019 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS020 | 혼돈의 복제왕 | 실행 연결: catalogue.v3.BOS020 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS021 | 영혼 궁정의 섭정 | 실행 연결: catalogue.v3.BOS021 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS022 | 불멸의 용아귀 | 실행 연결: catalogue.v3.BOS022 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS023 | 폭풍의 원시신 | 실행 연결: catalogue.v3.BOS023 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS024 | 검은 태엽군주 | 실행 연결: catalogue.v3.BOS024 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS025 | 심해의 노래꾼 | 실행 연결: catalogue.v3.BOS025 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS026 | 균사 여왕 | 실행 연결: catalogue.v3.BOS026 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS027 | 황금 사막의 수호신 | 실행 연결: catalogue.v3.BOS027 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS028 | 심층 광산의 거인 | 실행 연결: catalogue.v3.BOS028 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS029 | 월식 대장군 | 실행 연결: catalogue.v3.BOS029 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS030 | 무형의 지배자 | 실행 연결: catalogue.v3.BOS030 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS031 | 기억을 거두는 왕 | 실행 연결: catalogue.v3.BOS031 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS032 | 심연의 거대뱀 | 실행 연결: catalogue.v3.BOS032 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS033 | 천공의 파수룡 | 실행 연결: catalogue.v3.BOS033 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS034 | 쇠사슬 처형왕 | 실행 연결: catalogue.v3.BOS034 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS035 | 파도의 폭군 | 실행 연결: catalogue.v3.BOS035 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS036 | 부패의 정령수 | 실행 연결: catalogue.v3.BOS036 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS037 | 사구의 침묵왕 | 실행 연결: catalogue.v3.BOS037 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS038 | 마석의 제왕 | 실행 연결: catalogue.v3.BOS038 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS039 | 시간의 감시자 | 실행 연결: catalogue.v3.BOS039 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
-| BOS040 | 균열 너머의 절대자 | 실행 연결: catalogue.v3.BOS040 | 3 | 원형·단계·패턴·최초 보상 | [고층 경로 연결·후속 전수 검수](HIGH_FLOORS.md) |
+| BOS001 | 고블린 왕 | 실행 연결: catalogue.v3.BOS001 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS002 | 거대 거미 여왕 | 실행 연결: catalogue.v3.BOS002 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS003 | 해골 군주 | 실행 연결: catalogue.v3.BOS003 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS004 | 트롤 족장 | 실행 연결: catalogue.v3.BOS004 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS005 | 얼음의 수호자 | 실행 연결: catalogue.v3.BOS005 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS006 | 지옥의 기사 | 실행 연결: catalogue.v3.BOS006 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS007 | 타락한 대사제 | 실행 연결: catalogue.v3.BOS007 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS008 | 고대 골렘 | 실행 연결: catalogue.v3.BOS008 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS009 | 심연의 감시자 | 실행 연결: catalogue.v3.BOS009 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS010 | 심연의 군주 | 실행 연결: catalogue.v3.BOS010 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS011 | 야수왕 바르칸 | 실행 연결: catalogue.v3.BOS011 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS012 | 피의 고위사제 | 실행 연결: catalogue.v3.BOS012 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS013 | 황혼의 용왕자 | 실행 연결: catalogue.v3.BOS013 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS014 | 강철 군단장 | 실행 연결: catalogue.v3.BOS014 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS015 | 심해의 대왕오징어 | 실행 연결: catalogue.v3.BOS015 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS016 | 포자 군주 | 실행 연결: catalogue.v3.BOS016 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS017 | 사막의 망령왕 | 실행 연결: catalogue.v3.BOS017 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS018 | 수정 핵심체 | 실행 연결: catalogue.v3.BOS018 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS019 | 성좌의 집행관 | 실행 연결: catalogue.v3.BOS019 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS020 | 혼돈의 복제왕 | 실행 연결: catalogue.v3.BOS020 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS021 | 영혼 궁정의 섭정 | 실행 연결: catalogue.v3.BOS021 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS022 | 불멸의 용아귀 | 실행 연결: catalogue.v3.BOS022 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS023 | 폭풍의 원시신 | 실행 연결: catalogue.v3.BOS023 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS024 | 검은 태엽군주 | 실행 연결: catalogue.v3.BOS024 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS025 | 심해의 노래꾼 | 실행 연결: catalogue.v3.BOS025 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS026 | 균사 여왕 | 실행 연결: catalogue.v3.BOS026 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS027 | 황금 사막의 수호신 | 실행 연결: catalogue.v3.BOS027 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS028 | 심층 광산의 거인 | 실행 연결: catalogue.v3.BOS028 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS029 | 월식 대장군 | 실행 연결: catalogue.v3.BOS029 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS030 | 무형의 지배자 | 실행 연결: catalogue.v3.BOS030 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS031 | 기억을 거두는 왕 | 실행 연결: catalogue.v3.BOS031 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS032 | 심연의 거대뱀 | 실행 연결: catalogue.v3.BOS032 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS033 | 천공의 파수룡 | 실행 연결: catalogue.v3.BOS033 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS034 | 쇠사슬 처형왕 | 실행 연결: catalogue.v3.BOS034 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS035 | 파도의 폭군 | 실행 연결: catalogue.v3.BOS035 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS036 | 부패의 정령수 | 실행 연결: catalogue.v3.BOS036 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS037 | 사구의 침묵왕 | 실행 연결: catalogue.v3.BOS037 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS038 | 마석의 제왕 | 실행 연결: catalogue.v3.BOS038 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS039 | 시간의 감시자 | 실행 연결: catalogue.v3.BOS039 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
+| BOS040 | 균열 너머의 절대자 | 실행 연결: catalogue.v3.BOS040 | 3 | 원형·단계·패턴·최초 보상 | [03-12 전수 검수](BOSS_AUDIT.md) |
 
 ## 접두어 — 50개
 

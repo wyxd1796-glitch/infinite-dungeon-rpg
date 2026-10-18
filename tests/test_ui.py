@@ -12,6 +12,19 @@ ROOT=Path(__file__).resolve().parents[1]
 app=QApplication.instance() or QApplication([])
 
 class UITests(unittest.TestCase):
+    def test_boss_phase_guidance_wrapped_and_read_only(self):
+        w=self.w; e=w.engine; e.s['floor']=130; e.start_combat('boss')
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for size in ((268,861),(250,400)):
+            w.resize(*size); w.navigate('던전','전투')
+            for _ in range(4): app.processEvents()
+            group=w.groups['적 정보']
+            row=next(group.child(i) for i in range(group.childCount()) if '2단계 공격력' in group.child(i).text(0))
+            self.assertIn('40%',row.text(0)); self.assertIn('25%',row.text(0))
+            self.assertGreater(w.tree.visualItemRect(row).height(),25)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+
     def test_prefix_descriptions_and_survival_flag_fit_narrow_windows(self):
         from core.prefixes import apply
         QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
