@@ -21,6 +21,15 @@ class Content:
         self.errors = []
         self.packs = []
         self.balance = json.loads((self.root/'base/balance.json').read_text(encoding='utf-8'))
+        profile_path=self.root/'balance_profiles/1.2.0-policy1.json'
+        if profile_path.exists():
+            profile=json.loads(profile_path.read_text(encoding='utf-8')); values={}
+            for group in ('combat','growth','economy','drops','automatic'):
+                section=profile[group]['values']
+                if set(values)&set(section): raise ValueError('밸런스 설정 중복')
+                values.update(section)
+            if set(values)!=set(self.balance): raise ValueError('밸런스 설정 키 누락 또는 초과')
+            self.balance=values
         self._load(self.root/'base')
         pending = list((self.root/'packs').glob('*/manifest.json'))
         while pending:

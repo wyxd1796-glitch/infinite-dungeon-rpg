@@ -14,7 +14,7 @@ BUILDS={'attack':(3,4),'defense':(6,9),'recovery':(13,49)}
 class AuditEngine(GameEngine):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.potions=0; self.death_floors=[]; self.finished_turns=[]
+        self.potions=0; self.death_floors=[]; self.finished_turns=[]; self.mp_spent=0
 
     def consume(self,key):
         result=super().consume(key)
@@ -25,7 +25,9 @@ class AuditEngine(GameEngine):
         self.death_floors.append(self.s['floor']); return super().death()
 
     def battle(self,action,key=None):
+        before=self.p['mp']
         result=super().battle(action,key)
+        self.mp_spent+=max(0,before-self.p['mp'])
         if self.s['mode']!='combat': self.finished_turns.append(self.s['combat_turn'])
         return result
 
@@ -54,12 +56,16 @@ def report(e):
                 skill_uses_per_player_combat_action=total/max(1,sum(e.finished_turns)+(e.s['combat_turn'] if e.s['mode']=='combat' else 0)))
 
 
-def progression(build):
-    e=AuditEngine(ROOT/'content',seed=20261016)
-    for _ in range(3000):
+def progression(build,seed=20261016,decisions=3000,policy='potion_first',reserve=0,engine_type=AuditEngine):
+    e=engine_type(ROOT/'content',seed=seed)
+    e.s['settings'].update(recovery_policy=policy,mp_reserve=reserve)
+    for _ in range(decisions):
         if e.s.get('event_result'): e.execute('continue_event')
         mode=e.s['mode']
-        if mode=='base':
+        if mode=='base' and hasattr(e,'prepare_base'):
+            e.prepare_base(build)
+            e.execute('enter',floor=max(1,e.s['highest']-1 if e.s['stats']['deaths'] else e.s['highest']))
+        elif mode=='base':
             for key in e.s['bag'][:]:
                 item=e.s['inventory'][key]; old=e.s['equipped'].get(item['slot'])
                 if not old or sum(e.gear_stats(item).values())>sum(e.gear_stats(e.s['inventory'][old]).values()): e.execute('equip',key=key)
@@ -88,12 +94,14 @@ def progression(build):
                 if e.s['mode']=='combat' and turn==e.s['turn']: e.execute('attack')
         elif mode=='event':
             index=next(i for i,o in enumerate(e.s['event']['options']) if not e.event_option_reason(o)); e.execute('event',index=index)
-        elif e.p['hp']<e.derived()['hp']*.6 or e.bag_used()>=28 or e.p['points']: e.execute('return')
+        elif e.p['hp']<e.derived()['hp']*.6 or e.bag_used()>=28 or (e.p['points'] and getattr(e,'return_for_points',True)): e.execute('return')
         elif e.complete(): e.execute('next')
         else: e.execute('explore')
         SaveManager.validate(e.s)
         assert e.p['gold']>=0 and e.bag_used()<=30
-    return dict(decisions=3000,**report(e))
+    result=dict(decisions=decisions,mp_spent=e.mp_spent,returns=e.s['stats']['returns'],gold_net=e.p['gold']-200,drops=e.s['stats']['equipment'],combat_turn_samples=e.finished_turns,**report(e))
+    if hasattr(e,'audit_report'): result['long_term']=e.audit_report()
+    return result
 
 
 def encounters(build):

@@ -72,6 +72,8 @@ python -m venv .venv
 
 ## 검증
 
+자동 전투는 설정 → 게임 설정에서 `물약 우선`, `회복 스킬 우선`, `효율 우선`을 선택할 수 있습니다. `공격 후 남길 MP`는 공격 스킬에만 적용되며 기본값은 0입니다. 기존 저장은 물약 우선으로 유지합니다. 전투·설정 화면에서 다음 자동 행동과 이유를 미리 확인할 수 있습니다. [정책 명세](docs/BALANCE_SPEC.md) · [다중 시드 결과](docs/AUTO_POLICY_REPORT.md)
+
 ```powershell
 $env:QT_QPA_PLATFORM='offscreen'
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
@@ -82,6 +84,10 @@ $env:QT_QPA_PLATFORM='offscreen'
 테스트는 실사용 저장 대신 `artifacts/tests/`를 사용합니다. `tests.simulate_expansion`은 고정 난수 시드로 장비 100,000개·몬스터 100,000회 추첨, 층별 전투 표본 및 3,000회 진행 결정을 검증합니다. 이 시뮬레이션은 기능과 수치 불변식 검사이며 게임 난이도의 최종 승인을 뜻하지 않습니다.
 
 ## 콘텐츠 추가
+
+장기 보급·장비 교체와 준비 비용 검증은 [장기 진행 보고서](docs/LONG_TERM_REPORT.md), 현재 버전에 유지할 수치와 후속 설계 범위는 [2단계 수치 결정](docs/BALANCE_DECISION.md)에 기록합니다.
+
+가방·전투·강화의 사용 목록에는 보유한 아이템과 배운 스킬만 표시합니다. 스킬 화면은 기본 `배운 스킬` 보기이며, 새 기술을 배우려면 `새 스킬 학습`으로 전환하세요. 상점은 구매 가능한 상품을 표시합니다. [보유 목록 표시 정책](docs/OWNED_LISTS.md)
 
 `content/packs/<pack_id>/manifest.json`과 기본 팩과 같은 종류의 JSON 파일을 추가합니다. manifest에는 `pack_id`, `version`, `schema_version: 1`, `dependencies`, `enabled`, `content_files`를 지정합니다. ID는 `pack.type.name` 형태로 기존 ID와 겹치지 않아야 합니다.
 

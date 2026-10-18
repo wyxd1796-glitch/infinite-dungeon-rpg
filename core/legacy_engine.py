@@ -91,8 +91,9 @@ class GameEngine:
     def gain_exp(self,amount):
         self.p['exp']+=amount; self.s['last_exp']=amount
         while self.p['exp']>=self.need_exp():
-            self.p['exp']-=self.need_exp(); self.p['level']+=1; self.p['points']+=3
-            if self.p['level']%5==0: self.p['skill_points']+=1
+            from .balance_profile import PROFILE
+            self.p['exp']-=self.need_exp(); self.p['level']+=1; self.p['points']+=PROFILE['growth']['attribute_points_per_level']
+            if self.p['level']%PROFILE['growth']['skill_point_level_interval']==0: self.p['skill_points']+=1
             d=self.derived(); self.p['hp']=d['hp']; self.p['mp']=d['mp']; self.log(f"레벨 {self.p['level']} 달성 · 능력치 +3")
     def gain_gold(self,amount):
         self.p['gold']+=amount; self.s['stats']['gold']+=amount; self.s['last_gold']=amount

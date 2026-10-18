@@ -25,7 +25,8 @@ class CombatMixin:
                 stat=st['stat']
                 if st.get('additive'): d[stat]+=st['value']
                 else: d[stat]*=1+st['value']
-        for stat,cap in {'crit':.75,'evasion':.45,'counter':.4,'reduction':.7,'leech':.25,'status_resist':.75,'gold_bonus':2,'exp_bonus':2,'penetration':1,'crit_resist':.75}.items(): d[stat]=max(0,min(cap,d.get(stat,0)))
+        from .balance_profile import PROFILE
+        for stat,cap in PROFILE['combat']['caps'].items(): d[stat]=max(0,min(cap,d.get(stat,0)))
         for stat in ('atk','defense','hp','mp'): d[stat]=max(1,math.floor(d.get(stat,1)))
         return d
 
@@ -269,7 +270,8 @@ class CombatMixin:
         gold=math.floor((10+3*floor)*{'normal':1,'elite':3,'boss':10}[kind]*enemy['gold_multiplier']*reward*(1+d['gold_bonus'])*(1.3 if self.s['floor_type']=='FLR004' else 1))
         xp=math.floor((25+8*floor)*{'normal':1,'elite':2,'boss':5}[kind]*enemy['exp_multiplier']*reward*(1+d['exp_bonus'])*(.2 if self.p['level']-enemy['level']>=10 else 1))
         self.gain_gold(gold); self.gain_exp(xp)
-        chance=min(1,{'normal':.15,'elite':.5,'boss':1}[kind]+d['drop_bonus'])
+        from .balance_profile import PROFILE
+        chance=min(1,PROFILE['drops']['equipment_chance'][kind]+d['drop_bonus'])
         dropped=(kind=='elite' and self.s['elite_misses']>=10) or self.rng.random()<chance
         if dropped: self.award_equipment()
         if kind=='elite': self.s['elite_misses']=0 if dropped else self.s['elite_misses']+1

@@ -16,6 +16,9 @@ artifacts/*
 !artifacts/phase1_pending.png
 !artifacts/phase1_verification.md
 !artifacts/phase2_baseline.json
+!artifacts/auto_policy_simulation.json
+!artifacts/long_term_summary.json
+!artifacts/long_term_samples.zip
 !artifacts/phase2_expansion_simulation.json
 !artifacts/phase2_build_simulation.json
 !artifacts/phase2_skill_normal.png

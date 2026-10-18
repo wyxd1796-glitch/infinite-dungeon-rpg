@@ -373,12 +373,14 @@ class PropertyWindow(QWidget):
                 if enemy:
                     self.description('적 정보','행동 설명',' → '.join({'attack':'공격','defend':'방어','special':'특수공격'}.get(a,a) for a in enemy.get('pattern',[]))+f" · 다음 순서 {enemy.get('pattern_index',0)%max(1,len(enemy.get('pattern',[])))+1}"+'\n'+str(e.content.by_id.get('catalogue.v3.'+str(enemy.get('effect_id','')),{}).get('effect','특수공격 피해 150%')) )
                 for n,label,cmd in [('일반 공격','공격','attack'),('강공격','공격','heavy'),('방어','방어','defend'),('도주','도주','flee')]: self.act('기본 행동',n,label,cmd,combat and not (cmd=='flee' and enemy.get('kind')=='boss'))
-                key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],e.skill_label(r)) for r in e.content['skills'] if r['kind']=='active'])
-                reason=e.skill_reason(key); self.row('스킬 행동','사용 조건',reason or '사용 가능')
-                self.description('스킬 행동','효과 설명',e.skill_description(key))
+                key=self.choice('스킬 행동','선택 스킬','battle_skill',[(r['id'],e.skill_label(r)) for r in e.content['skills'] if r['kind']=='active' and s['skills'].get(r['id'],0)>0])
+                reason=e.skill_reason(key) if key else '배운 액티브 스킬 없음'; self.row('스킬 행동','사용 조건',reason or '사용 가능')
+                if key: self.description('스킬 행동','효과 설명',e.skill_description(key))
                 self.act('스킬 행동','스킬 사용','사용','skill',not reason,key=key)
                 key=self.choice('소비 행동','선택 물약','potion',[(r['id'],r['name']) for r in e.available_items('소비품') if s['items'].get(r['id'],0)>0 and 'combat' in r.get('contexts',['combat'])])
                 self.act('소비 행동','물약 사용','사용','use',combat and s['items'].get(key,0)>0,key=key); self.act('자동 행동','현재 전투 자동','실행','auto',combat)
+                decision=e.next_auto_action(); target=e.content.by_id.get(decision['key'],{}).get('name',{'attack':'일반 공격','stop':'중단'}.get(decision['action'],''))
+                self.description('자동 행동','다음 자동 행동',target+' · '+decision['reason'])
                 self.row('전투 기록','최근 피해',s['last_damage']); self.row('전투 기록','최근 반격',s['last_counter']); self.link('전투 기록','전체 기록','기록 보기','기록','전투 통계')
             else:
                 result=s.get('event_result'); ev=result or s['event']
@@ -418,7 +420,7 @@ class PropertyWindow(QWidget):
                     self.row('관리','판매 가격',f'{e.sell_price(item)} G')
                 self.act('관리','장착','장착하기','equip',free and bool(iid),key=iid); self.act('관리','판매','판매하기','sell',base and bool(iid),key=iid); self.act('관리','버리기','버리기','discard',free and bool(iid),key=iid)
             else:
-                items=[r for r in e.available_items(sub) if sub!='소비품' or s['items'].get(r['id'],0)>0]; self.row('보유 정보',sub+' 종류',sum(s['items'].get(r['id'],0)>0 for r in items))
+                items=[r for r in e.available_items(sub) if s['items'].get(r['id'],0)>0]; self.row('보유 정보',sub+' 종류',len(items))
                 kind=self.choice('아이템 선택','종류 필터','bag_type_'+sub,[(v,v) for v in ['전체']+sorted({r.get('subtype','기존') for r in items})])
                 query=self.search('아이템 선택','bag_search_'+sub); items=[r for r in items if (kind=='전체' or r.get('subtype','기존')==kind) and query in r['name'].casefold()]
                 key=self.choice('아이템 선택',sub,'bag_'+sub,[(r['id'],r['name']) for r in items])
@@ -430,24 +432,30 @@ class PropertyWindow(QWidget):
                 else: self.row('아이템 정보','검색 결과','없음')
             self.pending(free)
         elif main=='스킬':
-            active=sub=='액티브'; skills=[r for r in e.content['skills'] if r['kind']==('active' if active else 'passive')]; key=self.choice('스킬 선택','스킬','skill_'+sub,[(r['id'],e.skill_label(r)) for r in skills]); skill=e.content.by_id[key]; level=s['skills'].get(key,0); effect=skill['effects'][0]
-            self.row('스킬 정보','레벨',f"{level} / {skill['max_level']}"); self.row('스킬 정보','해금 레벨',skill.get('unlock_level',1))
-            self.description('스킬 정보','효과 설명',e.skill_description(key))
-            if active:
-                self.row('스킬 정보','소모 MP',skill['mp']); self.row('스킬 정보','재사용 대기',f"{s['skill_cooldowns'].get(key,0)} / {skill.get('cooldown_turns',0)}행동")
-                self.row('스킬 정보','사용 가능',e.skill_reason(key) or '가능')
-            else:
-                value=(effect['value']+effect.get('growth',0)*(level-1) if level else 0) if skill.get('phase2') else effect['value']*level
-                self.row('패시브 정보','현재 효과',f"{STAT_NAMES[effect['stat']]} +{value:.0%}")
-            reason=e.skill_reason(key,learning=True)
-            self.row('스킬 성장','보유 포인트',p['skill_points']); self.row('스킬 성장','학습·강화 조건',reason or '1 P 소비')
-            self.act('스킬 성장','스킬 강화','학습하기' if not level else '강화하기','upgrade_skill',not reason,key=key)
-            self.description('스킬 성장','재분배 안내','거점에서 무료 재분배. 투자한 포인트만 환급하며 초기 지급 스킬은 1레벨을 유지합니다. 현재 HP·MP는 회복되지 않습니다.')
-            self.act('스킬 성장','전체 스킬 재분배','무료 재분배','reset_skills',base and not s.get('event_result'))
-            if active:
-                cfg=s['skill_auto'].get(key,{'enabled':True,'priority':1})
-                self.selected['auto_'+key]=cfg['enabled']; self.selected['priority_'+key]=cfg['priority']
-                self.choice('전투 설정','자동 사용','auto_'+key,[(True,'켜짐'),(False,'꺼짐')],cfg['enabled'],lambda v:self.change_skill_auto(key,'enabled',v)); self.choice('전투 설정','우선순위','priority_'+key,[(i,str(i)) for i in range(1,10)],cfg['priority'],lambda v:self.change_skill_auto(key,'priority',v))
+            active=sub=='액티브'
+            view=self.choice('스킬 선택','보기','skill_view_'+sub,[('owned','배운 스킬'),('learn','새 스킬 학습')])
+            skills=[r for r in e.content['skills'] if r['kind']==('active' if active else 'passive') and ((s['skills'].get(r['id'],0)>0) if view=='owned' else s['skills'].get(r['id'],0)==0)]
+            key=self.choice('스킬 선택','스킬','skill_'+sub,[(r['id'],e.skill_label(r)) for r in skills])
+            if not key: self.row('스킬 정보','목록 상태','배운 스킬 없음' if view=='owned' else '학습할 새 스킬 없음')
+            if key:
+                skill=e.content.by_id[key]; level=s['skills'].get(key,0); effect=skill['effects'][0]
+                self.row('스킬 정보','레벨',f"{level} / {skill['max_level']}"); self.row('스킬 정보','해금 레벨',skill.get('unlock_level',1))
+                self.description('스킬 정보','효과 설명',e.skill_description(key))
+                if active:
+                    self.row('스킬 정보','소모 MP',skill['mp']); self.row('스킬 정보','재사용 대기',f"{s['skill_cooldowns'].get(key,0)} / {skill.get('cooldown_turns',0)}행동")
+                    self.row('스킬 정보','사용 가능',e.skill_reason(key) or '가능')
+                else:
+                    value=(effect['value']+effect.get('growth',0)*(level-1) if level else 0) if skill.get('phase2') else effect['value']*level
+                    self.row('패시브 정보','현재 효과',f"{STAT_NAMES[effect['stat']]} +{value:.0%}")
+                reason=e.skill_reason(key,learning=True)
+                self.row('스킬 성장','보유 포인트',p['skill_points']); self.row('스킬 성장','학습·강화 조건',reason or '1 P 소비')
+                self.act('스킬 성장','스킬 강화','학습하기' if not level else '강화하기','upgrade_skill',not reason,key=key)
+                self.description('스킬 성장','재분배 안내','거점에서 무료 재분배. 투자한 포인트만 환급하며 초기 지급 스킬은 1레벨을 유지합니다. 현재 HP·MP는 회복되지 않습니다.')
+                self.act('스킬 성장','전체 스킬 재분배','무료 재분배','reset_skills',base and not s.get('event_result'))
+                if active and level>0:
+                    cfg=s['skill_auto'].get(key,{'enabled':True,'priority':1})
+                    self.selected['auto_'+key]=cfg['enabled']; self.selected['priority_'+key]=cfg['priority']
+                    self.choice('전투 설정','자동 사용','auto_'+key,[(True,'켜짐'),(False,'꺼짐')],cfg['enabled'],lambda v:self.change_skill_auto(key,'enabled',v)); self.choice('전투 설정','우선순위','priority_'+key,[(i,str(i)) for i in range(1,10)],cfg['priority'],lambda v:self.change_skill_auto(key,'priority',v))
         elif main=='거점':
             if sub=='휴식':
                 self.row('거점 정보','현재 위치',location); self.row('거점 정보','보유 골드',gold); status()
@@ -476,7 +484,8 @@ class PropertyWindow(QWidget):
                 self.link('판매','판매 화면','가방으로 이동','가방','장비')
             elif sub=='강화':
                 iid=self.choice('강화 대상','장비 선택','enhance',gear_options(s['bag']+list(s['equipped'].values())))
-                materials=e.upgrade_materials(); material=self.choice('강화 재료','사용 재료','enhance_material',[(k,n) for k,n,u in materials]); units=dict((k,u) for k,n,u in materials).get(material,1); allowed=False
+                materials=[r for r in e.upgrade_materials() if s['items'].get(r[0],0)>0]; material=self.choice('강화 재료','사용 재료','enhance_material',[(k,n) for k,n,u in materials]); units=dict((k,u) for k,n,u in materials).get(material,1); allowed=False
+                if not material: self.row('강화 재료','보유 상태','보유한 강화 재료 없음')
                 if iid:
                     item=s['inventory'][iid]; cost,stones,chance=e.enhance_cost(item)
                     for n,v in [('현재 강화',f"+{item['enhance']}"),('강화 후 단계',f"+{min(15,item['enhance']+1)}"),('성공 확률',f'{chance:.0%}'),('현재 능력치',', '.join(f'{STAT_NAMES[k]} {stat_value(k,v)}' for k,v in e.gear_stats(item).items())),('성공 시 증가',', '.join(f'{STAT_NAMES[k]} +{stat_value(k,round(v*.1,6) if k in PERCENT_STATS or not item.get("catalogue") else math.floor(v*.1*(item["enhance"]+1))-math.floor(v*.1*item["enhance"]))}' for k,v in item['rolled_stats'].items()))]: self.row('강화 정보',n,v)
@@ -507,6 +516,13 @@ class PropertyWindow(QWidget):
                 for group,name,key,options in specs:
                     self.selected['setting_'+key]=s['settings'][key]
                     self.choice(group,name,'setting_'+key,options,s['settings'][key],lambda v,k=key:self.change_setting(k,v))
+                self.selected['setting_recovery_policy']=s['settings']['recovery_policy']
+                self.choice('자동 전투','회복 정책','setting_recovery_policy',[('potion_first','물약 우선'),('skill_first','회복 스킬 우선'),('efficient','효율 우선')],on_change=lambda v:self.change_setting('recovery_policy',v))
+                item=self.row('자동 전투','공격 후 남길 MP',''); reserve=QSpinBox(); reserve.setRange(0,999); reserve.setValue(s['settings']['mp_reserve']); reserve.setFixedHeight(24)
+                self.tree.setItemWidget(item,1,reserve); reserve.editingFinished.connect(lambda:self.change_setting('mp_reserve',reserve.value()) if reserve.value()!=self.engine.s['settings']['mp_reserve'] else None)
+                self.description('자동 전투','MP 예약 안내','공격 스킬 사용 후 남길 MP입니다. 회복 스킬에는 적용하지 않습니다. 기본 0.')
+                decision=e.next_auto_action(); target=e.content.by_id.get(decision['key'],{}).get('name',{'attack':'일반 공격','stop':'중단'}.get(decision['action'],''))
+                self.description('자동 전투','다음 자동 행동',target+' · '+decision['reason'])
                 self.row('시스템','게임 버전',s['game_version']); self.row('시스템','콘텐츠 팩',', '.join(r['id'] for r in e.content.packs))
             else:
                 target=self.choice('저장 정보','저장 슬롯','save_slot',[(i,str(i)) for i in (1,2,3)],self.slot); summary=None

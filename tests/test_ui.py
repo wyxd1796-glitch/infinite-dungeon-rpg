@@ -106,7 +106,7 @@ class UITests(unittest.TestCase):
         w=self.w; e=w.engine
         for width,height in ((268,861),(250,400)):
             w.resize(width,height)
-            w.selected['skill_액티브']='phase2.skill.SKL006'; w.navigate('스킬','액티브')
+            w.selected['skill_view_액티브']='learn'; w.selected['skill_액티브']='phase2.skill.SKL006'; w.navigate('스킬','액티브')
             app.processEvents(); app.processEvents()
             self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
             self.assertTrue(any('레벨 10' in w.groups['스킬 성장'].child(i).text(1) for i in range(w.groups['스킬 성장'].childCount())))
@@ -121,6 +121,61 @@ class UITests(unittest.TestCase):
             self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
             e.s.update(mode='base',event=None); e.p['hp']=100
 
+    def combo_values(self, group, label):
+        rows=self.w.groups[group]
+        row=next(rows.child(i) for i in range(rows.childCount()) if rows.child(i).text(0)==label)
+        combo=self.w.tree.itemWidget(row,1)
+        return [combo.itemData(i) for i in range(combo.count())]
+
+    def test_owned_items_and_materials_refresh_after_last_consumed(self):
+        w=self.w; e=w.engine
+        for sub in ('소비품','재료'):
+            candidates=e.available_items(sub); key=candidates[0]['id']
+            for row in candidates: e.s['items'][row['id']]=0
+            e.s['items'][key]=1
+            w.navigate('가방',sub)
+            self.assertEqual(self.combo_values('아이템 선택',sub),[key])
+            e.s['items'][key]=0; w.refresh()
+            self.assertEqual(self.combo_values('아이템 선택',sub),[])
+            self.assertIsNone(w.selected['bag_'+sub])
+        for key,_,_ in e.upgrade_materials(): e.s['items'][key]=0
+        w.navigate('거점','강화')
+        self.assertEqual(self.combo_values('강화 재료','사용 재료'),[])
+        key=e.upgrade_materials()[0][0]; e.s['items'][key]=1; w.refresh()
+        self.assertEqual(self.combo_values('강화 재료','사용 재료'),[key])
+
+    def test_skill_owned_view_learning_and_empty_state(self):
+        w=self.w; e=w.engine; key='phase2.skill.SKL003'
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        w.navigate('스킬','액티브')
+        self.assertNotIn(key,self.combo_values('스킬 선택','스킬'))
+        w.selected['skill_view_액티브']='learn'; w.selected['skill_액티브']=key; w.refresh()
+        self.assertIn(key,self.combo_values('스킬 선택','스킬'))
+        self.assertNotIn('전투 설정',w.groups)
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+        e.p.update(level=5,skill_points=1); e.execute('upgrade_skill',key=key)
+        w.refresh(); self.assertNotIn(key,self.combo_values('스킬 선택','스킬'))
+        w.selected['skill_view_액티브']='owned'; w.refresh()
+        self.assertIn(key,self.combo_values('스킬 선택','스킬'))
+        e.execute('reset_skills'); w.refresh()
+        self.assertNotIn(key,self.combo_values('스킬 선택','스킬'))
+        for skill in e.s['skills']: e.s['skills'][skill]=0
+        for sub in ('액티브','패시브'):
+            w.navigate('스킬',sub); w.refresh()
+            self.assertEqual(self.combo_values('스킬 선택','스킬'),[])
+        w.navigate('던전','전투')
+        self.assertEqual(self.combo_values('스킬 행동','선택 스킬'),[])
+
+    def test_combat_only_learned_skills_keeps_unavailable_owned(self):
+        w=self.w; e=w.engine; key='phase2.skill.SKL003'
+        w.selected['battle_skill']=key; w.navigate('던전','전투')
+        self.assertNotIn(key,self.combo_values('스킬 행동','선택 스킬'))
+        e.p.update(level=5,skill_points=1); e.execute('upgrade_skill',key=key)
+        e.execute('enter'); e.start_combat(); e.p['mp']=0
+        w.selected['battle_skill']=key; w.refresh()
+        self.assertIn(key,self.combo_values('스킬 행동','선택 스킬'))
+        self.assertTrue(any('MP' in w.groups['스킬 행동'].child(i).text(1) for i in range(w.groups['스킬 행동'].childCount())))
+
     def test_phase2_skill_use_button_and_priority(self):
         w=self.w; e=w.engine; e.p.update(level=20,skill_points=1)
         e.execute('upgrade_skill',key='phase2.skill.SKL003'); e.execute('enter'); e.start_combat()
@@ -130,5 +185,22 @@ class UITests(unittest.TestCase):
         w.selected['skill_액티브']='phase2.skill.SKL003'; w.navigate('스킬','액티브'); app.processEvents()
         group=w.groups['전투 설정']; combo=w.tree.itemWidget(group.child(1),1)
         self.assertEqual(combo.count(),9)
+
+    def test_auto_policy_controls_and_preview_are_read_only(self):
+        w=self.w; e=w.engine; e.execute('enter'); e.start_combat()
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for size in ((268,861),(250,400)):
+            w.resize(*size); w.navigate('설정','게임 설정'); w.refresh()
+            app.processEvents(); app.processEvents()
+            self.assertEqual(self.combo_values('자동 전투','회복 정책'),['potion_first','skill_first','efficient'])
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+            w.navigate('던전','전투'); app.processEvents()
+            self.assertIn('자동 행동',w.groups)
+        self.assertEqual(before,e.s); self.assertEqual(rng,e.rng.getstate())
+        w.navigate('설정','게임 설정')
+        group=w.groups['자동 전투']
+        row=next(group.child(i) for i in range(group.childCount()) if group.child(i).text(0)=='회복 정책')
+        w.tree.itemWidget(row,1).setCurrentIndex(2); app.processEvents(); app.processEvents()
+        self.assertEqual(e.s['settings']['recovery_policy'],'efficient')
 
 if __name__=='__main__': unittest.main()

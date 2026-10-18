@@ -71,6 +71,10 @@ class SaveManager:
             for item in list(state['inventory'].values())+[r['equipment'] for r in pending if r['kind']=='equipment']:
                 if any(not isinstance(v,(int,float)) or not math.isfinite(v) for v in item['rolled_stats'].values()): raise ValueError('장비 수치 오류')
         if state['save_schema_version']==3:
+            settings=state['settings']
+            if settings.get('recovery_policy','potion_first') not in ('potion_first','skill_first','efficient'): raise ValueError('자동 회복 정책 오류')
+            reserve=settings.get('mp_reserve',0)
+            if type(reserve) is not int or not 0<=reserve<=999: raise ValueError('MP 예약량 오류')
             for key in ('skill_cooldowns','skill_buffs','skill_usage'):
                 if not isinstance(state.get(key),dict): raise ValueError('스킬 상태 누락: '+key)
             if any(type(v) is not int or v<0 for v in state['skill_cooldowns'].values()): raise ValueError('스킬 대기시간 오류')
