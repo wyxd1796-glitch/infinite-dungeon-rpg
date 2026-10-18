@@ -32,7 +32,7 @@ class LootMixin:
         for i in (2,3,4): weights[i]+=extra*weights[i]/15
         return weights
 
-    def generate_equipment(self,base_id=None):
+    def generate_equipment(self,base_id=None,rarity_bonus=0):
         if base_id and not self.content.by_id[base_id].get('catalogue'):
             # Compatibility purchases are not offered, but old developer fixtures remain usable.
             base=self.content.by_id[base_id]
@@ -45,7 +45,7 @@ class LootMixin:
             self.require(bool(candidates),'출현 가능한 장비가 없습니다.')
             base=self.content.by_id[base_id] if base_id else self.rng.choice(candidates)
         level=max(1,self.s['floor']+self.rng.randint(-2,2))
-        weights=self.rarity_weights(bonus=self.derived().get('rarity_bonus',0)*100+self.s['exploration_bonuses'].get('rarity_pp',0))
+        weights=self.rarity_weights(bonus=self.derived().get('rarity_bonus',0)*100+self.s['exploration_bonuses'].get('rarity_pp',0)+rarity_bonus)
         self.s['exploration_bonuses'].pop('rarity_pp',None)
         rarities=list(self.content.balance['rarities']); rarity=self.rng.choices(rarities,weights=weights)[0]
         candidates=[o for o in self.content['affixes'] if base['slot'] in o['slots'] and o['category'] in base.get('option_pool',[])]; affixes=[]
@@ -70,8 +70,8 @@ class LootMixin:
         if n>received: self.queue_reward({'kind':'item','item_id':key,'quantity':n-received})
         self.s['last_item']=definition['name']; return received==n
 
-    def award_equipment(self):
-        item=self.generate_equipment(); self.s['stats']['equipment']+=1; self.s['stats']['legendary']+=int(item['rarity']=='전설')
+    def award_equipment(self,rarity_bonus=0):
+        item=self.generate_equipment(rarity_bonus=rarity_bonus); self.s['stats']['equipment']+=1; self.s['stats']['legendary']+=int(item['rarity']=='전설')
         if self.bag_used()>=30: self.queue_reward({'kind':'equipment','equipment':item})
         else: self.s['inventory'][item['instance_id']]=item; self.s['bag'].append(item['instance_id'])
         self.s['last_item']=self.item_name(item); self.log('획득: '+self.item_name(item))

@@ -49,11 +49,13 @@ class CombatMixin:
                 barrier['triggered']=True
             absorbed=min(actor.get('shield',0),amount)
             actor['shield']=actor.get('shield',0)-absorbed; amount-=absorbed
-        if amount>=actor['hp'] and any(st.get('effect_number')==39 for st in self.actor_statuses(target)):
+        status_survive=any(st.get('effect_number')==39 for st in self.actor_statuses(target))
+        prefix_survive=actor.get('prefix_runtime',{}).get('survive',0)==1
+        if amount>=actor['hp'] and (status_survive or prefix_survive):
             flags=self.s['effect_combat_state'][target]
             if not flags['survive_used']:
                 flags['survive_used']=True
-                kept=min(actor['hp'],max(1,math.floor(self.stats_for(target)['hp']*.01)))
+                kept=min(actor['hp'],max(1,math.floor(self.stats_for(target)['hp']*.01)) if status_survive else 1)
                 amount=actor['hp']-kept
         actual=min(actor['hp'],amount); actor['hp']-=actual
         return actual
@@ -120,6 +122,7 @@ class CombatMixin:
     def enemy_stats(self):
         enemy=self.s['enemy']; d={k:0 for k in OPTION_STATS}
         d.update(atk=enemy['atk'],defense=enemy['defense'],hp=enemy['max_hp'],mp=30,crit=enemy.get('crit',.05),evasion=enemy['evasion'],leech=enemy.get('leech',0))
+        for key,value in enemy.get('prefix_runtime',{}).get('stats',{}).items(): d[key]=d.get(key,0)+value
         if enemy.get('phase2'):
             d['atk']*=enemy.get('phase2_multiplier',1.25)
         return self.apply_modifiers(d,enemy.get('statuses',[]))
@@ -215,6 +218,8 @@ class CombatMixin:
         target='enemy' if source=='player' else 'player'; attacker=self.actor(source); defender=self.actor(target)
         if not attacker or not defender or attacker['hp']<=0 or defender['hp']<=0: return 0
         a=self.stats_for(source); b=self.stats_for(target)
+        if attacker.get('prefix_runtime',{}).get('execute') and defender['hp']/b['hp']<=.3:
+            mult*=1+attacker['prefix_runtime']['execute']
         if self.rng.random()>=max(.05,accuracy-a.get('accuracy_down',0)-b['evasion']):
             message='공격 빗나감' if source=='player' else '적 공격 회피'; self.log(message); self.s['last_damage' if source=='player' else 'last_counter']=message; return 0
         bonus=a.get('heavy_damage' if action=='heavy' else 'normal_damage',0) if action in ('attack','heavy') else 0
@@ -240,6 +245,9 @@ class CombatMixin:
             reflected=math.floor(actual*b.get('reflect',0))
             if reflected: self.damage_hp(source,reflected,DamageKind.REFLECTED); self.log(f'피해 반사 {reflected}')
             if attacker['hp']>0 and defender['hp']>0 and self.rng.random()<b.get('counter',0): self.direct_hit(target,secondary=True)
+        if actual and defender['hp']==0 and attacker['hp']>0 and attacker.get('prefix_runtime',{}).get('kill_heal'):
+            amount=math.floor(a['hp']*attacker['prefix_runtime']['kill_heal'])
+            attacker['hp']=min(a['hp'],attacker['hp']+amount); self.log(f'접두어 처치 회복 +{amount}')
         return actual
 
     def hit(self,mult=1,accuracy=.95):
@@ -272,14 +280,11 @@ class CombatMixin:
             enemy.update(name=boss['name'],boss_id=boss['id'],effect_id=boss['effect_id'],pattern=boss['pattern'],phase2=False,phase2_hp_pct=boss['phase2_hp_pct'],phase2_multiplier=boss['phase2_multiplier'])
             if boss.get('mechanic'): enemy.update(mechanic=boss['mechanic'],summon_turns=0,healing_suppression=0,suppression_at=0)
         elif kind=='elite' or self.rng.random()<.18:
-            count=self.rng.randint(1,2) if kind=='elite' else 1; candidates=list(self.content['prefixes'])
+            count=self.rng.randint(1,2) if kind=='elite' else 1; candidates=[p for p in self.content['prefixes'] if p.get('min_floor',1)<=f]
             for _ in range(count):
-                prefix=self.weighted(candidates); candidates=[p for p in candidates if p['category']!=prefix['category']]; n=int(prefix['source_id'][3:]); enemy['prefix_ids'].append(prefix['id']); enemy['name']=prefix['name']+' '+enemy['name']
-                if n<=12:
-                    stat='atk' if n<=4 else 'defense' if n<=8 else 'hp'; percentages=([15,20,25,30] if n<=8 else [15,25,35,45]); enemy[stat]=math.floor(enemy[stat]*(1+percentages[(n-1)%4]/100))
-                elif n in (13,14,16): enemy.setdefault('on_hit_effects',[]).append({13:1,14:2,16:9}[n])
-                elif n==15: enemy['leech']=.05
-                else: enemy['gold_multiplier']*=1+(.2+.1*(n-17)); enemy['exp_multiplier']*=1+(.2+.1*(n-17))
+                prefix=self.weighted(candidates); candidates=[p for p in candidates if p['category']!=prefix['category']]; enemy['prefix_ids'].append(prefix['id']); enemy['name']=prefix['name']+' '+enemy['name']
+                from .prefixes import apply as apply_prefix
+                apply_prefix(enemy,prefix,self.content.prefixes)
         enemy['max_hp']=enemy['hp']; self.s.update(enemy=enemy,mode='combat',combat_turn=0,combat_logs=[],legacy_pending=False)
         self.p['shield']=math.floor(self.derived()['hp']*self.derived().get('shield',0)); self.p['guard']=False
         self.s['stats']['battles']+=1; self.log(enemy['name']+' 등장')
@@ -321,9 +326,11 @@ class CombatMixin:
                 elif mechanic=='추가 상태이상': self.apply_status(24,'player','enemy',.3)
                 if damage:
                     for number in enemy.get('on_hit_effects',[]): self.apply_status(number,'player',chance=.15)
+                    for hit in enemy.get('prefix_runtime',{}).get('hits',[]): self.apply_status(hit['effect'],'player',chance=hit['chance'])
                 if enemy.get('effect_id') and (action=='special' or 'special' not in enemy['pattern']):
                     number=int(enemy['effect_id'][2:]); target='enemy' if 10<=number<=15 or 29<=number<=40 else 'player'
-                    if target=='enemy' or damage: self.apply_status(number,target,chance=enemy.get('special_proc_pct',0)/100 if enemy.get('depth_rules_version') and not enemy.get('boss_id') else None)
+                    from .monster_roles import effect_chance
+                    if target=='enemy' or damage: self.apply_status(number,target,chance=effect_chance(enemy))
             if not blocked and enemy.get('summon_turns',0)>0:
                 enemy['summon_turns']-=1; self.direct_hit('enemy',.25,enemy['accuracy'],action='skill',secondary=True)
                 if self.resolve_deaths(): return
@@ -411,16 +418,19 @@ class CombatMixin:
         self.s['stats']['wins']+=1; self.s['stats'][kind]+=1
         reward=enemy.get('reward_factor',1+environment['reward_modifier_pct']/100)
         from .balance_profile import PROFILE
-        gold_bonus=min(PROFILE['combat']['caps']['gold_bonus'],d['gold_bonus']+d.get('effect_gold_bonus',0))
+        effect_gold=max(d.get('effect_gold_bonus',0),self.enemy_stats().get('effect_gold_bonus',0))
+        gold_bonus=min(PROFILE['combat']['caps']['gold_bonus'],d['gold_bonus']+effect_gold)
         gold=math.floor((10+3*floor)*{'normal':1,'elite':3,'boss':10}[kind]*enemy['gold_multiplier']*reward*(1+gold_bonus)*(1.3 if self.s['floor_type']=='FLR004' else 1))
         xp=math.floor((25+8*floor)*{'normal':1,'elite':2,'boss':5}[kind]*enemy['exp_multiplier']*reward*(1+d['exp_bonus'])*(.2 if self.p['level']-enemy['level']>=10 else 1))
         self.gain_gold(gold); self.gain_exp(xp)
         from .balance_profile import PROFILE
-        chance=min(1,PROFILE['drops']['equipment_chance'][kind]+d['drop_bonus'])
+        prefix=enemy.get('prefix_runtime',{})
+        chance=min(1,(PROFILE['drops']['equipment_chance'][kind]+d['drop_bonus'])*(1+prefix.get('equipment_drop',0)))
         dropped=(kind=='elite' and self.s['elite_misses']>=10) or self.rng.random()<chance
-        if dropped: self.award_equipment()
+        if dropped: self.award_equipment(rarity_bonus=prefix.get('rarity_pp',0))
         if kind=='elite': self.s['elite_misses']=0 if dropped else self.s['elite_misses']+1
-        if self.rng.random()<(enemy.get('drop_material_pct',20)/100 if enemy.get('depth_rules_version') else .2) and enemy.get('material_id'): self.grant_item(cid(enemy['material_id']),1)
+        material_chance=min(1,(enemy.get('drop_material_pct',20)/100 if enemy.get('depth_rules_version') else .2)*(1+prefix.get('material_drop',0)))
+        if self.rng.random()<material_chance and enemy.get('material_id'): self.grant_item(cid(enemy['material_id']),1)
         if self.rng.random()<.05:
             tier=min(4,((floor-1)%100)//20); pool=[r for r in self.content['materials'] if (int(r['source_id'][3:])-1)%5<=tier and (enemy.get('depth_rules_version') or int(r['source_id'][3:])<=20)]; self.grant_item(self.rng.choice(pool)['id'],1)
         if kind=='boss':

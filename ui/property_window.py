@@ -377,6 +377,16 @@ class PropertyWindow(QWidget):
                 for n,v in [('이름',enemy.get('name','없음')),('레벨',enemy.get('level','-')),('HP',f"{enemy.get('hp',0)} / {enemy.get('max_hp',0)}")]: self.row('적 정보',n,v)
                 self.description('적 정보','상태이상',e.status_label('enemy'))
                 if enemy:
+                    if enemy.get('prefix_ids'):
+                        from core.prefixes import description as prefix_description
+                        prefixes=[e.content.by_id[key] for key in enemy['prefix_ids'] if key in e.content.by_id]
+                        used=s.get('effect_combat_state',{}).get('enemy',{}).get('survive_used',False)
+                        self.description('적 정보','접두어 효과','\n'.join(prefix_description(p,used=used) for p in prefixes))
+                    if not enemy.get('boss_id') and enemy.get('source_id') in e.content.monster_roles:
+                        role=e.content.monster_roles[enemy['source_id']]['role']
+                        material=e.content.by_id.get('catalogue.v3.'+str(enemy.get('material_id')), {})
+                        rate=enemy.get('drop_material_pct',20) if enemy.get('depth_rules_version') else 20
+                        self.description('적 정보','종족·역할',f"{enemy['category']} · {role}\n기본 재료: {material.get('name','없음')} {rate}% (추가 보상 별도)")
                     effect=e.content.by_id.get('catalogue.v3.'+str(enemy.get('effect_id','')), {})
                     self.description('적 정보','행동 설명',' → '.join({'attack':'공격','defend':'방어','special':'특수공격','heavy':'강공격','heal':'회복','debuff':'상태효과'}.get(a,a) for a in enemy.get('pattern',[]))+f" · 다음 순서 {enemy.get('pattern_index',0)%max(1,len(enemy.get('pattern',[])))+1}"+'\n'+str(effect.get('description',effect.get('effect','특수공격 피해 150%'))))
                     if enemy.get('mechanic'):

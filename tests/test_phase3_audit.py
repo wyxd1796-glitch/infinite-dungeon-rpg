@@ -11,7 +11,7 @@ class Phase3AuditTests(unittest.TestCase):
         a=self.audit
         self.assertEqual(a['total'],1305); self.assertEqual(len(a['groups']),22)
         self.assertEqual(len({r['id'] for r in a['records']}),1305)
-        self.assertEqual(sum(r['connected'] for r in a['groups'].values()),763)
+        self.assertEqual(sum(r['connected'] for r in a['groups'].values()),793)
         self.assertEqual(a['duplicates'],[]); self.assertEqual(a['loader_errors'],[])
         self.assertEqual(a['source_sha256'],a['expected_sha256'])
         self.assertEqual(hashlib.sha256((ROOT/'content/source/catalogue_v4.json').read_bytes()).hexdigest(),a['source_sha256'])

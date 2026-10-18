@@ -12,6 +12,40 @@ ROOT=Path(__file__).resolve().parents[1]
 app=QApplication.instance() or QApplication([])
 
 class UITests(unittest.TestCase):
+    def test_prefix_descriptions_and_survival_flag_fit_narrow_windows(self):
+        from core.prefixes import apply
+        QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
+        w=self.w; e=w.engine; e.s['floor']=400; e.start_combat('elite')
+        e.s['enemy']['prefix_ids']=[]; e.s['enemy'].pop('prefix_runtime',None)
+        for number in (38,50):
+            row=e.content.by_id[f'catalogue.v3.PFX{number:03}']
+            apply(e.s['enemy'],row,e.content.prefixes); e.s['enemy']['prefix_ids'].append(row['id'])
+        e.s['effect_combat_state']['enemy']['survive_used']=True
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for size in ((268,861),(250,400)):
+            w.resize(*size); w.navigate('던전','전투')
+            for _ in range(4): app.processEvents()
+            group=w.groups['적 정보']
+            row=next(group.child(i) for i in range(group.childCount()) if '[사용 완료]' in group.child(i).text(0))
+            self.assertIn('+4%p',row.text(0)); self.assertGreater(w.tree.visualItemRect(row).height(),25)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+
+    def test_monster_role_and_material_are_wrapped_read_only(self):
+        QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
+        w=self.w; e=w.engine; e.s['floor']=201; e.start_combat()
+        before=copy.deepcopy(e.s); rng=e.rng.getstate()
+        for size in ((268,861),(250,400)):
+            w.resize(*size); w.navigate('던전','전투')
+            for _ in range(4): app.processEvents()
+            group=w.groups['적 정보']
+            rows=[group.child(i) for i in range(group.childCount())]
+            row=next(r for r in rows if r.data(0,WRAPPED_ROLE) and '기본 재료:' in r.text(0))
+            self.assertIn(e.s['enemy']['category'],row.text(0))
+            self.assertGreater(w.tree.visualItemRect(row).height(),25)
+            self.assertEqual(w.tree.horizontalScrollBar().maximum(),0)
+        self.assertEqual(e.s,before); self.assertEqual(e.rng.getstate(),rng)
+
     def test_high_floor_route_and_mechanics_fit_narrow_windows(self):
         QFontDatabase.addApplicationFont('C:/Windows/Fonts/malgun.ttf')
         w=self.w; e=w.engine; e.s.update(floor=160,highest=160,mode='explore')

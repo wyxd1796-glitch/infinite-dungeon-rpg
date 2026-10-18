@@ -22,39 +22,8 @@
     },
     "prefixes": {
       "source": 50,
-      "connected": 20,
-      "unconnected_ids": [
-        "PFX021",
-        "PFX022",
-        "PFX023",
-        "PFX024",
-        "PFX025",
-        "PFX026",
-        "PFX027",
-        "PFX028",
-        "PFX029",
-        "PFX030",
-        "PFX031",
-        "PFX032",
-        "PFX033",
-        "PFX034",
-        "PFX035",
-        "PFX036",
-        "PFX037",
-        "PFX038",
-        "PFX039",
-        "PFX040",
-        "PFX041",
-        "PFX042",
-        "PFX043",
-        "PFX044",
-        "PFX045",
-        "PFX046",
-        "PFX047",
-        "PFX048",
-        "PFX049",
-        "PFX050"
-      ]
+      "connected": 50,
+      "unconnected_ids": []
     },
     "equipment": {
       "source": 330,
@@ -2928,210 +2897,270 @@
       "id": "PFX021",
       "group": "prefixes",
       "name": "잔혹한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX021"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX022",
       "group": "prefixes",
       "name": "날카로운",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX022"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX023",
       "group": "prefixes",
       "name": "맹렬한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX023"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX024",
       "group": "prefixes",
       "name": "광폭한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX024"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX025",
       "group": "prefixes",
       "name": "피에 굶주린",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX025"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX026",
       "group": "prefixes",
       "name": "처형자의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX026"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX027",
       "group": "prefixes",
       "name": "철벽의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX027"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX028",
       "group": "prefixes",
       "name": "단단한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX028"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX029",
       "group": "prefixes",
       "name": "가시 갑옷의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX029"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX030",
       "group": "prefixes",
       "name": "무쇠의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX030"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX031",
       "group": "prefixes",
       "name": "방패를 든",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX031"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX032",
       "group": "prefixes",
       "name": "수호자의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX032"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX033",
       "group": "prefixes",
       "name": "끈질긴",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX033"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX034",
       "group": "prefixes",
       "name": "회복하는",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX034"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX035",
       "group": "prefixes",
       "name": "생명을 탐하는",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX035"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX036",
       "group": "prefixes",
       "name": "거목의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX036"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX037",
       "group": "prefixes",
       "name": "정화된",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX037"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX038",
       "group": "prefixes",
       "name": "부활의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX038"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX039",
       "group": "prefixes",
       "name": "서릿발의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX039"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX040",
       "group": "prefixes",
       "name": "번개의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX040"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX041",
       "group": "prefixes",
       "name": "부식의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX041"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX042",
       "group": "prefixes",
       "name": "암흑의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX042"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX043",
       "group": "prefixes",
       "name": "혼란스러운",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX043"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX044",
       "group": "prefixes",
       "name": "불길한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX044"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX045",
       "group": "prefixes",
       "name": "진귀한",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX045"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX046",
       "group": "prefixes",
       "name": "보석을 품은",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX046"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX047",
       "group": "prefixes",
       "name": "지식의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX047"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX048",
       "group": "prefixes",
       "name": "대가의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX048"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX049",
       "group": "prefixes",
       "name": "풍요로운",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX049"
+      ],
       "explicit_empty_operator": false
     },
     {
       "id": "PFX050",
       "group": "prefixes",
       "name": "별의",
-      "runtime_ids": [],
+      "runtime_ids": [
+        "catalogue.v3.PFX050"
+      ],
       "explicit_empty_operator": false
     },
     {

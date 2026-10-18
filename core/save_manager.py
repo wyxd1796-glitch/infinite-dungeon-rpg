@@ -67,6 +67,12 @@ class SaveManager:
             if not isinstance(state.get('exploration_bonuses'),dict): raise ValueError('탐험 보너스 형식 오류')
             statuses=list(state.get('statuses',[])); enemy=state.get('enemy')
             if enemy and enemy.get('catalogue'):
+                from .prefixes import validate_ids
+                validate_ids(enemy)
+                if 'prefix_runtime' in enemy:
+                    if state.get('battle_rules_version')!=3: raise ValueError('접두어 효과 전투 버전 오류')
+                    from .prefixes import validate_saved
+                    validate_saved(enemy['prefix_runtime'])
                 if not isinstance(enemy.get('pattern_index'),int) or enemy['pattern_index']<0: raise ValueError('전투 패턴 진행 오류')
                 allowed={'attack','defend','special'}
                 if enemy.get('depth_rules_version') is not None:

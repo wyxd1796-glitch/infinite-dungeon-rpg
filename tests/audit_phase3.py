@@ -76,11 +76,11 @@ def inspect(root=ROOT):
 
 def write_report(result,root=ROOT):
     (root/'artifacts/phase3_audit.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
-    lines=['# 3단계 원본·실행 정의 대조 결과','', '검사일: 2026-10-18. 03-06~09 구현 후 갱신. 생성 도구: `tests/audit_phase3.py`. 효과 문자열은 실행하거나 수치로 해석하지 않는다.', '',
+    lines=['# 3단계 원본·실행 정의 대조 결과','', '검사일: 2026-10-19. 03-11 구현 후 갱신. 생성 도구: `tests/audit_phase3.py`. 효과 문자열은 실행하거나 수치로 해석하지 않는다.', '',
            f"원본 {result['total']}개, 중복 ID {len(result['duplicates'])}개, 로더 오류 {len(result['loader_errors'])}개. SHA-256 `{result['source_sha256']}`.", '',
            '| 분류 | 원본 | 명시적 출처 연결 | 미연결 |', '|---|---:|---:|---:|']
     for name,row in result['groups'].items(): lines.append(f"| {name} | {row['source']} | {row['connected']} | {len(row['unconnected_ids'])} |")
-    lines+=['', '명시적 출처 연결은 실행 정의가 있다는 뜻이며 각 후속 단계 검수의 완성을 뜻하지 않는다. 기존 스킬 5개는 원본 ID를 직접 쓰지 않아 이 수에 포함하지 않는다. 현재 카탈로그 735개와 phase2 28개, 총 763개다. 고층 조우·보상 경로는 HIGH_FLOORS.md를 따른다. 장비 옵션 확대·재료 제작은 후속 과제다.', '',
+    lines+=['', '명시적 출처 연결은 실행 정의가 있다는 뜻이며 각 후속 단계 검수의 완성을 뜻하지 않는다. 기존 스킬 5개는 원본 ID를 직접 쓰지 않아 이 수에 포함하지 않는다. 현재 카탈로그 765개와 phase2 28개, 총 793개다. 고층 조우·보상 경로는 HIGH_FLOORS.md를 따른다. 장비 옵션 확대·재료 제작은 후속 과제다.', '',
             '## 명시적인 빈 연산자와 참조','',
             f"`operator`/`op` 필드가 존재하지만 빈 항목: {len(result['empty_operators'])}개. 정확히 ID 형태인 문자열 참조 중 원본에 없는 대상: {len(result['missing_references'])}개, 원본에 있으나 실행 미연결 대상 참조: {len(result['inactive_references'])}개.", '',
             '검사 범위는 22개 콘텐츠 분류와 event_runtime_overrides다. 상위 운영 규칙·reference_index·메타데이터는 이 참조 집계에서 제외한다. 참조 검사는 ID 전체 문자열과 배열 항목만 검사한다. 설명 문장 안의 이름·ID나 모든 사용자 정의 의존성을 추론하지 않는다. 필드 자체가 없는 기존 텍스트 정의는 빈 연산자로 세지 않는다. 전수 경로와 ID는 JSON에 보존한다.']

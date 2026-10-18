@@ -15,7 +15,7 @@ PREFIXES={'monsters':'MON','bosses':'BOS','prefixes':'PFX','equipment':'EQ','opt
 OPTION_STATS=['str','dex','vit','int','luk_pct','atk','defense','hp','mp','crit','crit_damage','evasion','hp_regen','mp_regen','kill_hp','kill_mp','leech','penetration','extra_damage','heavy_damage','normal_damage','reduction','crit_resist','status_resist','counter','shield','gold_bonus','exp_bonus','drop_bonus','rarity_bonus']
 OPTION_NAMES=dict(zip(OPTION_STATS,['힘','민첩','체력','지능','행운 증가','공격력','방어력','최대 HP','최대 MP','치명타율','치명타 피해','회피율','HP 재생','MP 재생','처치 시 HP 회복','처치 시 MP 회복','흡혈','방어 무시','추가 피해','강공격 피해','일반 공격 피해','받는 피해 감소','치명타 저항','상태이상 저항','반격 확률','보호막','골드 획득','경험치 획득','장비 드롭률','희귀 등급 확률']))
 PERCENT_STATS=set(OPTION_STATS)-{'str','dex','vit','int','atk','defense','hp','mp','luk'}
-SUPPORTED_COUNTS=dict(monsters=150,bosses=40,prefixes=20,equipment=330,options=30,consumables=40,materials=60,environments=30,floor_types=5,effects=40)
+SUPPORTED_COUNTS=dict(monsters=150,bosses=40,prefixes=50,equipment=330,options=30,consumables=40,materials=60,environments=30,floor_types=5,effects=40)
 def cid(source): return 'catalogue.v3.'+source
 
 def option_slots(restriction):
@@ -61,6 +61,10 @@ def activate(content):
     for key in selection['boss_monsters'].values():
         if key not in selection['active_ids']['monsters']: raise ValueError('보스 원형 연결 누락')
     regions=Regions(json.loads((root/'catalogue/regions.json').read_text(encoding='utf-8')),chosen)
+    from .monster_roles import validate_monsters
+    roles=json.loads((root/'catalogue/monster_roles.json').read_text(encoding='utf-8'))
+    validate_monsters(roles,chosen['monsters'],set(selection['active_ids']['effects']),set(selection['active_ids']['materials']))
+    content.monster_roles=roles['monsters']
     if regions.cycle!=selection['cycle_floors']: raise ValueError('지역 반복 층수 불일치')
     normalized={}
     for group,rows in chosen.items():
@@ -126,5 +130,8 @@ def activate(content):
     content.tables['items']=normalized['consumables']+normalized['materials']+legacy_items
     content.catalogue=selection; content.catalogue_counts={k:len(v) for k,v in chosen.items()}
     content.regions=regions
+    from .prefixes import validate as validate_prefixes
+    content.prefixes=json.loads((root/'catalogue/prefixes.json').read_text(encoding='utf-8'))
+    validate_prefixes(content.prefixes,normalized['prefixes'])
     content.high_floors=HighFloors(high,content)
     content.packs.append({'id':'catalogue.phase1','version':selection['version']})
